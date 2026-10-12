@@ -1,0 +1,237 @@
+{
+  "skills": [
+    {
+      "skill_id": "postgres-schema-investigation",
+      "description": "Inspect database metadata, schemas, table structures, constraints, and representative rows before planning SQL work.",
+      "tools": ["get_database_info", "list_tables", "get_schema", "describe_table", "query"],
+      "tool_calls_range": [3, 8],
+      "mode": "retrieval",
+      "env_categories": ["chinook", "dvdrental", "employees", "sports", "lego", "vectors", "security"],
+      "required_checkpoints": [
+        {"tool": "get_database_info", "min_count": 1},
+        {"tool": "list_tables", "min_count": 1},
+        {"tool": "get_schema", "min_count": 1}
+      ]
+    },
+    {
+      "skill_id": "postgres-data-mutation",
+      "description": "Perform grounded SQL DDL or DML changes and verify resulting rows, views, tables, or constraints.",
+      "tools": ["list_tables", "describe_table", "query", "execute_sql", "get_schema"],
+      "tool_calls_range": [4, 12],
+      "mode": "mutation",
+      "env_categories": ["chinook", "dvdrental", "employees", "sports", "lego"],
+      "required_checkpoints": [
+        {"tool": "list_tables", "min_count": 1},
+        {"tool": "execute_sql", "min_count": 1},
+        {"tool": "query", "min_count": 1}
+      ]
+    },
+    {
+      "skill_id": "postgres-performance-indexing",
+      "description": "Analyze query plans and catalog metadata, then create or assess indexes and query rewrites for performance work.",
+      "tools": ["get_schema", "describe_table", "query", "explain_query", "execute_sql"],
+      "tool_calls_range": [4, 12],
+      "mode": "mutation",
+      "env_categories": ["dvdrental", "sports", "vectors", "employees", "lego"],
+      "required_checkpoints": [
+        {"tool": "query", "min_count": 1},
+        {"tool": "explain_query", "min_count": 1},
+        {"tool": "execute_sql", "min_count": 1}
+      ]
+    },
+    {
+      "skill_id": "postgres-security-audit",
+      "description": "Inspect roles, grants, row-level security, policies, and security-sensitive catalog state; apply policy changes when needed.",
+      "tools": ["query", "execute_sql", "list_tables", "get_schema", "describe_table"],
+      "tool_calls_range": [4, 14],
+      "mode": "mutation",
+      "env_categories": ["security", "lego"],
+      "required_checkpoints": [
+        {"tool": "query", "min_count": 1},
+        {"tool": "execute_sql", "min_count": 1},
+        {"tool": "get_schema", "min_count": 1}
+      ]
+    },
+    {
+      "skill_id": "postgres-aggregate-reporting",
+      "description": "Build grouped reports with counts, sums, averages, rankings, filters, and verification queries.",
+      "tools": ["list_tables", "describe_table", "query", "get_schema"],
+      "tool_calls_range": [4, 10],
+      "mode": "retrieval",
+      "env_categories": ["chinook", "dvdrental", "employees", "sports", "lego"],
+      "required_checkpoints": [
+        {"tool": "describe_table", "min_count": 1},
+        {"tool": "query", "min_count": 2}
+      ]
+    },
+    {
+      "skill_id": "postgres-join-analysis",
+      "description": "Infer relationships across tables, write joins, validate cardinality, and produce linked records or summaries.",
+      "tools": ["list_tables", "get_schema", "describe_table", "query", "explain_query"],
+      "tool_calls_range": [5, 12],
+      "mode": "retrieval",
+      "env_categories": ["chinook", "dvdrental", "employees", "sports", "lego"],
+      "required_checkpoints": [
+        {"tool": "get_schema", "min_count": 1},
+        {"tool": "describe_table", "min_count": 1},
+        {"tool": "query", "min_count": 2}
+      ]
+    },
+    {
+      "skill_id": "postgres-data-quality-audit",
+      "description": "Find missing values, duplicates, orphaned references, inconsistent labels, and other data quality issues.",
+      "tools": ["list_tables", "get_schema", "describe_table", "query"],
+      "tool_calls_range": [4, 12],
+      "mode": "retrieval",
+      "env_categories": ["chinook", "dvdrental", "employees", "sports", "lego", "security"],
+      "required_checkpoints": [
+        {"tool": "describe_table", "min_count": 1},
+        {"tool": "query", "min_count": 2}
+      ]
+    },
+    {
+      "skill_id": "postgres-transactional-workflow",
+      "description": "Perform multi-step data changes with explicit validation before and after the mutation.",
+      "tools": ["list_tables", "get_schema", "describe_table", "query", "execute_sql"],
+      "tool_calls_range": [6, 14],
+      "mode": "mutation",
+      "env_categories": ["chinook", "dvdrental", "employees", "sports", "lego"],
+      "required_checkpoints": [
+        {"tool": "execute_sql", "min_count": 1},
+        {"tool": "query", "min_count": 2}
+      ]
+    },
+    {
+      "skill_id": "postgres-view-report-building",
+      "description": "Create reusable SQL views or reporting tables, inspect their output, and validate that they answer the requested question.",
+      "tools": ["list_tables", "get_schema", "describe_table", "query", "execute_sql"],
+      "tool_calls_range": [5, 14],
+      "mode": "mutation",
+      "env_categories": ["chinook", "dvdrental", "employees", "sports", "lego"],
+      "required_checkpoints": [
+        {"tool": "execute_sql", "min_count": 1},
+        {"tool": "query", "min_count": 1},
+        {"tool": "get_schema", "min_count": 1}
+      ]
+    },
+    {
+      "skill_id": "postgres-vector-similarity-search",
+      "description": "Inspect vector tables or embeddings, run similarity queries, and verify nearest-neighbor style retrieval results.",
+      "tools": ["get_database_info", "list_tables", "get_schema", "describe_table", "query", "explain_query"],
+      "tool_calls_range": [4, 12],
+      "mode": "retrieval",
+      "env_categories": ["vectors"],
+      "required_checkpoints": [
+        {"tool": "get_schema", "min_count": 1},
+        {"tool": "query", "min_count": 1},
+        {"tool": "explain_query", "min_count": 1}
+      ]
+    },
+    {
+      "skill_id": "postgres-role-policy-management",
+      "description": "Manage database roles, grants, policies, and privilege checks with before-and-after verification.",
+      "tools": ["query", "execute_sql", "list_tables", "get_schema", "describe_table"],
+      "tool_calls_range": [5, 14],
+      "mode": "mutation",
+      "env_categories": ["security"],
+      "required_checkpoints": [
+        {"tool": "execute_sql", "min_count": 1},
+        {"tool": "query", "min_count": 2}
+      ]
+    },
+    {
+      "skill_id": "postgres-temporal-cohort-analysis",
+      "description": "Analyze date/time columns, event windows, cohorts, trends, and period-over-period changes.",
+      "tools": ["list_tables", "get_schema", "describe_table", "query", "explain_query"],
+      "tool_calls_range": [4, 12],
+      "mode": "retrieval",
+      "env_categories": ["chinook", "dvdrental", "employees", "sports"],
+      "required_checkpoints": [
+        {"tool": "describe_table", "min_count": 1},
+        {"tool": "query", "min_count": 2}
+      ]
+    },
+    {
+      "skill_id": "postgres-chinook-commerce-migration-analytics",
+      "description": "Handle Chinook commerce workflows: customer migration, employee reporting hierarchy changes, and music sales/chart analytics.",
+      "tools": ["list_tables", "get_schema", "describe_table", "query", "execute_sql"],
+      "tool_calls_range": [6, 16],
+      "mode": "mutation",
+      "env_categories": ["chinook"],
+      "task_anchors": ["customer_data_migration", "customer_data_migration_basic", "update_employee_info", "employee_hierarchy_management", "sales_and_music_charts"],
+      "required_checkpoints": [
+        {"tool": "describe_table", "min_count": 1},
+        {"tool": "execute_sql", "min_count": 1},
+        {"tool": "query", "min_count": 2}
+      ]
+    },
+    {
+      "skill_id": "postgres-employees-hr-dashboard-automation",
+      "description": "Build HR analytics tables, materialized views, retention/cohort reports, project tracking, and executive dashboard automation in the employees schema.",
+      "tools": ["list_tables", "get_schema", "describe_table", "query", "execute_sql", "explain_query"],
+      "tool_calls_range": [6, 18],
+      "mode": "mutation",
+      "env_categories": ["employees"],
+      "task_anchors": ["department_summary_view", "employee_gender_statistics", "employee_projects_basic", "hiring_year_summary", "employee_demographics_report", "employee_performance_analysis", "employee_project_tracking", "employee_retention_analysis", "executive_dashboard_automation", "management_structure_analysis"],
+      "required_checkpoints": [
+        {"tool": "get_schema", "min_count": 1},
+        {"tool": "execute_sql", "min_count": 1},
+        {"tool": "query", "min_count": 2}
+      ]
+    },
+    {
+      "skill_id": "postgres-dvdrental-customer-inventory-optimization",
+      "description": "Analyze DVD rental customer behavior, payment/rental performance, inventory availability, and indexing/optimization tasks.",
+      "tools": ["list_tables", "get_schema", "describe_table", "query", "execute_sql", "explain_query"],
+      "tool_calls_range": [5, 16],
+      "mode": "mutation",
+      "env_categories": ["dvdrental"],
+      "task_anchors": ["create_payment_index", "customer_analysis_fix", "customer_analytics_optimization", "film_inventory_management"],
+      "required_checkpoints": [
+        {"tool": "describe_table", "min_count": 1},
+        {"tool": "query", "min_count": 1},
+        {"tool": "explain_query", "min_count": 1}
+      ]
+    },
+    {
+      "skill_id": "postgres-lego-inventory-consistency-security",
+      "description": "Enforce LEGO inventory consistency, implement transfer functions, and manage theme-based RLS/security policies.",
+      "tools": ["list_tables", "get_schema", "describe_table", "query", "execute_sql", "explain_query"],
+      "tool_calls_range": [6, 18],
+      "mode": "mutation",
+      "env_categories": ["lego"],
+      "task_anchors": ["basic_security_setup", "fix_data_inconsistencies", "consistency_enforcement", "database_security_policies", "transactional_inventory_transfer"],
+      "required_checkpoints": [
+        {"tool": "query", "min_count": 2},
+        {"tool": "execute_sql", "min_count": 1}
+      ]
+    },
+    {
+      "skill_id": "postgres-sports-roster-performance-reporting",
+      "description": "Build sports analytics reports, roster/player management tables, participant/event statistics, and performance indexes.",
+      "tools": ["list_tables", "get_schema", "describe_table", "query", "execute_sql", "explain_query"],
+      "tool_calls_range": [5, 18],
+      "mode": "mutation",
+      "env_categories": ["sports"],
+      "task_anchors": ["create_performance_indexes", "baseball_player_analysis", "participant_report_optimization", "team_roster_management"],
+      "required_checkpoints": [
+        {"tool": "describe_table", "min_count": 1},
+        {"tool": "execute_sql", "min_count": 1},
+        {"tool": "query", "min_count": 2}
+      ]
+    },
+    {
+      "skill_id": "postgres-security-rls-permission-consulting",
+      "description": "Perform business database permission audits and implement row-level-security access rules for application-style schemas.",
+      "tools": ["get_database_info", "list_tables", "get_schema", "describe_table", "query", "execute_sql"],
+      "tool_calls_range": [6, 18],
+      "mode": "mutation",
+      "env_categories": ["security"],
+      "task_anchors": ["rls_business_access", "user_permission_audit"],
+      "required_checkpoints": [
+        {"tool": "query", "min_count": 2},
+        {"tool": "execute_sql", "min_count": 1}
+      ]
+    }
+  ]
+}

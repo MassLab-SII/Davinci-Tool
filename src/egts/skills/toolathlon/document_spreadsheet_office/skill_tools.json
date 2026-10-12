@@ -1,0 +1,347 @@
+{
+  "skills": [
+    {
+      "skill_id": "spreadsheet-normalization-and-cleaning",
+      "description": "Inspect spreadsheets, normalize columns, clean values, and write a processed file.",
+      "tools": [
+        "filesystem-list_allowed_directories",
+        "filesystem-list_directory",
+        "filesystem-read_file",
+        "excel-read_data_from_excel",
+        "excel-write_data_to_excel",
+        "filesystem-write_file"
+      ],
+      "tool_calls_range": [
+        6,
+        9
+      ],
+      "mode": "mixed",
+      "env_categories": [
+        "document_spreadsheet_office"
+      ],
+      "required_checkpoints": [
+        {
+          "tool": "filesystem-list_allowed_directories",
+          "min_count": 1
+        },
+        {
+          "tool": "filesystem-list_directory",
+          "min_count": 1
+        },
+        {
+          "tool": "filesystem-read_file",
+          "min_count": 1
+        },
+        {
+          "tool": "excel-read_data_from_excel",
+          "min_count": 1
+        },
+        {
+          "tool": "excel-write_data_to_excel",
+          "min_count": 1
+        }
+      ]
+    },
+    {
+      "skill_id": "pdf-to-spreadsheet-extraction",
+      "description": "Extract invoice or report data from PDFs and write structured spreadsheet output.",
+      "tools": [
+        "filesystem-list_allowed_directories",
+        "filesystem-list_directory",
+        "filesystem-read_file",
+        "pdf-tools-read_pdf_pages",
+        "pdf-tools-search_pdf_content",
+        "excel-write_data_to_excel",
+        "filesystem-write_file"
+      ],
+      "tool_calls_range": [
+        7,
+        10
+      ],
+      "mode": "mixed",
+      "env_categories": [
+        "document_spreadsheet_office"
+      ],
+      "required_checkpoints": [
+        {
+          "tool": "filesystem-list_allowed_directories",
+          "min_count": 1
+        },
+        {
+          "tool": "filesystem-list_directory",
+          "min_count": 1
+        },
+        {
+          "tool": "filesystem-read_file",
+          "min_count": 1
+        },
+        {
+          "tool": "pdf-tools-read_pdf_pages",
+          "min_count": 1
+        },
+        {
+          "tool": "pdf-tools-search_pdf_content",
+          "min_count": 1
+        }
+      ]
+    },
+    {
+      "skill_id": "financial-market-reporting",
+      "description": "Combine spreadsheet data and finance lookups into a verified market report.",
+      "tools": [
+        "filesystem-list_allowed_directories",
+        "filesystem-list_directory",
+        "filesystem-read_file",
+        "excel-read_data_from_excel",
+        "yahoo-finance-get_stock_info",
+        "yahoo-finance-get_historical_stock_prices",
+        "filesystem-write_file"
+      ],
+      "tool_calls_range": [
+        7,
+        10
+      ],
+      "mode": "mixed",
+      "env_categories": [
+        "document_spreadsheet_office"
+      ],
+      "required_checkpoints": [
+        {
+          "tool": "filesystem-list_allowed_directories",
+          "min_count": 1
+        },
+        {
+          "tool": "filesystem-list_directory",
+          "min_count": 1
+        },
+        {
+          "tool": "filesystem-read_file",
+          "min_count": 1
+        },
+        {
+          "tool": "excel-read_data_from_excel",
+          "min_count": 1
+        },
+        {
+          "tool": "yahoo-finance-get_stock_info",
+          "min_count": 1
+        }
+      ]
+    },
+    {
+      "skill_id": "office-document-to-structured-summary",
+      "description": "Read Word/PPT/PDF office artifacts and create structured summaries.",
+      "tools": [
+        "filesystem-list_allowed_directories",
+        "filesystem-list_directory",
+        "filesystem-read_file",
+        "word-get_document_text",
+        "pptx-extract_presentation_text",
+        "pdf-tools-read_pdf_pages",
+        "filesystem-write_file"
+      ],
+      "tool_calls_range": [
+        7,
+        10
+      ],
+      "mode": "mixed",
+      "env_categories": [
+        "document_spreadsheet_office"
+      ],
+      "required_checkpoints": [
+        {
+          "tool": "filesystem-list_allowed_directories",
+          "min_count": 1
+        },
+        {
+          "tool": "filesystem-list_directory",
+          "min_count": 1
+        },
+        {
+          "tool": "filesystem-read_file",
+          "min_count": 1
+        },
+        {
+          "tool": "word-get_document_text",
+          "min_count": 1
+        },
+        {
+          "tool": "pptx-extract_presentation_text",
+          "min_count": 1
+        }
+      ]
+    },
+    {
+      "skill_id": "multi-file-ledger-reconciliation",
+      "description": "Reconcile values across PDFs, spreadsheets, and text files with verification.",
+      "tools": [
+        "filesystem-list_allowed_directories",
+        "filesystem-list_directory",
+        "filesystem-read_file",
+        "excel-read_data_from_excel",
+        "pdf-tools-search_pdf_content",
+        "terminal-run_command",
+        "filesystem-write_file"
+      ],
+      "tool_calls_range": [
+        7,
+        10
+      ],
+      "mode": "mixed",
+      "env_categories": [
+        "document_spreadsheet_office"
+      ],
+      "required_checkpoints": [
+        {
+          "tool": "filesystem-list_allowed_directories",
+          "min_count": 1
+        },
+        {
+          "tool": "filesystem-list_directory",
+          "min_count": 1
+        },
+        {
+          "tool": "filesystem-read_file",
+          "min_count": 1
+        },
+        {
+          "tool": "excel-read_data_from_excel",
+          "min_count": 1
+        },
+        {
+          "tool": "pdf-tools-search_pdf_content",
+          "min_count": 1
+        }
+      ]
+    },
+    {
+      "skill_id": "table-transformation-and-export",
+      "description": "Transform tables, reorder fields, compute derived columns, and export results.",
+      "tools": [
+        "filesystem-list_allowed_directories",
+        "filesystem-list_directory",
+        "filesystem-read_file",
+        "excel-read_data_from_excel",
+        "excel-write_data_to_excel",
+        "excel-validate_excel_range",
+        "filesystem-write_file"
+      ],
+      "tool_calls_range": [
+        6,
+        9
+      ],
+      "mode": "mixed",
+      "env_categories": [
+        "document_spreadsheet_office"
+      ],
+      "required_checkpoints": [
+        {
+          "tool": "filesystem-list_allowed_directories",
+          "min_count": 1
+        },
+        {
+          "tool": "filesystem-list_directory",
+          "min_count": 1
+        },
+        {
+          "tool": "filesystem-read_file",
+          "min_count": 1
+        },
+        {
+          "tool": "excel-read_data_from_excel",
+          "min_count": 1
+        },
+        {
+          "tool": "excel-write_data_to_excel",
+          "min_count": 1
+        }
+      ]
+    },
+    {
+      "skill_id": "presentation-and-report-assembly",
+      "description": "Create or update an office report from spreadsheet and document evidence.",
+      "tools": [
+        "filesystem-list_allowed_directories",
+        "filesystem-list_directory",
+        "filesystem-read_file",
+        "excel-read_data_from_excel",
+        "pptx-create_presentation",
+        "word-create_document",
+        "filesystem-write_file"
+      ],
+      "tool_calls_range": [
+        7,
+        10
+      ],
+      "mode": "mixed",
+      "env_categories": [
+        "document_spreadsheet_office"
+      ],
+      "required_checkpoints": [
+        {
+          "tool": "filesystem-list_allowed_directories",
+          "min_count": 1
+        },
+        {
+          "tool": "filesystem-list_directory",
+          "min_count": 1
+        },
+        {
+          "tool": "filesystem-read_file",
+          "min_count": 1
+        },
+        {
+          "tool": "excel-read_data_from_excel",
+          "min_count": 1
+        },
+        {
+          "tool": "pptx-create_presentation",
+          "min_count": 1
+        }
+      ]
+    },
+    {
+      "skill_id": "data-quality-validation-audit",
+      "description": "Validate row counts, totals, missing values, and output integrity after edits.",
+      "tools": [
+        "filesystem-list_allowed_directories",
+        "filesystem-list_directory",
+        "filesystem-read_file",
+        "excel-read_data_from_excel",
+        "excel-validate_excel_range",
+        "terminal-run_command",
+        "filesystem-write_file"
+      ],
+      "tool_calls_range": [
+        7,
+        10
+      ],
+      "mode": "mixed",
+      "env_categories": [
+        "document_spreadsheet_office"
+      ],
+      "required_checkpoints": [
+        {
+          "tool": "filesystem-list_allowed_directories",
+          "min_count": 1
+        },
+        {
+          "tool": "filesystem-list_directory",
+          "min_count": 1
+        },
+        {
+          "tool": "filesystem-read_file",
+          "min_count": 1
+        },
+        {
+          "tool": "excel-read_data_from_excel",
+          "min_count": 1
+        },
+        {
+          "tool": "excel-validate_excel_range",
+          "min_count": 1
+        }
+      ]
+    }
+  ]
+}

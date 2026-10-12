@@ -1,0 +1,296 @@
+{
+  "skills": [
+    {
+      "skill_id": "repo-discovery-and-evidence-collection",
+      "description": "Search repositories and local files, collect evidence, and write a repo recommendation.",
+      "tools": [
+        "filesystem-list_allowed_directories",
+        "filesystem-list_directory",
+        "filesystem-read_file",
+        "github-search_repositories",
+        "fetch-fetch_markdown",
+        "filesystem-write_file"
+      ],
+      "tool_calls_range": [
+        6,
+        9
+      ],
+      "mode": "mixed",
+      "env_categories": [
+        "code_repo_artifact"
+      ],
+      "required_checkpoints": [
+        {
+          "tool": "filesystem-list_allowed_directories",
+          "min_count": 1
+        },
+        {
+          "tool": "filesystem-list_directory",
+          "min_count": 1
+        },
+        {
+          "tool": "filesystem-read_file",
+          "min_count": 1
+        },
+        {
+          "tool": "github-search_repositories",
+          "min_count": 1
+        },
+        {
+          "tool": "fetch-fetch_markdown",
+          "min_count": 1
+        }
+      ]
+    },
+    {
+      "skill_id": "local-git-investigation",
+      "description": "Inspect local git history, diffs, branches, and files to answer repository questions.",
+      "tools": [
+        "filesystem-list_allowed_directories",
+        "filesystem-list_directory",
+        "filesystem-read_file",
+        "git-git_status",
+        "git-git_log",
+        "filesystem-write_file"
+      ],
+      "tool_calls_range": [
+        6,
+        9
+      ],
+      "mode": "mixed",
+      "env_categories": [
+        "code_repo_artifact"
+      ],
+      "required_checkpoints": [
+        {
+          "tool": "filesystem-list_allowed_directories",
+          "min_count": 1
+        },
+        {
+          "tool": "filesystem-list_directory",
+          "min_count": 1
+        },
+        {
+          "tool": "filesystem-read_file",
+          "min_count": 1
+        },
+        {
+          "tool": "git-git_status",
+          "min_count": 1
+        },
+        {
+          "tool": "git-git_log",
+          "min_count": 1
+        }
+      ]
+    },
+    {
+      "skill_id": "issue-pr-and-release-triage",
+      "description": "Inspect issues, PRs, releases, and related files to summarize project state.",
+      "tools": [
+        "filesystem-list_allowed_directories",
+        "filesystem-list_directory",
+        "filesystem-read_file",
+        "github-list_issues",
+        "github-list_pull_requests",
+        "filesystem-write_file"
+      ],
+      "tool_calls_range": [
+        6,
+        9
+      ],
+      "mode": "mixed",
+      "env_categories": [
+        "code_repo_artifact"
+      ],
+      "required_checkpoints": [
+        {
+          "tool": "filesystem-list_allowed_directories",
+          "min_count": 1
+        },
+        {
+          "tool": "filesystem-list_directory",
+          "min_count": 1
+        },
+        {
+          "tool": "filesystem-read_file",
+          "min_count": 1
+        },
+        {
+          "tool": "github-list_issues",
+          "min_count": 1
+        },
+        {
+          "tool": "github-list_pull_requests",
+          "min_count": 1
+        }
+      ]
+    },
+    {
+      "skill_id": "paper-to-implementation-repo-match",
+      "description": "Map a paper or model to likely implementation repos and verify artifact quality.",
+      "tools": [
+        "filesystem-list_allowed_directories",
+        "filesystem-list_directory",
+        "filesystem-read_file",
+        "github-search_repositories",
+        "fetch-fetch_markdown",
+        "filesystem-write_file"
+      ],
+      "tool_calls_range": [
+        6,
+        9
+      ],
+      "mode": "mixed",
+      "env_categories": [
+        "code_repo_artifact"
+      ],
+      "required_checkpoints": [
+        {
+          "tool": "filesystem-list_allowed_directories",
+          "min_count": 1
+        },
+        {
+          "tool": "filesystem-list_directory",
+          "min_count": 1
+        },
+        {
+          "tool": "filesystem-read_file",
+          "min_count": 1
+        },
+        {
+          "tool": "github-search_repositories",
+          "min_count": 1
+        },
+        {
+          "tool": "fetch-fetch_markdown",
+          "min_count": 1
+        }
+      ]
+    },
+    {
+      "skill_id": "huggingface-artifact-lookup",
+      "description": "Find models, datasets, cards, and metadata related to a technical request.",
+      "tools": [
+        "filesystem-list_allowed_directories",
+        "filesystem-list_directory",
+        "filesystem-read_file",
+        "huggingface-search_models",
+        "huggingface-search_datasets",
+        "filesystem-write_file"
+      ],
+      "tool_calls_range": [
+        6,
+        9
+      ],
+      "mode": "mixed",
+      "env_categories": [
+        "code_repo_artifact"
+      ],
+      "required_checkpoints": [
+        {
+          "tool": "filesystem-list_allowed_directories",
+          "min_count": 1
+        },
+        {
+          "tool": "filesystem-list_directory",
+          "min_count": 1
+        },
+        {
+          "tool": "filesystem-read_file",
+          "min_count": 1
+        },
+        {
+          "tool": "huggingface-search_models",
+          "min_count": 1
+        },
+        {
+          "tool": "huggingface-search_datasets",
+          "min_count": 1
+        }
+      ]
+    },
+    {
+      "skill_id": "code-artifact-packaging",
+      "description": "Collect code/data artifacts, verify files, and create a clear output package.",
+      "tools": [
+        "filesystem-list_allowed_directories",
+        "filesystem-list_directory",
+        "filesystem-read_file",
+        "terminal-run_command",
+        "filesystem-write_file"
+      ],
+      "tool_calls_range": [
+        5,
+        8
+      ],
+      "mode": "mixed",
+      "env_categories": [
+        "code_repo_artifact"
+      ],
+      "required_checkpoints": [
+        {
+          "tool": "filesystem-list_allowed_directories",
+          "min_count": 1
+        },
+        {
+          "tool": "filesystem-list_directory",
+          "min_count": 1
+        },
+        {
+          "tool": "filesystem-read_file",
+          "min_count": 1
+        },
+        {
+          "tool": "terminal-run_command",
+          "min_count": 1
+        },
+        {
+          "tool": "filesystem-write_file",
+          "min_count": 1
+        }
+      ]
+    },
+    {
+      "skill_id": "repo-documentation-update",
+      "description": "Read code and docs, update README or task notes, and verify changes.",
+      "tools": [
+        "filesystem-list_allowed_directories",
+        "filesystem-list_directory",
+        "filesystem-read_file",
+        "filesystem-write_file",
+        "git-git_status"
+      ],
+      "tool_calls_range": [
+        5,
+        8
+      ],
+      "mode": "mixed",
+      "env_categories": [
+        "code_repo_artifact"
+      ],
+      "required_checkpoints": [
+        {
+          "tool": "filesystem-list_allowed_directories",
+          "min_count": 1
+        },
+        {
+          "tool": "filesystem-list_directory",
+          "min_count": 1
+        },
+        {
+          "tool": "filesystem-read_file",
+          "min_count": 1
+        },
+        {
+          "tool": "filesystem-write_file",
+          "min_count": 1
+        },
+        {
+          "tool": "git-git_status",
+          "min_count": 1
+        }
+      ]
+    }
+  ]
+}

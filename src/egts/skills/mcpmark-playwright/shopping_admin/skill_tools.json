@@ -1,0 +1,101 @@
+{
+  "skills": [
+    {
+      "skill_id": "admin-login-navigation-baseline",
+      "description": "Log in to Magento Admin, establish current section/page state, and navigate between dashboard, catalog, sales, customers, marketing, reports, stores, and settings.",
+      "tools": ["browser_snapshot", "browser_get_text", "browser_click", "browser_type", "browser_press_key", "browser_wait_for", "browser_evaluate"],
+      "tool_calls_range": [5, 14],
+      "mode": "mutation",
+      "env_categories": ["shopping_admin"],
+      "task_anchors": ["all shopping_admin tasks"],
+      "required_checkpoints": [
+        {"tool": "browser_type", "min_count": 1},
+        {"tool": "browser_click", "min_count": 1},
+        {"tool": "browser_snapshot", "min_count": 1}
+      ]
+    },
+    {
+      "skill_id": "admin-dashboard-kpi-widget-analysis",
+      "description": "Extract dashboard KPIs and widget rows such as Lifetime Sales, Revenue, Bestsellers, Last Orders, Top Search Terms, and Last Search Terms.",
+      "tools": ["browser_snapshot", "browser_get_text", "browser_click", "browser_wait_for", "browser_evaluate"],
+      "tool_calls_range": [4, 14],
+      "mode": "retrieval",
+      "env_categories": ["shopping_admin"],
+      "task_anchors": ["fitness_promotion_strategy", "ny_expansion_analysis", "products_sales_analysis", "sales_inventory_analysis", "marketing_customer_analysis", "search_filtering_operations"],
+      "required_checkpoints": [
+        {"tool": "browser_snapshot", "min_count": 1},
+        {"tool": "browser_evaluate", "min_count": 1}
+      ]
+    },
+    {
+      "skill_id": "admin-product-catalog-grid-analysis",
+      "description": "Use Catalog Products grids to search/filter by name, SKU, quantity, status, price, and extract records-found counts or row values.",
+      "tools": ["browser_snapshot", "browser_get_text", "browser_click", "browser_type", "browser_press_key", "browser_wait_for", "browser_evaluate"],
+      "tool_calls_range": [5, 16],
+      "mode": "retrieval",
+      "env_categories": ["shopping_admin"],
+      "task_anchors": ["products_sales_analysis", "sales_inventory_analysis", "fitness_promotion_strategy"],
+      "required_checkpoints": [
+        {"tool": "browser_type", "min_count": 1},
+        {"tool": "browser_click", "min_count": 1},
+        {"tool": "browser_evaluate", "min_count": 1}
+      ]
+    },
+    {
+      "skill_id": "admin-sales-orders-grid-analysis",
+      "description": "Use Sales Orders grids to filter by status/customer/total, sort orders, and extract order IDs, customer names, totals, and counts.",
+      "tools": ["browser_snapshot", "browser_get_text", "browser_click", "browser_type", "browser_press_key", "browser_wait_for", "browser_evaluate"],
+      "tool_calls_range": [5, 16],
+      "mode": "retrieval",
+      "env_categories": ["shopping_admin"],
+      "task_anchors": ["products_sales_analysis", "sales_inventory_analysis", "fitness_promotion_strategy"],
+      "required_checkpoints": [
+        {"tool": "browser_type", "min_count": 1},
+        {"tool": "browser_click", "min_count": 1},
+        {"tool": "browser_get_text", "min_count": 1}
+      ]
+    },
+    {
+      "skill_id": "admin-marketing-search-terms-promotions",
+      "description": "Analyze Search Terms reports, Cart Price Rules, coupon codes, active rules, newsletter subscribers, and related marketing filters.",
+      "tools": ["browser_snapshot", "browser_get_text", "browser_click", "browser_type", "browser_press_key", "browser_wait_for", "browser_evaluate"],
+      "tool_calls_range": [6, 18],
+      "mode": "retrieval",
+      "env_categories": ["shopping_admin"],
+      "task_anchors": ["search_filtering_operations", "marketing_customer_analysis", "fitness_promotion_strategy"],
+      "required_checkpoints": [
+        {"tool": "browser_type", "min_count": 1},
+        {"tool": "browser_click", "min_count": 1},
+        {"tool": "browser_evaluate", "min_count": 1}
+      ]
+    },
+    {
+      "skill_id": "admin-customer-segmentation-record-creation",
+      "description": "Create customer groups/customers, assign groups/websites, verify records-found deltas, and inspect customer records.",
+      "tools": ["browser_snapshot", "browser_get_text", "browser_click", "browser_type", "browser_press_key", "browser_wait_for", "browser_evaluate", "browser_take_screenshot"],
+      "tool_calls_range": [7, 22],
+      "mode": "mutation",
+      "env_categories": ["shopping_admin"],
+      "task_anchors": ["customer_segmentation_setup", "marketing_customer_analysis", "fitness_promotion_strategy", "products_sales_analysis"],
+      "required_checkpoints": [
+        {"tool": "browser_type", "min_count": 2},
+        {"tool": "browser_click", "min_count": 1},
+        {"tool": "browser_get_text", "min_count": 1}
+      ]
+    },
+    {
+      "skill_id": "admin-store-tax-status-configuration-analysis",
+      "description": "Inspect Stores settings including tax zones/rates, order statuses, websites/stores, state comparisons, and storefront visibility/default flags.",
+      "tools": ["browser_snapshot", "browser_get_text", "browser_click", "browser_type", "browser_wait_for", "browser_evaluate"],
+      "tool_calls_range": [5, 16],
+      "mode": "retrieval",
+      "env_categories": ["shopping_admin"],
+      "task_anchors": ["ny_expansion_analysis"],
+      "required_checkpoints": [
+        {"tool": "browser_click", "min_count": 1},
+        {"tool": "browser_get_text", "min_count": 1},
+        {"tool": "browser_evaluate", "min_count": 1}
+      ]
+    }
+  ]
+}

@@ -1,0 +1,255 @@
+{
+  "skills": [
+    {
+      "skill_id": "artifact-radiometric-dating",
+      "description": "Excavate artifacts using a shovel, then use a radiocarbon dater to measure isotope levels and determine artifact ages. Compare dating results across multiple dig sites to establish chronological order. Core archaeology workflow for radiometric dating of buried artifacts.",
+      "tools": [
+        "look_around",
+        "check_inventory",
+        "get_task_description",
+        "list_teleport_locations",
+        "get_discovery_feed",
+        "move",
+        "rotate",
+        "teleport_to_location",
+        "pick_up_object",
+        "drop_object",
+        "put_object",
+        "open_object",
+        "activate_device",
+        "deactivate_device",
+        "use_object_on_object",
+        "read_object",
+        "eat_food"
+      ],
+      "tool_calls_range": [12, 25],
+      "mode": "mutation",
+      "env_categories": null,
+      "required_checkpoints": [
+        {"tool": "pick_up_object", "min_count": 2},
+        {"tool": "use_object_on_object", "min_count": 3},
+        {"tool": "activate_device", "min_count": 1}
+      ]
+    },
+    {
+      "skill_id": "chemical-formula-discovery",
+      "description": "Systematically mix chemical reagents in beakers, observe reactions, and identify unknown chemical formulas. Use chemical dispensers and beakers to test combinations, analyze color changes and precipitates, and deduce the complete formula through iterative hypothesis testing.",
+      "tools": [
+        "look_around",
+        "check_inventory",
+        "get_task_description",
+        "list_teleport_locations",
+        "get_discovery_feed",
+        "move",
+        "rotate",
+        "teleport_to_location",
+        "pick_up_object",
+        "drop_object",
+        "put_object",
+        "open_object",
+        "close_object",
+        "activate_device",
+        "deactivate_device",
+        "use_object_on_object",
+        "read_object"
+      ],
+      "tool_calls_range": [10, 22],
+      "mode": "mutation",
+      "env_categories": null,
+      "required_checkpoints": [
+        {"tool": "pick_up_object", "min_count": 1},
+        {"tool": "use_object_on_object", "min_count": 3},
+        {"tool": "put_object", "min_count": 1}
+      ]
+    },
+    {
+      "skill_id": "plant-nutrition-optimization",
+      "description": "Plant seeds in soil, apply varying levels of NPK nutrients, activate grow lights, and wait for growth cycles to complete. Measure plant growth outcomes with NPK meters, compare results across different nutrient combinations, and discover optimal formulas for maximum plant yield.",
+      "tools": [
+        "look_around",
+        "check_inventory",
+        "get_task_description",
+        "list_teleport_locations",
+        "get_discovery_feed",
+        "move",
+        "rotate",
+        "teleport_to_location",
+        "pick_up_object",
+        "drop_object",
+        "put_object",
+        "open_object",
+        "activate_device",
+        "deactivate_device",
+        "use_object_on_object",
+        "read_object",
+        "eat_food"
+      ],
+      "tool_calls_range": [18, 36],
+      "mode": "mutation",
+      "env_categories": null,
+      "required_checkpoints": [
+        {"tool": "pick_up_object", "min_count": 2},
+        {"tool": "put_object", "min_count": 3},
+        {"tool": "activate_device", "min_count": 1}
+      ]
+    },
+    {
+      "skill_id": "protein-expression-profiling",
+      "description": "Use a proteomics meter to measure protein expression levels across multiple animals. Navigate indoor labs or outdoor field environments to locate specimens, take comparative measurements, identify outliers using statistical clustering, and analyze 2D/3D protein data patterns.",
+      "tools": [
+        "look_around",
+        "check_inventory",
+        "get_task_description",
+        "list_teleport_locations",
+        "get_discovery_feed",
+        "move",
+        "rotate",
+        "teleport_to_location",
+        "teleport_to_object",
+        "pick_up_object",
+        "drop_object",
+        "put_object",
+        "open_object",
+        "activate_device",
+        "deactivate_device",
+        "use_object_on_object",
+        "read_object"
+      ],
+      "tool_calls_range": [12, 25],
+      "mode": "mutation",
+      "env_categories": null,
+      "required_checkpoints": [
+        {"tool": "move", "min_count": 5},
+        {"tool": "use_object_on_object", "min_count": 3},
+        {"tool": "pick_up_object", "min_count": 1}
+      ]
+    },
+    {
+      "skill_id": "reactor-relationship-modeling",
+      "description": "Configure nuclear reactor parameters and measure outputs using multiple scientific instruments (spectrometer, density meter, pH meter). Collect data points across different reactor settings, perform curve-fitting to discover mathematical relationships between variables, and predict reactor behavior under new conditions.",
+      "tools": [
+        "look_around",
+        "check_inventory",
+        "get_task_description",
+        "list_teleport_locations",
+        "get_discovery_feed",
+        "move",
+        "rotate",
+        "teleport_to_location",
+        "pick_up_object",
+        "drop_object",
+        "put_object",
+        "open_object",
+        "close_object",
+        "activate_device",
+        "deactivate_device",
+        "use_object_on_object",
+        "read_object"
+      ],
+      "tool_calls_range": [15, 30],
+      "mode": "mutation",
+      "env_categories": null,
+      "required_checkpoints": [
+        {"tool": "pick_up_object", "min_count": 2},
+        {"tool": "put_object", "min_count": 2},
+        {"tool": "activate_device", "min_count": 2},
+        {"tool": "use_object_on_object", "min_count": 4}
+      ]
+    },
+    {
+      "skill_id": "alien-language-translation",
+      "description": "Talk to NPC aliens to learn their vocabulary through structured dialog. Associate alien words with objects, colors, and quantities. Collect the correct items and deliver them to prove translation accuracy. Progress from simple object naming to complex multi-attribute descriptions.",
+      "tools": [
+        "look_around",
+        "check_inventory",
+        "get_task_description",
+        "list_teleport_locations",
+        "get_discovery_feed",
+        "move",
+        "rotate",
+        "teleport_to_location",
+        "pick_up_object",
+        "drop_object",
+        "put_object",
+        "open_object",
+        "read_object",
+        "talk_to_person",
+        "select_dialog_option"
+      ],
+      "tool_calls_range": [12, 25],
+      "mode": "mutation",
+      "env_categories": null,
+      "required_checkpoints": [
+        {"tool": "talk_to_person", "min_count": 3},
+        {"tool": "pick_up_object", "min_count": 2},
+        {"tool": "put_object", "min_count": 1}
+      ]
+    },
+    {
+      "skill_id": "pathogen-identification-containment",
+      "description": "Collect mushroom and biological samples from the space station environment, use microscopes and spectrometers to analyze pathogens, identify which specific organism is causing the disease through causal diagnosis, and contain the outbreak by isolating the source. Systematic sampling and elimination logic.",
+      "tools": [
+        "look_around",
+        "check_inventory",
+        "get_task_description",
+        "list_teleport_locations",
+        "get_discovery_feed",
+        "move",
+        "rotate",
+        "teleport_to_location",
+        "teleport_to_object",
+        "pick_up_object",
+        "drop_object",
+        "put_object",
+        "open_object",
+        "close_object",
+        "activate_device",
+        "deactivate_device",
+        "use_object_on_object",
+        "read_object",
+        "talk_to_person",
+        "select_dialog_option"
+      ],
+      "tool_calls_range": [18, 36],
+      "mode": "mutation",
+      "env_categories": null,
+      "required_checkpoints": [
+        {"tool": "move", "min_count": 5},
+        {"tool": "use_object_on_object", "min_count": 3},
+        {"tool": "pick_up_object", "min_count": 2},
+        {"tool": "put_object", "min_count": 1}
+      ]
+    },
+    {
+      "skill_id": "orbital-mechanics-mission-planning",
+      "description": "Use physics instruments (velocimeter, pendulum, load cell) to measure planetary and fuel parameters, read reference materials for orbital mechanics formulas, calculate the correct orbit and fuel requirements for interplanetary missions, and validate your calculations against instrument readings.",
+      "tools": [
+        "look_around",
+        "check_inventory",
+        "get_task_description",
+        "list_teleport_locations",
+        "get_discovery_feed",
+        "move",
+        "rotate",
+        "teleport_to_location",
+        "pick_up_object",
+        "drop_object",
+        "put_object",
+        "open_object",
+        "activate_device",
+        "deactivate_device",
+        "use_object_on_object",
+        "read_object"
+      ],
+      "tool_calls_range": [20, 40],
+      "mode": "mutation",
+      "env_categories": null,
+      "required_checkpoints": [
+        {"tool": "use_object_on_object", "min_count": 3},
+        {"tool": "read_object", "min_count": 2},
+        {"tool": "look_around", "min_count": 3},
+        {"tool": "activate_device", "min_count": 1}
+      ]
+    }
+  ]
+}

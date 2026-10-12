@@ -1,0 +1,192 @@
+{
+  "skills": [
+    {
+      "skill_id": "keyword-search-query-formulation",
+      "description": "Parse a shopping instruction to extract discriminative product descriptors (type, category, brand, material, style), formulate an effective initial search query for WebShop's BM25 search engine, execute the search, and evaluate whether results contain viable product candidates.",
+      "tools": ["get_instruction", "search_product", "get_page_observation", "get_available_actions"],
+      "tool_calls_range": [3, 7],
+      "mode": "retrieval",
+      "env_categories": null,
+      "task_anchors": [
+        "all 12,087 WebShop instructions — every task begins with search query formulation",
+        "tasks where the product type and key attributes are clearly stated and can be directly translated to search terms",
+        "tasks where choosing the right initial keywords determines whether the target product appears on page 1 of results"
+      ],
+      "required_checkpoints": [
+        {"tool": "get_instruction", "min_count": 1},
+        {"tool": "search_product", "min_count": 1},
+        {"tool": "get_page_observation", "min_count": 1}
+      ]
+    },
+    {
+      "skill_id": "search-query-iteration-refinement",
+      "description": "When an initial search returns zero results, too few relevant products, or too many unrelated products, systematically iterate by broadening, narrowing, substituting synonyms, reordering terms, or pivoting query strategy — one of the four core WebShop benchmark challenges: query (re-)formulation.",
+      "tools": ["search_product", "get_page_observation", "get_instruction"],
+      "tool_calls_range": [4, 10],
+      "mode": "retrieval",
+      "env_categories": null,
+      "task_anchors": [
+        "tasks where initial search returns zero results — query too restrictive for the catalog vocabulary",
+        "tasks where search returns 50+ unrelated products — query too broad across dense categories",
+        "tasks where product terminology differs from WebShop catalog language — requires synonym exploration",
+        "tasks where BM25 ranking is sensitive to term order or rare attributes that suppress all results"
+      ],
+      "required_checkpoints": [
+        {"tool": "search_product", "min_count": 2},
+        {"tool": "get_page_observation", "min_count": 2}
+      ]
+    },
+    {
+      "skill_id": "search-result-pagination-navigation",
+      "description": "Systematically browse across multiple pages of search results using pagination controls when the target product is not on page 1, scan each page's listings for instruction-matching candidates, and decide when to stop — because the product was found, results became irrelevant, or query refinement would be more effective.",
+      "tools": ["get_page_observation", "get_available_actions", "click_element", "search_product"],
+      "tool_calls_range": [4, 12],
+      "mode": "retrieval",
+      "env_categories": null,
+      "task_anchors": [
+        "tasks in dense product categories (Electronics, Fashion) where search returns 3+ pages of results",
+        "tasks where the best-matching product has lower BM25 score and appears on later pages",
+        "tasks where all page-1 candidates fail attribute verification and additional candidates are needed",
+        "tasks where pagination is the bridge between search and candidate screening"
+      ],
+      "required_checkpoints": [
+        {"tool": "click_element", "min_count": 2},
+        {"tool": "get_page_observation", "min_count": 2},
+        {"tool": "get_available_actions", "min_count": 2}
+      ]
+    },
+    {
+      "skill_id": "category-hierarchy-browsing",
+      "description": "Navigate WebShop's 5-category product taxonomy (Fashion, Makeup, Electronics, Furniture, Food) as an alternative discovery path to keyword search — browse down category and subcategory pages when search terms are difficult to formulate or keyword search returns poor results.",
+      "tools": ["get_available_actions", "get_page_observation", "click_element", "get_instruction", "search_product"],
+      "tool_calls_range": [5, 14],
+      "mode": "retrieval",
+      "env_categories": null,
+      "task_anchors": [
+        "tasks where keyword search repeatedly returns the wrong product type due to ambiguous terminology",
+        "tasks where the product type maps cleanly to a category hierarchy (e.g., 'wallet' → Fashion > Accessories)",
+        "tasks with vague descriptions ('something for the kitchen') where browsing reveals available options",
+        "tasks spanning categories where products might live in different departments"
+      ],
+      "required_checkpoints": [
+        {"tool": "click_element", "min_count": 3},
+        {"tool": "get_page_observation", "min_count": 3},
+        {"tool": "get_available_actions", "min_count": 2}
+      ]
+    },
+    {
+      "skill_id": "detail-page-attribute-extraction-verification",
+      "description": "Open product detail pages and systematically verify every required attribute (color, material, size, brand, features) from the shopping instruction against product Description and Overview sections — the core workflow for compositional instruction understanding, addressing the 670-attribute matching challenge in WebShop.",
+      "tools": ["click_element", "get_page_observation", "get_available_actions", "get_instruction", "search_product"],
+      "tool_calls_range": [6, 15],
+      "mode": "retrieval",
+      "env_categories": null,
+      "task_anchors": [
+        "attribute-heavy tasks with 4-8 hidden attributes requiring systematic cross-referencing",
+        "tasks where product title in search results is insufficient and Description/Overview must be checked",
+        "tasks across all 5 WebShop categories — each category has distinct attribute vocabularies (670 total)",
+        "tasks where attributes are split between Description (narrative) and Overview (structured) sections"
+      ],
+      "required_checkpoints": [
+        {"tool": "click_element", "min_count": 2},
+        {"tool": "get_page_observation", "min_count": 3},
+        {"tool": "get_instruction", "min_count": 1}
+      ]
+    },
+    {
+      "skill_id": "multi-product-candidate-screening",
+      "description": "When search or browsing returns multiple plausible product matches, systematically screen each candidate by opening detail pages, comparing attributes against requirements, eliminating non-matches, and selecting the best-matching product — addressing the strategic exploration challenge in dense product categories.",
+      "tools": ["search_product", "click_element", "get_page_observation", "get_available_actions", "get_instruction"],
+      "tool_calls_range": [8, 20],
+      "mode": "retrieval",
+      "env_categories": null,
+      "task_anchors": [
+        "tasks in dense categories (Electronics, Fashion) where search returns 5+ similar products",
+        "tasks where multiple products share the same type but differ in brand, specs, or options",
+        "tasks with ambiguous product descriptions requiring candidate comparison to identify the correct match",
+        "tasks where no single candidate obviously satisfies all attributes — trade-off decisions needed"
+      ],
+      "required_checkpoints": [
+        {"tool": "click_element", "min_count": 3},
+        {"tool": "get_page_observation", "min_count": 4},
+        {"tool": "get_instruction", "min_count": 1}
+      ]
+    },
+    {
+      "skill_id": "price-budget-constrained-optimization",
+      "description": "Prioritize price constraints alongside attribute matching — identify all products satisfying non-price requirements, compare prices on detail pages, and select the cheapest match or best-value option per the instruction's price constraint (strict budget, soft target, or relative preference like 'cheapest' or 'best value').",
+      "tools": ["get_instruction", "search_product", "get_page_observation", "get_available_actions", "click_element"],
+      "tool_calls_range": [6, 16],
+      "mode": "retrieval",
+      "env_categories": null,
+      "task_anchors": [
+        "all 12,087 WebShop tasks include a price constraint (u_price in the reward function)",
+        "tasks with explicit budget language: 'under $X', 'less than $X', 'cheapest', 'best value', 'affordable'",
+        "tasks where the cheapest matching product must be identified among several attribute-satisfying candidates",
+        "tasks where price optimization requires examining 2-4 candidates before selecting the best value"
+      ],
+      "required_checkpoints": [
+        {"tool": "get_instruction", "min_count": 1},
+        {"tool": "get_page_observation", "min_count": 3},
+        {"tool": "click_element", "min_count": 2}
+      ]
+    },
+    {
+      "skill_id": "option-variant-configuration",
+      "description": "Identify required option values (size, color, style, quantity, material variant) from the instruction, select each option correctly on the product page via click_element, and verify the configuration before purchase — option selection directly affects the U_opt match component of the WebShop reward function.",
+      "tools": ["get_available_actions", "get_page_observation", "click_element", "get_instruction"],
+      "tool_calls_range": [5, 12],
+      "mode": "mutation",
+      "env_categories": null,
+      "task_anchors": [
+        "tasks with explicit option specifications in the instruction (U_opt in the reward function)",
+        "Fashion and Makeup category tasks where size/color options are critical for correct matching",
+        "tasks where option labels differ from instruction language (e.g., 'navy blue' → 'Dark Blue' dropdown)",
+        "tasks where products have multiple configurable options that must all be set correctly before Buy becomes available"
+      ],
+      "required_checkpoints": [
+        {"tool": "get_available_actions", "min_count": 2},
+        {"tool": "click_element", "min_count": 2},
+        {"tool": "get_page_observation", "min_count": 2}
+      ]
+    },
+    {
+      "skill_id": "purchase-verification-execution",
+      "description": "The final pre-purchase gate — re-read the full instruction, verify the current product identity, selected options, and price against every requirement, build a mental satisfaction checklist, and only click Buy when all constraints pass. Captures post-purchase confirmation as terminal trajectory evidence.",
+      "tools": ["get_instruction", "get_page_observation", "get_available_actions", "click_element"],
+      "tool_calls_range": [3, 8],
+      "mode": "mutation",
+      "env_categories": null,
+      "task_anchors": [
+        "all 12,087 WebShop tasks — every task ends with a purchase decision",
+        "tasks where multiple navigation steps preceded purchase and recency bias could cause wrong-product errors",
+        "tasks where option selection changed the displayed price and final budget verification is needed",
+        "tasks where the agent has invested many steps in finding a product — the Buy click is irreversible and episode-ending"
+      ],
+      "required_checkpoints": [
+        {"tool": "get_instruction", "min_count": 1},
+        {"tool": "get_page_observation", "min_count": 1},
+        {"tool": "click_element", "min_count": 1}
+      ]
+    },
+    {
+      "skill_id": "end-to-end-purchase-completion",
+      "description": "Execute the complete shopping lifecycle from instruction parsing through search, product identification, attribute verification, option selection, pre-purchase verification, and final purchase — the integrated baseline workflow for straightforward tasks with 1-3 clearly specified attributes and minimal option complexity.",
+      "tools": ["get_instruction", "search_product", "get_page_observation", "get_available_actions", "click_element"],
+      "tool_calls_range": [5, 12],
+      "mode": "mutation",
+      "env_categories": null,
+      "task_anchors": [
+        "simple tasks with 1-3 attributes where the product is uniquely identifiable from search results",
+        "tasks with named/branded products (books, specific electronics models) requiring minimal comparison",
+        "tasks serving as the default complete-purchase workflow when specialized discovery or verification strategies aren't needed"
+      ],
+      "required_checkpoints": [
+        {"tool": "get_instruction", "min_count": 1},
+        {"tool": "search_product", "min_count": 1},
+        {"tool": "click_element", "min_count": 2},
+        {"tool": "get_page_observation", "min_count": 2}
+      ]
+    }
+  ]
+}

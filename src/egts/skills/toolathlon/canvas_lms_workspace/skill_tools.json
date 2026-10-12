@@ -1,0 +1,104 @@
+{
+  "skills": [
+    {
+      "skill_id": "course-roster-and-assignment-review",
+      "description": "Review Canvas course roster and assignments.",
+      "tools": [
+        "canvas-list_courses",
+        "canvas-get_course",
+        "canvas-list_users",
+        "canvas-list_assignments",
+        "filesystem-list_directory",
+        "filesystem-read_file",
+        "filesystem-write_file"
+      ],
+      "tool_calls_range": [7, 10],
+      "mode": "mixed",
+      "env_categories": ["canvas_lms_workspace"],
+      "required_checkpoints": [
+        {"tool": "canvas-list_courses", "min_count": 1},
+        {"tool": "canvas-list_assignments", "min_count": 1},
+        {"tool": "filesystem-write_file", "min_count": 1}
+      ]
+    },
+    {
+      "skill_id": "quiz-and-submission-workflow",
+      "description": "Inspect quizzes, assignments, and submissions.",
+      "tools": [
+        "canvas-list_courses",
+        "canvas-list_assignments",
+        "canvas-list_quizzes",
+        "canvas-list_submissions",
+        "canvas-get_submission",
+        "filesystem-list_directory",
+        "filesystem-read_file",
+        "filesystem-write_file"
+      ],
+      "tool_calls_range": [8, 12],
+      "mode": "mixed",
+      "env_categories": ["canvas_lms_workspace"],
+      "required_checkpoints": [
+        {"tool": "canvas-list_assignments", "min_count": 1},
+        {"tool": "canvas-list_submissions", "min_count": 1},
+        {"tool": "canvas-get_submission", "min_count": 1}
+      ]
+    },
+    {
+      "skill_id": "student-notification-workflow",
+      "description": "Notify students based on Canvas state.",
+      "tools": [
+        "canvas-list_users",
+        "canvas-list_submissions",
+        "canvas-get_course",
+        "filesystem-read_file",
+        "emails-send_email",
+        "emails-search_emails"
+      ],
+      "tool_calls_range": [6, 10],
+      "mode": "mixed",
+      "env_categories": ["canvas_lms_workspace"],
+      "required_checkpoints": [
+        {"tool": "canvas-list_users", "min_count": 1},
+        {"tool": "canvas-list_submissions", "min_count": 1},
+        {"tool": "emails-send_email", "min_count": 1}
+      ]
+    },
+    {
+      "skill_id": "canvas-gradebook-audit",
+      "description": "Audit Canvas grades and submissions.",
+      "tools": [
+        "canvas-list_assignments",
+        "canvas-list_submissions",
+        "filesystem-read_file",
+        "filesystem-write_file"
+      ],
+      "tool_calls_range": [5, 8],
+      "mode": "mixed",
+      "env_categories": ["canvas_lms_workspace"],
+      "required_checkpoints": [
+        {"tool": "canvas-list_assignments", "min_count": 1},
+        {"tool": "canvas-list_submissions", "min_count": 1},
+        {"tool": "filesystem-write_file", "min_count": 1}
+      ]
+    },
+    {
+      "skill_id": "learning-material-organization",
+      "description": "Organize local learning materials against Canvas structure.",
+      "tools": [
+        "filesystem-list_directory",
+        "filesystem-read_file",
+        "filesystem-write_file",
+        "canvas-list_courses",
+        "canvas-list_assignments"
+      ],
+      "tool_calls_range": [5, 8],
+      "mode": "mixed",
+      "env_categories": ["canvas_lms_workspace"],
+      "required_checkpoints": [
+        {"tool": "filesystem-list_directory", "min_count": 1},
+        {"tool": "canvas-list_courses", "min_count": 1},
+        {"tool": "filesystem-write_file", "min_count": 1}
+      ]
+    }
+  ]
+}

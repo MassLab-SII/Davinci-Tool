@@ -1,0 +1,86 @@
+{
+  "skills": [
+    {
+      "skill_id": "reddit-account-registration-session",
+      "description": "Register or log in to Postmill, verify session state, and keep later forum actions tied to the created account.",
+      "tools": ["browser_snapshot", "browser_get_text", "browser_click", "browser_type", "browser_press_key", "browser_wait_for", "browser_evaluate"],
+      "tool_calls_range": [5, 14],
+      "mode": "mutation",
+      "env_categories": ["reddit"],
+      "task_anchors": ["all reddit tasks"],
+      "required_checkpoints": [
+        {"tool": "browser_type", "min_count": 1},
+        {"tool": "browser_click", "min_count": 1},
+        {"tool": "browser_get_text", "min_count": 1}
+      ]
+    },
+    {
+      "skill_id": "reddit-forum-listing-metrics-extraction",
+      "description": "Extract ranked post metrics from forum listings: titles, votes, comments, authors, dates, page counts, and visible post totals.",
+      "tools": ["browser_snapshot", "browser_get_text", "browser_click", "browser_wait_for", "browser_evaluate"],
+      "tool_calls_range": [4, 14],
+      "mode": "retrieval",
+      "env_categories": ["reddit"],
+      "task_anchors": ["llm_research_summary", "movie_reviewer_analysis", "buyitforlife_research", "nba_statistics_analysis", "ai_data_analyst"],
+      "required_checkpoints": [
+        {"tool": "browser_snapshot", "min_count": 1},
+        {"tool": "browser_evaluate", "min_count": 1}
+      ]
+    },
+    {
+      "skill_id": "reddit-search-sort-pagination-comment-mining",
+      "description": "Use Postmill search, sort switches, pagination, post detail pages, and comment lists to locate specific evidence.",
+      "tools": ["browser_snapshot", "browser_get_text", "browser_click", "browser_type", "browser_press_key", "browser_wait_for", "browser_evaluate"],
+      "tool_calls_range": [6, 18],
+      "mode": "retrieval",
+      "env_categories": ["reddit"],
+      "task_anchors": ["ai_data_analyst", "routine_tracker_forum", "budget_europe_travel", "nba_statistics_analysis"],
+      "required_checkpoints": [
+        {"tool": "browser_type", "min_count": 1},
+        {"tool": "browser_click", "min_count": 1},
+        {"tool": "browser_get_text", "min_count": 1}
+      ]
+    },
+    {
+      "skill_id": "reddit-submission-report-composition",
+      "description": "Create a new forum submission or comment with exact task-provided report/template content and verify it appears afterward.",
+      "tools": ["browser_snapshot", "browser_get_text", "browser_click", "browser_type", "browser_press_key", "browser_wait_for", "browser_evaluate", "browser_take_screenshot"],
+      "tool_calls_range": [6, 20],
+      "mode": "mutation",
+      "env_categories": ["reddit"],
+      "task_anchors": ["ai_data_analyst", "llm_research_summary", "movie_reviewer_analysis", "nba_statistics_analysis", "buyitforlife_research", "routine_tracker_forum"],
+      "required_checkpoints": [
+        {"tool": "browser_type", "min_count": 1},
+        {"tool": "browser_click", "min_count": 1},
+        {"tool": "browser_get_text", "min_count": 1}
+      ]
+    },
+    {
+      "skill_id": "reddit-forum-wiki-community-setup",
+      "description": "Create Postmill forums and wiki pages, configure forum metadata/sidebar, then seed the new community with an initial post.",
+      "tools": ["browser_snapshot", "browser_get_text", "browser_click", "browser_type", "browser_press_key", "browser_wait_for", "browser_evaluate"],
+      "tool_calls_range": [7, 22],
+      "mode": "mutation",
+      "env_categories": ["reddit"],
+      "task_anchors": ["budget_europe_travel"],
+      "required_checkpoints": [
+        {"tool": "browser_type", "min_count": 2},
+        {"tool": "browser_click", "min_count": 1},
+        {"tool": "browser_get_text", "min_count": 1}
+      ]
+    },
+    {
+      "skill_id": "reddit-vote-settings-engagement",
+      "description": "Perform engagement actions such as upvoting target posts and changing user settings, then verify visible state.",
+      "tools": ["browser_snapshot", "browser_get_text", "browser_click", "browser_type", "browser_wait_for", "browser_evaluate"],
+      "tool_calls_range": [4, 14],
+      "mode": "mutation",
+      "env_categories": ["reddit"],
+      "task_anchors": ["budget_europe_travel", "routine_tracker_forum"],
+      "required_checkpoints": [
+        {"tool": "browser_click", "min_count": 1},
+        {"tool": "browser_get_text", "min_count": 1}
+      ]
+    }
+  ]
+}

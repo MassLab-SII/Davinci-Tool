@@ -1,0 +1,86 @@
+{
+  "skills": [
+    {
+      "skill_id": "cluster-inspection-and-safety-audit",
+      "description": "Inspect local Kubernetes state and write a safety audit.",
+      "tools": [
+        "k8s-get_pods",
+        "k8s-get_services",
+        "k8s-get_deployments",
+        "k8s-describe_resource",
+        "terminal-run_command",
+        "filesystem-list_directory",
+        "filesystem-read_file",
+        "filesystem-write_file"
+      ],
+      "tool_calls_range": [7, 11],
+      "mode": "mixed",
+      "env_categories": ["k8s_workspace"],
+      "required_checkpoints": [
+        {"tool": "k8s-get_pods", "min_count": 1},
+        {"tool": "k8s-get_services", "min_count": 1},
+        {"tool": "k8s-describe_resource", "min_count": 1},
+        {"tool": "filesystem-write_file", "min_count": 1}
+      ]
+    },
+    {
+      "skill_id": "deployment-cleanup-workflow",
+      "description": "Clean stale Kubernetes resources and verify cluster state.",
+      "tools": [
+        "k8s-get_deployments",
+        "k8s-get_services",
+        "k8s-get_pods",
+        "terminal-run_command",
+        "filesystem-read_file"
+      ],
+      "tool_calls_range": [5, 8],
+      "mode": "mixed",
+      "env_categories": ["k8s_workspace"],
+      "required_checkpoints": [
+        {"tool": "k8s-get_deployments", "min_count": 1},
+        {"tool": "k8s-get_pods", "min_count": 1},
+        {"tool": "terminal-run_command", "min_count": 1}
+      ]
+    },
+    {
+      "skill_id": "workload-configuration-update",
+      "description": "Update workload configuration and verify rollout.",
+      "tools": [
+        "filesystem-list_directory",
+        "filesystem-read_file",
+        "k8s-get_deployments",
+        "k8s-describe_resource",
+        "k8s-get_pods",
+        "terminal-run_command"
+      ],
+      "tool_calls_range": [6, 10],
+      "mode": "mixed",
+      "env_categories": ["k8s_workspace"],
+      "required_checkpoints": [
+        {"tool": "filesystem-read_file", "min_count": 1},
+        {"tool": "k8s-get_deployments", "min_count": 1},
+        {"tool": "k8s-describe_resource", "min_count": 1}
+      ]
+    },
+    {
+      "skill_id": "incident-report-from-cluster-state",
+      "description": "Write an incident report from Kubernetes state.",
+      "tools": [
+        "k8s-get_pods",
+        "k8s-get_services",
+        "k8s-describe_resource",
+        "terminal-run_command",
+        "filesystem-read_file",
+        "filesystem-write_file"
+      ],
+      "tool_calls_range": [6, 9],
+      "mode": "mixed",
+      "env_categories": ["k8s_workspace"],
+      "required_checkpoints": [
+        {"tool": "k8s-get_pods", "min_count": 1},
+        {"tool": "k8s-describe_resource", "min_count": 1},
+        {"tool": "filesystem-write_file", "min_count": 1}
+      ]
+    }
+  ]
+}

@@ -1,0 +1,164 @@
+{
+  "skills": [
+    {
+      "skill_id": "github-issue-management",
+      "description": "Manage GitHub issues with evidence-first triage: inspect issues/comments/labels, create tracking issues, comment, label, close, or reopen issues, then verify final issue state.",
+      "tools": ["list_issues", "get_issue", "list_issue_comments", "list_labels", "create_issue", "add_issue_comment", "update_issue"],
+      "tool_calls_range": [6, 14],
+      "mode": "mutation",
+      "env_categories": ["claude-code", "mcpmark-cicd", "build-your-own-x", "build_your_own_x", "missing-semester", "easyr1", "harmony"],
+      "task_anchors": ["close_commented_issues", "triage_missing_tool_result_issue", "qwen3_issue_management", "issue_management_workflow", "issue_pr_commit_workflow"],
+      "required_checkpoints": [{"tool": "get_issue", "min_count": 1}, {"tool": "list_issue_comments", "min_count": 1}, {"tool": "add_issue_comment", "min_count": 1}]
+    },
+    {
+      "skill_id": "github-pr-workflow",
+      "description": "Handle pull request workflows: inspect PR metadata, changed files and comments, add review comments, update or close PRs, merge when appropriate, and verify the resulting PR state.",
+      "tools": ["list_pull_requests", "get_pull_request", "get_pull_request_files", "get_pull_request_comments", "add_pull_request_review_comment", "update_pull_request", "merge_pull_request", "add_issue_comment"],
+      "tool_calls_range": [7, 16],
+      "mode": "mutation",
+      "env_categories": ["claude-code", "mcpmark-cicd", "harmony", "easyr1"],
+      "task_anchors": ["thank_docker_pr_author", "pr_automation_workflow", "issue_tagging_pr_closure", "fix_conflict", "release_management_workflow"],
+      "required_checkpoints": [{"tool": "get_pull_request", "min_count": 1}, {"tool": "get_pull_request_files", "min_count": 1}, {"tool": "get_pull_request_comments", "min_count": 1}]
+    },
+    {
+      "skill_id": "github-repository-investigation",
+      "description": "Investigate repository source, files, branches, commits, issues, and PRs before creating evidence-backed issues, comments, or answer files.",
+      "tools": ["search_code", "get_file_contents", "list_commits", "get_commit", "list_branches", "get_branch", "create_issue", "create_or_update_file", "add_issue_comment"],
+      "tool_calls_range": [7, 18],
+      "mode": "mutation",
+      "env_categories": ["build-your-own-x", "build_your_own_x", "missing-semester", "claude-code", "harmony", "easyr1"],
+      "task_anchors": ["find_ga_tracking_id", "count_translations", "config_parameter_audit", "performance_regression_investigation", "find_salient_file"],
+      "required_checkpoints": [{"tool": "search_code", "min_count": 1}, {"tool": "get_file_contents", "min_count": 1}, {"tool": "list_commits", "min_count": 1}]
+    },
+    {
+      "skill_id": "github-file-and-doc-update",
+      "description": "Create or update repository files such as documentation, answer files, changelogs, migration guides, or configuration files after reading the current repository context.",
+      "tools": ["get_file_contents", "search_code", "list_branches", "get_branch", "create_branch", "create_or_update_file", "create_pull_request"],
+      "tool_calls_range": [6, 14],
+      "mode": "mutation",
+      "env_categories": ["claude-code", "mcpmark-cicd", "missing-semester", "harmony", "easyr1", "build-your-own-x", "build_your_own_x"],
+      "task_anchors": ["add_terminal_shortcuts_doc", "find_commit_date", "find_rag_commit", "find_legacy_name", "automated_changelog_generation"],
+      "required_checkpoints": [{"tool": "get_file_contents", "min_count": 1}, {"tool": "create_or_update_file", "min_count": 1}, {"tool": "get_file_contents", "min_count": 2}]
+    },
+    {
+      "skill_id": "github-cicd-workflow",
+      "description": "Design or update GitHub Actions workflows: inspect existing workflows and package scripts, write workflow YAML files, optionally create tracking issues, and verify committed workflow contents.",
+      "tools": ["get_file_contents", "search_code", "list_issues", "create_issue", "create_or_update_file", "list_commits"],
+      "tool_calls_range": [7, 16],
+      "mode": "mutation",
+      "env_categories": ["mcpmark-cicd", "harmony", "claude-code", "easyr1"],
+      "task_anchors": ["basic_ci_checks", "issue_lint_guard", "nightly_health_check", "linting_ci_workflow"],
+      "required_checkpoints": [{"tool": "get_file_contents", "min_count": 2}, {"tool": "create_or_update_file", "min_count": 1}, {"tool": "list_commits", "min_count": 1}]
+    },
+    {
+      "skill_id": "github-branch-release-management",
+      "description": "Manage branch and release workflows: inspect branches, commits, PRs and releases, create branches/PRs/releases or merge PRs, then verify resulting repository state.",
+      "tools": ["list_branches", "get_branch", "list_commits", "get_commit", "create_branch", "list_pull_requests", "create_pull_request", "merge_pull_request", "list_releases", "get_latest_release", "create_release"],
+      "tool_calls_range": [8, 18],
+      "mode": "mutation",
+      "env_categories": ["harmony", "easyr1", "mcpmark-cicd", "claude-code"],
+      "task_anchors": ["advanced_branch_strategy", "release_management_workflow", "multi_branch_commit_aggregation", "critical_issue_hotfix_workflow"],
+      "required_checkpoints": [{"tool": "list_branches", "min_count": 1}, {"tool": "list_commits", "min_count": 1}, {"tool": "list_pull_requests", "min_count": 1}]
+    },
+    {
+      "skill_id": "github-commit-history-forensics",
+      "description": "Trace commits, branches, file history, and salient repository changes to answer when/where/who questions, then persist findings in issues or answer files.",
+      "tools": ["list_commits", "get_commit", "list_branches", "get_branch", "search_code", "get_file_contents", "create_or_update_file", "create_issue"],
+      "tool_calls_range": [6, 16],
+      "mode": "mutation",
+      "env_categories": ["build_your_own_x", "build-your-own-x", "missing-semester", "claude-code", "easyr1", "harmony"],
+      "task_anchors": ["find_commit_date", "find_rag_commit", "feature_commit_tracking", "claude_collaboration_analysis", "find_legacy_name", "find_salient_file", "record_recent_commits"],
+      "required_checkpoints": [{"tool": "list_commits", "min_count": 1}, {"tool": "get_commit", "min_count": 1}, {"tool": "create_or_update_file", "min_count": 1}]
+    },
+    {
+      "skill_id": "github-label-taxonomy-and-assignment",
+      "description": "Create, update, standardize, and assign labels based on issue/PR evidence, comments, contributor history, or repository taxonomy.",
+      "tools": ["list_issues", "get_issue", "list_issue_comments", "list_labels", "create_label", "update_label", "update_issue", "list_commits", "create_issue"],
+      "tool_calls_range": [6, 16],
+      "mode": "mutation",
+      "env_categories": ["claude-code", "missing-semester", "easyr1", "harmony", "mcpmark-cicd"],
+      "task_anchors": ["label_color_standardization", "assign_contributor_labels", "qwen3_issue_management", "issue_tagging_pr_closure"],
+      "required_checkpoints": [{"tool": "list_labels", "min_count": 1}, {"tool": "update_issue", "min_count": 1}]
+    },
+    {
+      "skill_id": "github-actions-automation-authoring",
+      "description": "Author GitHub Actions workflows for linting, PR automation, deployment status, issue automation, nightly health, and CI guardrails.",
+      "tools": ["get_file_contents", "search_code", "list_issues", "create_issue", "create_or_update_file", "list_commits", "create_branch", "create_pull_request"],
+      "tool_calls_range": [7, 18],
+      "mode": "mutation",
+      "env_categories": ["mcpmark-cicd", "harmony", "claude-code"],
+      "task_anchors": ["linting_ci_workflow", "pr_automation_workflow", "deployment_status_workflow", "issue_management_workflow", "basic_ci_checks", "issue_lint_guard", "nightly_health_check"],
+      "required_checkpoints": [{"tool": "get_file_contents", "min_count": 1}, {"tool": "create_or_update_file", "min_count": 1}, {"tool": "get_file_contents", "min_count": 2}]
+    },
+    {
+      "skill_id": "github-hotfix-conflict-resolution",
+      "description": "Coordinate hotfixes and conflict resolution by creating tracking issues, support branches, PRs, infrastructure files, and merge/close decisions with verification.",
+      "tools": ["list_issues", "get_issue", "list_pull_requests", "get_pull_request", "get_pull_request_files", "list_branches", "create_branch", "create_or_update_file", "create_pull_request", "merge_pull_request", "update_pull_request", "add_issue_comment"],
+      "tool_calls_range": [8, 20],
+      "mode": "mutation",
+      "env_categories": ["harmony", "claude-code", "easyr1", "mcpmark-cicd"],
+      "task_anchors": ["fix_conflict", "critical_issue_hotfix_workflow", "performance_regression_investigation", "issue_pr_commit_workflow", "release_management_workflow", "advanced_branch_strategy"],
+      "required_checkpoints": [{"tool": "list_pull_requests", "min_count": 1}, {"tool": "create_branch", "min_count": 1}, {"tool": "create_pull_request", "min_count": 1}]
+    },
+    {
+      "skill_id": "github-documentation-audit-and-maintenance",
+      "description": "Audit repository documentation, tutorials, translations, and answer artifacts; locate the right source files, update concise docs, and verify the committed content.",
+      "tools": ["search_code", "get_file_contents", "list_branches", "get_branch", "create_branch", "create_or_update_file", "create_pull_request", "list_commits"],
+      "tool_calls_range": [6, 16],
+      "mode": "mutation",
+      "env_categories": ["claude-code", "missing-semester", "build-your-own-x", "build_your_own_x", "harmony"],
+      "task_anchors": ["add_terminal_shortcuts_doc", "count_translations", "find_ga_tracking_id", "find_legacy_name", "find_salient_file"],
+      "required_checkpoints": [{"tool": "search_code", "min_count": 1}, {"tool": "get_file_contents", "min_count": 1}, {"tool": "create_or_update_file", "min_count": 1}]
+    },
+    {
+      "skill_id": "github-changelog-and-release-notes-generation",
+      "description": "Generate changelogs or release notes from commit, branch, PR, and release evidence, then write or publish the summarized artifact.",
+      "tools": ["list_commits", "get_commit", "list_pull_requests", "get_pull_request", "list_releases", "get_latest_release", "create_release", "get_file_contents", "create_or_update_file"],
+      "tool_calls_range": [7, 18],
+      "mode": "mutation",
+      "env_categories": ["claude-code", "harmony", "easyr1", "mcpmark-cicd"],
+      "task_anchors": ["automated_changelog_generation", "release_management_workflow", "multi_branch_commit_aggregation", "record_recent_commits"],
+      "required_checkpoints": [{"tool": "list_commits", "min_count": 1}, {"tool": "get_commit", "min_count": 1}, {"tool": "create_or_update_file", "min_count": 1}]
+    },
+    {
+      "skill_id": "github-contributor-collaboration-analytics",
+      "description": "Analyze contributors, issue/PR participation, comments, commits, and labels to produce collaboration reports or contributor-focused repository updates.",
+      "tools": ["list_issues", "get_issue", "list_issue_comments", "list_pull_requests", "get_pull_request", "get_pull_request_comments", "list_commits", "get_commit", "list_labels", "update_issue", "create_or_update_file", "add_issue_comment"],
+      "tool_calls_range": [8, 20],
+      "mode": "mutation",
+      "env_categories": ["claude-code", "missing-semester", "harmony", "easyr1", "build-your-own-x", "build_your_own_x"],
+      "task_anchors": ["claude_collaboration_analysis", "assign_contributor_labels", "thank_docker_pr_author", "feature_commit_tracking", "record_recent_commits"],
+      "required_checkpoints": [{"tool": "list_commits", "min_count": 1}, {"tool": "list_pull_requests", "min_count": 1}, {"tool": "create_or_update_file", "min_count": 1}]
+    },
+    {
+      "skill_id": "github-config-parameter-audit",
+      "description": "Audit code and configuration parameters across repository files, compare intended versus actual settings, and patch or report the configuration finding.",
+      "tools": ["search_code", "get_file_contents", "list_branches", "get_branch", "create_branch", "create_or_update_file", "create_pull_request", "create_issue"],
+      "tool_calls_range": [6, 16],
+      "mode": "mutation",
+      "env_categories": ["easyr1", "claude-code", "mcpmark-cicd", "harmony"],
+      "task_anchors": ["config_parameter_audit", "basic_ci_checks", "issue_lint_guard", "linting_ci_workflow"],
+      "required_checkpoints": [{"tool": "search_code", "min_count": 1}, {"tool": "get_file_contents", "min_count": 2}, {"tool": "create_or_update_file", "min_count": 1}]
+    },
+    {
+      "skill_id": "github-performance-regression-investigation",
+      "description": "Investigate performance regressions by correlating issues, commits, branches, configuration files, and PR changes before filing or patching an evidence-backed fix.",
+      "tools": ["list_issues", "get_issue", "list_issue_comments", "list_commits", "get_commit", "search_code", "get_file_contents", "list_pull_requests", "get_pull_request_files", "create_issue", "create_or_update_file"],
+      "tool_calls_range": [8, 20],
+      "mode": "mutation",
+      "env_categories": ["easyr1", "claude-code", "harmony", "mcpmark-cicd"],
+      "task_anchors": ["performance_regression_investigation", "critical_issue_hotfix_workflow", "feature_commit_tracking", "config_parameter_audit"],
+      "required_checkpoints": [{"tool": "list_commits", "min_count": 1}, {"tool": "search_code", "min_count": 1}, {"tool": "get_file_contents", "min_count": 1}]
+    },
+    {
+      "skill_id": "github-deployment-health-monitoring",
+      "description": "Inspect deployment, nightly health, CI status, and operational workflow signals; create or update repository automation and tracking artifacts for health monitoring.",
+      "tools": ["get_file_contents", "search_code", "list_issues", "get_issue", "create_issue", "add_issue_comment", "create_or_update_file", "list_commits"],
+      "tool_calls_range": [6, 16],
+      "mode": "mutation",
+      "env_categories": ["mcpmark-cicd", "harmony", "claude-code"],
+      "task_anchors": ["nightly_health_check", "deployment_status_workflow", "basic_ci_checks", "issue_lint_guard"],
+      "required_checkpoints": [{"tool": "search_code", "min_count": 1}, {"tool": "create_or_update_file", "min_count": 1}, {"tool": "list_commits", "min_count": 1}]
+    }
+  ]
+}

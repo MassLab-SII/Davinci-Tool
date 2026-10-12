@@ -1,0 +1,18 @@
+# EGTS Dependencies
+# Execution-Grounded Task Synthesis
+
+# Core MCP and async support
+mcp>=0.9.0
+aiohttp>=3.9.0
+nest_asyncio>=1.5.0
+
+# Configuration and validation
+pydantic>=2.0.0
+pyyaml>=6.0
+python-dotenv>=1.0.0
+
+# LLM API access
+openai>=1.0.0
+litellm>=1.80.0
+python-dateutil>=2.8.0
+chromadb>=0.4.0

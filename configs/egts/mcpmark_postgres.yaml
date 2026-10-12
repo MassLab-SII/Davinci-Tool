@@ -1,0 +1,268 @@
+# EGTS exploration config — MCPMark Postgres executable world.
+#
+# Usage:
+#   bash scripts/egts/run_mcpmark_postgres.sh
+
+maas:
+  default:
+    base_url: "${EXPLORATION_MODEL_BASE_URL}"
+    api_key: "${EXPLORATION_MODEL_API_KEY}"
+    temperature: 0.8
+    max_tokens: 100000
+  models:
+    trajectory_collection:
+      model: "${EXPLORATION_MODEL_NAME}"
+      base_url: "${EXPLORATION_MODEL_BASE_URL}"
+      api_key: "${EXPLORATION_MODEL_API_KEY}"
+      temperature: 1.0
+      max_tokens: 100000
+      thinking: "disabled"
+    nl_rewrite:
+      model: "${WRITER_MODEL_NAME}"
+      base_url: "${WRITER_MODEL_BASE_URL}"
+      api_key: "${WRITER_MODEL_API_KEY}"
+      temperature: 0.7
+      max_tokens: 100000
+    judge:
+      model: "${JUDGE_MODEL_NAME}"
+      base_url: "${JUDGE_MODEL_BASE_URL}"
+      api_key: "${JUDGE_MODEL_API_KEY}"
+      temperature: 0.1
+      thinking: "disabled"
+
+
+execution_mode: "local"
+
+local:
+  workspace_root: "./workspaces/mcpmark_postgres"
+  cleanup_on_success: true
+  cleanup_on_failure: false
+
+docker: {}
+
+stdio_mcp_servers: {}
+http_mcp_servers:
+  benchmark_env:
+    url: "http://127.0.0.1:30010/mcp"
+    headers: {}
+    timeout: 120
+    metadata:
+      prompt_domain: "postgres"
+      output_namespace: "mcpmark.postgres"
+
+executable_world_envs:
+  - name: "mcpmark_postgres_world"
+    compose_file: "environments/egts/mcpmark-world/docker-compose.postgres.yml"
+    project_name: "egts_mcpmark_postgres_{worker_id}"
+    healthcheck:
+      type: "url"
+      value: "http://127.0.0.1:30010/admin/status"
+      timeout_s: 240
+      interval_s: 2.0
+    http_mcp_url: "http://127.0.0.1:30010/mcp"
+    http_mcp_headers: {}
+    http_timeout_s: 600
+    reuse_containers: true
+    prompt_domain: "postgres"
+    output_namespace: "mcpmark.postgres"
+    world_context:
+      domain: "MCPMark PostgreSQL database benchmark tasks"
+      operator_role: "database engineer and SQL analyst"
+      observable_state: "task-specific PostgreSQL database, schemas, tables, rows, indexes, views, permissions, and query plans"
+      reset_semantics: "admin reset selects an MCPMark Postgres task, creates an isolated task database from template data or preparation scripts, and binds it to the hidden world session"
+      exploration_bias:
+        - "inspect schema and representative rows before mutation"
+        - "prefer transactional SQL and verification queries after DDL/DML"
+        - "use EXPLAIN or catalog tables when investigating performance/index tasks"
+      success_signals:
+        - "SQL results show schema or row state was inspected"
+        - "mutations are visible through follow-up SELECT/catalog queries"
+    tool_metadata: {}
+
+pipeline:
+  exp_name: "exp_mcpmark_postgres"
+  num_iterations: 2000
+  num_workers: 1
+  output_dir: "./output/exploration_worlds/deepseekv4"
+  save_failed: true
+
+trajs2data:
+  language: "en"
+  max_attempts: 3
+  save_filtered: true
+  exploration_system_prompt: null
+  synthesis_in_collection: false
+  replay_synthesis:
+    enabled: true
+    max_problem_candidates: 3
+    max_replay_attempts: 2
+    min_quality_tier: "acceptable"
+    tool_sequence_selection: "universal"
+    verify_final_state: true
+    save_failed_replays: true
+    max_selected_tool_calls: 12
+    max_selected_mutations: 10
+    harness_mode: "full"
+    harness_max_retries_per_step: 2
+    harness_model: "trajectory_collection"
+    harness_fallback_threshold: 0.5
+    preserve_failure_recovery_chains: true
+    dependency_relevance_filter: true
+    llm_problem_synthesis: true
+    max_dependency_distance: 5
+    polish_enabled: true
+    polish_model: "judge_model"
+    enable_quality_judge: true
+  task:
+    task_type: "executable_world_pool"
+    required_servers: ["benchmark_env"]
+    primary_server: "benchmark_env"
+    prompt_domain: "egts"
+    output_namespace: "mcpmark.postgres"
+    seed_base: null
+    max_steps: 20
+    n_tools_min: 2
+    n_tools_max: 10
+    world_context:
+      engine: "EGTS"
+      exploration_objective: "collect grounded SQL/database trajectories from MCPMark Postgres executable worlds"
+      evidence_policy: "ground synthesized tasks in observed SQL results, catalog evidence, and final database state"
+    read_only_tools:
+      - "list_tables"
+      - "describe_table"
+      - "get_schema"
+      - "explain_query"
+      - "get_database_info"
+    read_only_tools_priority:
+      - "get_schema"
+      - "describe_table"
+      - "list_tables"
+      - "query"
+    tool_metadata: {}
+
+  tool_curriculum:
+    selection_strategy: "progressive"
+    base_tools:
+      - "list_tables"
+      - "describe_table"
+      - "get_schema"
+      - "query"
+    anchor_tools:
+      - "execute_sql"
+      - "explain_query"
+      - "get_database_info"
+    stages:
+      - name: "stage1_random_tool"
+        enabled: true
+        weight: 1.0
+        description: "Progressive SQL/database tool exposure for MCPMark Postgres tasks"
+        difficulty_tiers:
+          - tier: "simple"
+            weight: 0.10
+            tool_count_min: 3
+            tool_count_max: 5
+            target_n_min: 3
+            target_n_max: 6
+            min_distinct_tools: 2
+            tool_pool: "base_only"
+            anchor_count: 0
+          - tier: "medium"
+            weight: 0.25
+            tool_count_min: 3
+            tool_count_max: 6
+            target_n_min: 3
+            target_n_max: 8
+            min_distinct_tools: 2
+            tool_pool: "base_plus_anchor"
+            anchor_count: 1
+          - tier: "hard"
+            weight: 0.35
+            tool_count_min: 5
+            tool_count_max: 12
+            target_n_min: 4
+            target_n_max: 15
+            min_distinct_tools: 3
+            tool_pool: "all"
+            anchor_count: 0
+      - name: "stage2_skill_guided"
+        enabled: true
+        weight: 0.30
+        description: "Skill-guided Postgres exploration aligned with MCPMark database task families"
+        n_min: 4
+        n_max: 15
+        min_distinct_tools: 2
+
+    skill_guided:
+      enabled: true
+      skills_dir: "src/egts/skills/mcpmark-postgres"
+      skills_json: "skill_tools.json"
+      skills_min: 1
+      skills_max: 3
+      skill_selection_strategy: "coverage_weighted"
+      max_steps_per_skill: 25
+
+    coverage:
+      min_success_per_tool: 10
+      strategy: "balanced"
+      track_file: "coverage.json"
+      rebalance_interval: 50
+
+  filters:
+    min_steps: 1
+    min_changes: 1
+    max_changes: 100
+    max_failure_rate: 0.5
+
+  deduplication:
+    enabled: false
+    max_trajectories_per_problem: 3
+
+  recoverable:
+    enabled: true
+    max_failures: 8
+    max_failures_per_tool: 4
+    max_retries_before_rollback: 3
+    enable_filesystem_snapshots: false
+
+  replay_verification:
+    enabled: false
+
+  self_questioning:
+    enabled: false
+    num_candidates: 3
+    novelty_weight: 0.6
+    coverage_weight: 0.4
+    use_embeddings: false
+
+  efficiency_monitor:
+    enabled: true
+    min_success_rate: 0.1
+    window_size: 20
+    auto_adjust: true
+    reduce_target_n_on_low_rate: true
+    target_n_reduction_step: 1
+    min_target_n: 1
+
+  hindsight:
+    enabled: false
+    rewrite_thoughts: false
+
+  data_synthesis:
+    max_problem_refine_loops: 3
+    max_trajectory_refine_loops: 3
+    require_planning_step: true
+    require_final_answer: true
+
+  experience_manager:
+    enabled: true
+    store_path: "experience_store_mcpmark_postgres.json"
+    max_skills: 500
+    similarity_threshold: 0.85
+    retrieve_top_k: 5
+    extract_on_success: true
+    inject_to_prompt: true
+
+logging:
+  level: "INFO"
+  format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+  file: "collect_mcpmark_postgres.log"

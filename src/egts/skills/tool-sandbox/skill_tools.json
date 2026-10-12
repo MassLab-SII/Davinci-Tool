@@ -1,0 +1,196 @@
+{
+  "skills": [
+    {
+      "skill_id": "contact-book-maintenance",
+      "description": "Manage the full lifecycle of contacts in the address book: add new contacts with name, phone number, and relationship, search for existing contacts, modify contact fields, remove contacts by person_id, and verify state after each operation.",
+      "tools": [
+        "search_contacts",
+        "add_contact",
+        "modify_contact",
+        "remove_contact"
+      ],
+      "tool_calls_range": [4, 10],
+      "mode": "mutation",
+      "env_categories": null,
+      "required_checkpoints": [
+        {"tool": "search_contacts", "min_count": 2},
+        {"tool": "add_contact", "min_count": 1},
+        {"tool": "modify_contact", "min_count": 1}
+      ]
+    },
+    {
+      "skill_id": "contact-lookup-and-verification",
+      "description": "Search and retrieve contact information by name, phone number, or relationship. Cross-reference contacts with message history to verify communication records. Pure retrieval — no state changes.",
+      "tools": [
+        "search_contacts",
+        "search_messages"
+      ],
+      "tool_calls_range": [2, 5],
+      "mode": "retrieval",
+      "env_categories": null,
+      "required_checkpoints": [
+        {"tool": "search_contacts", "min_count": 2}
+      ]
+    },
+    {
+      "skill_id": "message-communication",
+      "description": "Send messages to contacts via phone number with full prerequisite checking: verify cellular service is on, enable it if needed, look up recipient phone number from contacts, send the message, and verify it appears in sent message history.",
+      "tools": [
+        "get_cellular_service_status",
+        "set_cellular_service_status",
+        "search_contacts",
+        "send_message_with_phone_number",
+        "search_messages"
+      ],
+      "tool_calls_range": [3, 10],
+      "mode": "mutation",
+      "env_categories": null,
+      "required_checkpoints": [
+        {"tool": "get_cellular_service_status", "min_count": 1},
+        {"tool": "send_message_with_phone_number", "min_count": 1},
+        {"tool": "search_messages", "min_count": 1}
+      ]
+    },
+    {
+      "skill_id": "message-history-audit",
+      "description": "Search and audit the complete message history: retrieve messages by phone number, search by content keywords, cross-reference with contacts, and compile communication audit reports. Pure retrieval — no state changes.",
+      "tools": [
+        "search_messages",
+        "search_contacts"
+      ],
+      "tool_calls_range": [2, 6],
+      "mode": "retrieval",
+      "env_categories": null,
+      "required_checkpoints": [
+        {"tool": "search_messages", "min_count": 2}
+      ]
+    },
+    {
+      "skill_id": "reminder-scheduling",
+      "description": "Create reminders for future events with precise timestamp computation: get current time, compute future timestamps using shift or datetime-to-timestamp conversion, verify computed times are correct, schedule reminders, and confirm they appear in the reminder list.",
+      "tools": [
+        "get_current_timestamp",
+        "shift_timestamp",
+        "datetime_info_to_timestamp",
+        "timestamp_to_datetime_info",
+        "add_reminder",
+        "search_reminder"
+      ],
+      "tool_calls_range": [3, 10],
+      "mode": "mutation",
+      "env_categories": null,
+      "required_checkpoints": [
+        {"tool": "get_current_timestamp", "min_count": 1},
+        {"tool": "add_reminder", "min_count": 1},
+        {"tool": "search_reminder", "min_count": 1}
+      ]
+    },
+    {
+      "skill_id": "reminder-lifecycle-management",
+      "description": "Manage the full lifecycle of reminders: create multiple reminders, search and filter the reminder list, modify reminder content or scheduled time, remove completed or obsolete reminders, and verify the final reminder state after each operation.",
+      "tools": [
+        "search_reminder",
+        "add_reminder",
+        "modify_reminder",
+        "remove_reminder"
+      ],
+      "tool_calls_range": [4, 10],
+      "mode": "mutation",
+      "env_categories": null,
+      "required_checkpoints": [
+        {"tool": "search_reminder", "min_count": 2},
+        {"tool": "add_reminder", "min_count": 1},
+        {"tool": "remove_reminder", "min_count": 1}
+      ]
+    },
+    {
+      "skill_id": "connectivity-control",
+      "description": "Manage device radio connectivity — cellular service and wifi. Check current status, toggle radios on/off, verify state changes, and understand connectivity prerequisites for messaging and other operations.",
+      "tools": [
+        "get_cellular_service_status",
+        "set_cellular_service_status",
+        "get_wifi_status",
+        "set_wifi_status"
+      ],
+      "tool_calls_range": [3, 8],
+      "mode": "mutation",
+      "env_categories": null,
+      "required_checkpoints": [
+        {"tool": "get_cellular_service_status", "min_count": 1},
+        {"tool": "get_wifi_status", "min_count": 1},
+        {"tool": "set_cellular_service_status", "min_count": 1}
+      ]
+    },
+    {
+      "skill_id": "power-and-location-management",
+      "description": "Manage device power state (low battery mode) and location services. Toggle low battery mode, enable/disable location services, query current device location, and handle the cascade effect where low battery mode blocks all other settings changes.",
+      "tools": [
+        "get_low_battery_mode_status",
+        "set_low_battery_mode_status",
+        "get_location_service_status",
+        "set_location_service_status",
+        "get_current_location"
+      ],
+      "tool_calls_range": [3, 8],
+      "mode": "mutation",
+      "env_categories": null,
+      "required_checkpoints": [
+        {"tool": "get_low_battery_mode_status", "min_count": 1},
+        {"tool": "get_location_service_status", "min_count": 1},
+        {"tool": "get_current_location", "min_count": 1}
+      ]
+    },
+    {
+      "skill_id": "time-and-unit-arithmetic",
+      "description": "Perform precise timestamp and unit conversion computations: get current Unix timestamp, convert between timestamps and datetime components, shift timestamps forward/backward, compute time differences, format durations, and convert between measurement units. Pure retrieval — no state changes.",
+      "tools": [
+        "get_current_timestamp",
+        "timestamp_to_datetime_info",
+        "datetime_info_to_timestamp",
+        "shift_timestamp",
+        "timestamp_diff",
+        "seconds_to_hours_minutes_seconds",
+        "unit_conversion"
+      ],
+      "tool_calls_range": [3, 8],
+      "mode": "retrieval",
+      "env_categories": null,
+      "required_checkpoints": [
+        {"tool": "get_current_timestamp", "min_count": 1},
+        {"tool": "shift_timestamp", "min_count": 1},
+        {"tool": "timestamp_to_datetime_info", "min_count": 1}
+      ]
+    },
+    {
+      "skill_id": "cross-domain-orchestration",
+      "description": "Execute complex multi-domain workflows spanning contacts, messaging, reminders, device settings, and time utilities. Typical patterns: find contact → check cellular → send message → schedule follow-up reminder; or audit all state → make changes in each domain → re-audit and report differences.",
+      "tools": [
+        "search_contacts",
+        "add_contact",
+        "get_cellular_service_status",
+        "set_cellular_service_status",
+        "get_wifi_status",
+        "set_wifi_status",
+        "get_low_battery_mode_status",
+        "get_current_location",
+        "send_message_with_phone_number",
+        "search_messages",
+        "add_reminder",
+        "search_reminder",
+        "get_current_timestamp",
+        "shift_timestamp",
+        "datetime_info_to_timestamp"
+      ],
+      "tool_calls_range": [6, 15],
+      "mode": "mutation",
+      "env_categories": null,
+      "required_checkpoints": [
+        {"tool": "search_contacts", "min_count": 1},
+        {"tool": "send_message_with_phone_number", "min_count": 1},
+        {"tool": "add_reminder", "min_count": 1},
+        {"tool": "search_messages", "min_count": 1},
+        {"tool": "search_reminder", "min_count": 1}
+      ]
+    }
+  ]
+}

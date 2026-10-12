@@ -1,0 +1,345 @@
+{
+  "skills": [
+    {
+      "skill_id": "paper-discovery-and-pdf-grounding",
+      "description": "Discover papers, download or inspect PDFs, extract evidence, and save a grounded research note.",
+      "tools": [
+        "filesystem-list_allowed_directories",
+        "filesystem-list_directory",
+        "filesystem-read_file",
+        "arxiv_local-search_papers",
+        "arxiv_local-download_paper",
+        "pdf-tools-read_pdf_pages",
+        "filesystem-write_file"
+      ],
+      "tool_calls_range": [
+        7,
+        10
+      ],
+      "mode": "mixed",
+      "env_categories": [
+        "research_workspace"
+      ],
+      "required_checkpoints": [
+        {
+          "tool": "filesystem-list_allowed_directories",
+          "min_count": 1
+        },
+        {
+          "tool": "filesystem-list_directory",
+          "min_count": 1
+        },
+        {
+          "tool": "filesystem-read_file",
+          "min_count": 1
+        },
+        {
+          "tool": "arxiv_local-search_papers",
+          "min_count": 1
+        },
+        {
+          "tool": "arxiv_local-download_paper",
+          "min_count": 1
+        }
+      ]
+    },
+    {
+      "skill_id": "citation-and-bibliography-enrichment",
+      "description": "Cross-check paper metadata, authors, venues, citations, and BibTeX-like records.",
+      "tools": [
+        "filesystem-list_allowed_directories",
+        "filesystem-list_directory",
+        "filesystem-read_file",
+        "scholarly-search-arxiv",
+        "scholarly-search-google-scholar",
+        "filesystem-write_file"
+      ],
+      "tool_calls_range": [
+        6,
+        9
+      ],
+      "mode": "mixed",
+      "env_categories": [
+        "research_workspace"
+      ],
+      "required_checkpoints": [
+        {
+          "tool": "filesystem-list_allowed_directories",
+          "min_count": 1
+        },
+        {
+          "tool": "filesystem-list_directory",
+          "min_count": 1
+        },
+        {
+          "tool": "filesystem-read_file",
+          "min_count": 1
+        },
+        {
+          "tool": "scholarly-search-arxiv",
+          "min_count": 1
+        },
+        {
+          "tool": "scholarly-search-google-scholar",
+          "min_count": 1
+        }
+      ]
+    },
+    {
+      "skill_id": "web-evidence-triangulation",
+      "description": "Collect facts from web pages and local files, compare evidence, and write a concise answer.",
+      "tools": [
+        "filesystem-list_allowed_directories",
+        "filesystem-list_directory",
+        "filesystem-read_file",
+        "fetch-fetch_markdown",
+        "playwright_with_chunk-browser_navigate",
+        "playwright_with_chunk-browser_snapshot",
+        "filesystem-write_file"
+      ],
+      "tool_calls_range": [
+        7,
+        10
+      ],
+      "mode": "mixed",
+      "env_categories": [
+        "research_workspace"
+      ],
+      "required_checkpoints": [
+        {
+          "tool": "filesystem-list_allowed_directories",
+          "min_count": 1
+        },
+        {
+          "tool": "filesystem-list_directory",
+          "min_count": 1
+        },
+        {
+          "tool": "filesystem-read_file",
+          "min_count": 1
+        },
+        {
+          "tool": "fetch-fetch_markdown",
+          "min_count": 1
+        },
+        {
+          "tool": "playwright_with_chunk-browser_navigate",
+          "min_count": 1
+        }
+      ]
+    },
+    {
+      "skill_id": "paper-to-code-artifact-mapping",
+      "description": "Map a paper or method to code, datasets, repositories, and reproducibility artifacts.",
+      "tools": [
+        "filesystem-list_allowed_directories",
+        "filesystem-list_directory",
+        "filesystem-read_file",
+        "arxiv_local-search_papers",
+        "fetch-fetch_markdown",
+        "scholarly-search-google-scholar",
+        "filesystem-write_file"
+      ],
+      "tool_calls_range": [
+        7,
+        10
+      ],
+      "mode": "mixed",
+      "env_categories": [
+        "research_workspace"
+      ],
+      "required_checkpoints": [
+        {
+          "tool": "filesystem-list_allowed_directories",
+          "min_count": 1
+        },
+        {
+          "tool": "filesystem-list_directory",
+          "min_count": 1
+        },
+        {
+          "tool": "filesystem-read_file",
+          "min_count": 1
+        },
+        {
+          "tool": "arxiv_local-search_papers",
+          "min_count": 1
+        },
+        {
+          "tool": "fetch-fetch_markdown",
+          "min_count": 1
+        }
+      ]
+    },
+    {
+      "skill_id": "pdf-table-and-figure-extraction",
+      "description": "Extract structured facts from PDF text, tables, figures, and nearby source files.",
+      "tools": [
+        "filesystem-list_allowed_directories",
+        "filesystem-list_directory",
+        "filesystem-read_file",
+        "pdf-tools-get_pdf_info",
+        "pdf-tools-search_pdf_content",
+        "pdf-tools-read_pdf_pages",
+        "filesystem-write_file"
+      ],
+      "tool_calls_range": [
+        7,
+        10
+      ],
+      "mode": "mixed",
+      "env_categories": [
+        "research_workspace"
+      ],
+      "required_checkpoints": [
+        {
+          "tool": "filesystem-list_allowed_directories",
+          "min_count": 1
+        },
+        {
+          "tool": "filesystem-list_directory",
+          "min_count": 1
+        },
+        {
+          "tool": "filesystem-read_file",
+          "min_count": 1
+        },
+        {
+          "tool": "pdf-tools-get_pdf_info",
+          "min_count": 1
+        },
+        {
+          "tool": "pdf-tools-search_pdf_content",
+          "min_count": 1
+        }
+      ]
+    },
+    {
+      "skill_id": "research-dossier-generation",
+      "description": "Build a multi-source dossier from papers, web pages, PDFs, and workspace notes.",
+      "tools": [
+        "filesystem-list_allowed_directories",
+        "filesystem-list_directory",
+        "filesystem-read_file",
+        "arxiv_local-search_papers",
+        "scholarly-search-google-scholar",
+        "fetch-fetch_markdown",
+        "filesystem-write_file"
+      ],
+      "tool_calls_range": [
+        7,
+        10
+      ],
+      "mode": "mixed",
+      "env_categories": [
+        "research_workspace"
+      ],
+      "required_checkpoints": [
+        {
+          "tool": "filesystem-list_allowed_directories",
+          "min_count": 1
+        },
+        {
+          "tool": "filesystem-list_directory",
+          "min_count": 1
+        },
+        {
+          "tool": "filesystem-read_file",
+          "min_count": 1
+        },
+        {
+          "tool": "arxiv_local-search_papers",
+          "min_count": 1
+        },
+        {
+          "tool": "scholarly-search-google-scholar",
+          "min_count": 1
+        }
+      ]
+    },
+    {
+      "skill_id": "source-quality-audit",
+      "description": "Audit whether claims are supported by primary sources and record uncertainty.",
+      "tools": [
+        "filesystem-list_allowed_directories",
+        "filesystem-list_directory",
+        "filesystem-read_file",
+        "fetch-fetch_markdown",
+        "scholarly-search-arxiv",
+        "filesystem-write_file"
+      ],
+      "tool_calls_range": [
+        6,
+        9
+      ],
+      "mode": "mixed",
+      "env_categories": [
+        "research_workspace"
+      ],
+      "required_checkpoints": [
+        {
+          "tool": "filesystem-list_allowed_directories",
+          "min_count": 1
+        },
+        {
+          "tool": "filesystem-list_directory",
+          "min_count": 1
+        },
+        {
+          "tool": "filesystem-read_file",
+          "min_count": 1
+        },
+        {
+          "tool": "fetch-fetch_markdown",
+          "min_count": 1
+        },
+        {
+          "tool": "scholarly-search-arxiv",
+          "min_count": 1
+        }
+      ]
+    },
+    {
+      "skill_id": "workspace-research-indexing",
+      "description": "Index the research workspace and create reusable summaries for later tasks.",
+      "tools": [
+        "filesystem-list_allowed_directories",
+        "filesystem-directory_tree",
+        "filesystem-search_files",
+        "filesystem-read_file",
+        "terminal-run_command",
+        "filesystem-write_file"
+      ],
+      "tool_calls_range": [
+        6,
+        9
+      ],
+      "mode": "mixed",
+      "env_categories": [
+        "research_workspace"
+      ],
+      "required_checkpoints": [
+        {
+          "tool": "filesystem-list_allowed_directories",
+          "min_count": 1
+        },
+        {
+          "tool": "filesystem-directory_tree",
+          "min_count": 1
+        },
+        {
+          "tool": "filesystem-search_files",
+          "min_count": 1
+        },
+        {
+          "tool": "filesystem-read_file",
+          "min_count": 1
+        },
+        {
+          "tool": "terminal-run_command",
+          "min_count": 1
+        }
+      ]
+    }
+  ]
+}

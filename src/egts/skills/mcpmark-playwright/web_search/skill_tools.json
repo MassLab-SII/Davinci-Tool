@@ -1,0 +1,59 @@
+{
+  "skills": [
+    {
+      "skill_id": "web-search-profile-birthdate-research",
+      "description": "Research a person's public profile from browser search results and extract a precise biographical fact such as birth year.",
+      "tools": ["browser_navigate", "browser_snapshot", "browser_type", "browser_press_key", "browser_click", "browser_wait_for", "browser_get_text", "browser_evaluate"],
+      "tool_calls_range": [5, 14],
+      "mode": "retrieval",
+      "env_categories": ["web_search"],
+      "task_anchors": ["birth_of_arvinxu"],
+      "required_checkpoints": [
+        {"tool": "browser_type", "min_count": 1},
+        {"tool": "browser_click", "min_count": 1},
+        {"tool": "browser_get_text", "min_count": 1}
+      ]
+    },
+    {
+      "skill_id": "web-search-paper-section-extraction",
+      "description": "Find a research paper through browser search, navigate to the paper text, locate a named section, and extract all paragraphs exactly.",
+      "tools": ["browser_navigate", "browser_snapshot", "browser_type", "browser_press_key", "browser_click", "browser_wait_for", "browser_get_text", "browser_evaluate"],
+      "tool_calls_range": [5, 16],
+      "mode": "retrieval",
+      "env_categories": ["web_search"],
+      "task_anchors": ["r1_arxiv"],
+      "required_checkpoints": [
+        {"tool": "browser_type", "min_count": 1},
+        {"tool": "browser_click", "min_count": 1},
+        {"tool": "browser_get_text", "min_count": 1}
+      ]
+    },
+    {
+      "skill_id": "web-search-multi-source-fact-verification",
+      "description": "Search across multiple candidate pages, compare claims, dates, and snippets, then keep the best-supported fact as grounded evidence.",
+      "tools": ["browser_navigate", "browser_snapshot", "browser_type", "browser_press_key", "browser_click", "browser_wait_for", "browser_get_text", "browser_evaluate"],
+      "tool_calls_range": [5, 16],
+      "mode": "retrieval",
+      "env_categories": ["web_search"],
+      "task_anchors": ["birth_of_arvinxu", "general fact verification"],
+      "required_checkpoints": [
+        {"tool": "browser_type", "min_count": 1},
+        {"tool": "browser_click", "min_count": 1},
+        {"tool": "browser_get_text", "min_count": 1}
+      ]
+    },
+    {
+      "skill_id": "web-search-source-citation-audit",
+      "description": "Audit a source page for headings, citations, outbound links, metadata, and exact text spans supporting the final answer.",
+      "tools": ["browser_navigate", "browser_snapshot", "browser_get_text", "browser_evaluate", "browser_network_requests", "browser_wait_for"],
+      "tool_calls_range": [4, 12],
+      "mode": "retrieval",
+      "env_categories": ["web_search"],
+      "task_anchors": ["r1_arxiv", "general source citation audit"],
+      "required_checkpoints": [
+        {"tool": "browser_get_text", "min_count": 1},
+        {"tool": "browser_evaluate", "min_count": 1}
+      ]
+    }
+  ]
+}

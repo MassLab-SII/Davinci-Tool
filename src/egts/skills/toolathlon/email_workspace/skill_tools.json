@@ -1,0 +1,104 @@
+{
+  "skills": [
+    {
+      "skill_id": "email-attachment-triage",
+      "description": "Inspect mailbox attachments and summarize evidence.",
+      "tools": [
+        "emails-search_emails",
+        "emails-list_emails",
+        "emails-download_attachment",
+        "filesystem-list_directory",
+        "filesystem-read_file",
+        "filesystem-write_file",
+        "pdf-tools-read_pdf_pages",
+        "excel-read_data_from_excel"
+      ],
+      "tool_calls_range": [8, 12],
+      "mode": "mixed",
+      "env_categories": ["email_workspace"],
+      "required_checkpoints": [
+        {"tool": "emails-search_emails", "min_count": 1},
+        {"tool": "emails-download_attachment", "min_count": 1},
+        {"tool": "filesystem-write_file", "min_count": 1}
+      ]
+    },
+    {
+      "skill_id": "mailbox-evidence-collection",
+      "description": "Collect traceable evidence from local mailbox messages.",
+      "tools": [
+        "emails-search_emails",
+        "emails-get_email",
+        "filesystem-list_directory",
+        "filesystem-read_file",
+        "filesystem-write_file"
+      ],
+      "tool_calls_range": [5, 8],
+      "mode": "mixed",
+      "env_categories": ["email_workspace"],
+      "required_checkpoints": [
+        {"tool": "emails-search_emails", "min_count": 1},
+        {"tool": "emails-get_email", "min_count": 1},
+        {"tool": "filesystem-write_file", "min_count": 1}
+      ]
+    },
+    {
+      "skill_id": "recipient-followup-coordination",
+      "description": "Verify recipients and send grounded follow-up emails.",
+      "tools": [
+        "emails-search_emails",
+        "emails-send_email",
+        "filesystem-read_file",
+        "pdf-tools-read_pdf_pages",
+        "excel-read_data_from_excel"
+      ],
+      "tool_calls_range": [5, 9],
+      "mode": "mixed",
+      "env_categories": ["email_workspace"],
+      "required_checkpoints": [
+        {"tool": "emails-search_emails", "min_count": 1},
+        {"tool": "emails-send_email", "min_count": 1},
+        {"tool": "filesystem-read_file", "min_count": 1}
+      ]
+    },
+    {
+      "skill_id": "document-email-briefing",
+      "description": "Combine emails and local documents into a briefing.",
+      "tools": [
+        "emails-search_emails",
+        "emails-get_email",
+        "pdf-tools-read_pdf_pages",
+        "excel-read_data_from_excel",
+        "filesystem-read_file",
+        "filesystem-write_file"
+      ],
+      "tool_calls_range": [6, 10],
+      "mode": "mixed",
+      "env_categories": ["email_workspace"],
+      "required_checkpoints": [
+        {"tool": "emails-get_email", "min_count": 1},
+        {"tool": "filesystem-read_file", "min_count": 1},
+        {"tool": "filesystem-write_file", "min_count": 1}
+      ]
+    },
+    {
+      "skill_id": "local-git-email-debugging",
+      "description": "Debug local repository issues grounded in email reports.",
+      "tools": [
+        "emails-search_emails",
+        "emails-get_email",
+        "git-git_status",
+        "terminal-run_command",
+        "filesystem-read_file",
+        "filesystem-write_file"
+      ],
+      "tool_calls_range": [6, 10],
+      "mode": "mixed",
+      "env_categories": ["email_workspace"],
+      "required_checkpoints": [
+        {"tool": "emails-search_emails", "min_count": 1},
+        {"tool": "git-git_status", "min_count": 1},
+        {"tool": "filesystem-write_file", "min_count": 1}
+      ]
+    }
+  ]
+}

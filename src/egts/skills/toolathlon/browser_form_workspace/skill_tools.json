@@ -1,0 +1,260 @@
+{
+  "skills": [
+    {
+      "skill_id": "grounded-form-filling",
+      "description": "Read local instructions or memory, navigate web forms, fill fields, and verify submission state.",
+      "tools": [
+        "filesystem-list_allowed_directories",
+        "filesystem-list_directory",
+        "filesystem-read_file",
+        "memory-search_nodes",
+        "playwright_with_chunk-browser_navigate",
+        "playwright_with_chunk-browser_snapshot",
+        "playwright_with_chunk-browser_type",
+        "filesystem-write_file"
+      ],
+      "tool_calls_range": [
+        7,
+        11
+      ],
+      "mode": "mixed",
+      "env_categories": [
+        "browser_form_workspace"
+      ],
+      "required_checkpoints": [
+        {
+          "tool": "filesystem-list_allowed_directories",
+          "min_count": 1
+        },
+        {
+          "tool": "filesystem-list_directory",
+          "min_count": 1
+        },
+        {
+          "tool": "filesystem-read_file",
+          "min_count": 1
+        },
+        {
+          "tool": "memory-search_nodes",
+          "min_count": 1
+        },
+        {
+          "tool": "playwright_with_chunk-browser_navigate",
+          "min_count": 1
+        }
+      ]
+    },
+    {
+      "skill_id": "multi-page-web-extraction",
+      "description": "Navigate a website, collect facts across pages, and save a structured evidence file.",
+      "tools": [
+        "filesystem-list_allowed_directories",
+        "filesystem-list_directory",
+        "filesystem-read_file",
+        "fetch-fetch_markdown",
+        "playwright_with_chunk-browser_navigate",
+        "playwright_with_chunk-browser_snapshot",
+        "filesystem-write_file"
+      ],
+      "tool_calls_range": [
+        7,
+        10
+      ],
+      "mode": "mixed",
+      "env_categories": [
+        "browser_form_workspace"
+      ],
+      "required_checkpoints": [
+        {
+          "tool": "filesystem-list_allowed_directories",
+          "min_count": 1
+        },
+        {
+          "tool": "filesystem-list_directory",
+          "min_count": 1
+        },
+        {
+          "tool": "filesystem-read_file",
+          "min_count": 1
+        },
+        {
+          "tool": "fetch-fetch_markdown",
+          "min_count": 1
+        },
+        {
+          "tool": "playwright_with_chunk-browser_navigate",
+          "min_count": 1
+        }
+      ]
+    },
+    {
+      "skill_id": "browser-state-verification",
+      "description": "Use snapshots, text extraction, and screenshots to verify browser task completion.",
+      "tools": [
+        "filesystem-list_allowed_directories",
+        "filesystem-list_directory",
+        "filesystem-read_file",
+        "playwright_with_chunk-browser_snapshot",
+        "playwright_with_chunk-browser_take_screenshot",
+        "filesystem-write_file"
+      ],
+      "tool_calls_range": [
+        6,
+        9
+      ],
+      "mode": "mixed",
+      "env_categories": [
+        "browser_form_workspace"
+      ],
+      "required_checkpoints": [
+        {
+          "tool": "filesystem-list_allowed_directories",
+          "min_count": 1
+        },
+        {
+          "tool": "filesystem-list_directory",
+          "min_count": 1
+        },
+        {
+          "tool": "filesystem-read_file",
+          "min_count": 1
+        },
+        {
+          "tool": "playwright_with_chunk-browser_snapshot",
+          "min_count": 1
+        },
+        {
+          "tool": "playwright_with_chunk-browser_take_screenshot",
+          "min_count": 1
+        }
+      ]
+    },
+    {
+      "skill_id": "web-planning-from-local-constraints",
+      "description": "Combine local files and web pages to make route, meeting, or shopping plans.",
+      "tools": [
+        "filesystem-list_allowed_directories",
+        "filesystem-list_directory",
+        "filesystem-read_file",
+        "fetch-fetch_markdown",
+        "playwright_with_chunk-browser_navigate",
+        "filesystem-write_file"
+      ],
+      "tool_calls_range": [
+        6,
+        9
+      ],
+      "mode": "mixed",
+      "env_categories": [
+        "browser_form_workspace"
+      ],
+      "required_checkpoints": [
+        {
+          "tool": "filesystem-list_allowed_directories",
+          "min_count": 1
+        },
+        {
+          "tool": "filesystem-list_directory",
+          "min_count": 1
+        },
+        {
+          "tool": "filesystem-read_file",
+          "min_count": 1
+        },
+        {
+          "tool": "fetch-fetch_markdown",
+          "min_count": 1
+        },
+        {
+          "tool": "playwright_with_chunk-browser_navigate",
+          "min_count": 1
+        }
+      ]
+    },
+    {
+      "skill_id": "memory-backed-profile-entry",
+      "description": "Retrieve stored profile facts and apply them accurately in browser workflows.",
+      "tools": [
+        "filesystem-list_allowed_directories",
+        "filesystem-list_directory",
+        "filesystem-read_file",
+        "memory-search_nodes",
+        "playwright_with_chunk-browser_type",
+        "filesystem-write_file"
+      ],
+      "tool_calls_range": [
+        6,
+        9
+      ],
+      "mode": "mixed",
+      "env_categories": [
+        "browser_form_workspace"
+      ],
+      "required_checkpoints": [
+        {
+          "tool": "filesystem-list_allowed_directories",
+          "min_count": 1
+        },
+        {
+          "tool": "filesystem-list_directory",
+          "min_count": 1
+        },
+        {
+          "tool": "filesystem-read_file",
+          "min_count": 1
+        },
+        {
+          "tool": "memory-search_nodes",
+          "min_count": 1
+        },
+        {
+          "tool": "playwright_with_chunk-browser_type",
+          "min_count": 1
+        }
+      ]
+    },
+    {
+      "skill_id": "web-error-recovery-and-retry",
+      "description": "Recover from missing fields, stale pages, or navigation failures with alternate browser actions.",
+      "tools": [
+        "filesystem-list_allowed_directories",
+        "filesystem-list_directory",
+        "filesystem-read_file",
+        "playwright_with_chunk-browser_snapshot",
+        "playwright_with_chunk-browser_wait_for",
+        "playwright_with_chunk-browser_navigate",
+        "filesystem-write_file"
+      ],
+      "tool_calls_range": [
+        7,
+        10
+      ],
+      "mode": "mixed",
+      "env_categories": [
+        "browser_form_workspace"
+      ],
+      "required_checkpoints": [
+        {
+          "tool": "filesystem-list_allowed_directories",
+          "min_count": 1
+        },
+        {
+          "tool": "filesystem-list_directory",
+          "min_count": 1
+        },
+        {
+          "tool": "filesystem-read_file",
+          "min_count": 1
+        },
+        {
+          "tool": "playwright_with_chunk-browser_snapshot",
+          "min_count": 1
+        },
+        {
+          "tool": "playwright_with_chunk-browser_wait_for",
+          "min_count": 1
+        }
+      ]
+    }
+  ]
+}

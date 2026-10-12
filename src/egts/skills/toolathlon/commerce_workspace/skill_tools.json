@@ -1,0 +1,81 @@
+{
+  "skills": [
+    {
+      "skill_id": "product-catalog-maintenance",
+      "description": "Inspect and update WooCommerce product catalog records.",
+      "tools": [
+        "woocommerce-list_products",
+        "woocommerce-get_product",
+        "woocommerce-update_product",
+        "filesystem-list_directory",
+        "filesystem-read_file"
+      ],
+      "tool_calls_range": [5, 8],
+      "mode": "mutation",
+      "env_categories": ["commerce_workspace"],
+      "required_checkpoints": [
+        {"tool": "woocommerce-list_products", "min_count": 1},
+        {"tool": "woocommerce-get_product", "min_count": 1},
+        {"tool": "woocommerce-update_product", "min_count": 1}
+      ]
+    },
+    {
+      "skill_id": "inventory-and-order-reconciliation",
+      "description": "Reconcile product inventory and order evidence.",
+      "tools": [
+        "woocommerce-list_products",
+        "woocommerce-list_orders",
+        "woocommerce-update_product",
+        "filesystem-read_file",
+        "filesystem-write_file"
+      ],
+      "tool_calls_range": [6, 10],
+      "mode": "mixed",
+      "env_categories": ["commerce_workspace"],
+      "required_checkpoints": [
+        {"tool": "woocommerce-list_products", "min_count": 1},
+        {"tool": "woocommerce-list_orders", "min_count": 1},
+        {"tool": "filesystem-write_file", "min_count": 1}
+      ]
+    },
+    {
+      "skill_id": "customer-email-commerce-followup",
+      "description": "Send customer follow-up based on WooCommerce state.",
+      "tools": [
+        "woocommerce-list_orders",
+        "woocommerce-get_order",
+        "woocommerce-list_products",
+        "woocommerce-get_product",
+        "emails-send_email",
+        "emails-search_emails"
+      ],
+      "tool_calls_range": [6, 10],
+      "mode": "mixed",
+      "env_categories": ["commerce_workspace"],
+      "required_checkpoints": [
+        {"tool": "woocommerce-list_orders", "min_count": 1},
+        {"tool": "woocommerce-get_order", "min_count": 1},
+        {"tool": "emails-send_email", "min_count": 1}
+      ]
+    },
+    {
+      "skill_id": "storefront-content-update",
+      "description": "Update and verify storefront product content.",
+      "tools": [
+        "woocommerce-list_products",
+        "woocommerce-get_product",
+        "woocommerce-update_product",
+        "filesystem-list_directory",
+        "filesystem-read_file"
+      ],
+      "tool_calls_range": [5, 8],
+      "mode": "mutation",
+      "env_categories": ["commerce_workspace"],
+      "required_checkpoints": [
+        {"tool": "woocommerce-list_products", "min_count": 1},
+        {"tool": "woocommerce-get_product", "min_count": 1},
+        {"tool": "woocommerce-update_product", "min_count": 1}
+      ]
+    }
+  ]
+}

@@ -1,0 +1,179 @@
+{
+  "skills": [
+    {
+      "skill_id": "thermodynamic-phase-transitions",
+      "description": "Heat or cool substances to trigger phase transitions (melt, boil, freeze), then measure temperature with a thermometer to determine melting/boiling points of known and unknown substances. Core thermodynamics workflow unifying Matter and Measurement benchmark tasks.",
+      "tools": [
+        "look_around",
+        "look_at_object",
+        "look_in_container",
+        "check_inventory",
+        "get_task_description",
+        "go_to_location",
+        "open_object",
+        "pick_up_object",
+        "put_down_object",
+        "move_object_to_container",
+        "pour_object_into_container",
+        "activate_device",
+        "deactivate_device",
+        "use_object_on_object",
+        "wait_time",
+        "focus_on_object"
+      ],
+      "tool_calls_range": [8, 18],
+      "mode": "mutation",
+      "env_categories": null,
+      "required_checkpoints": [
+        {"tool": "pick_up_object", "min_count": 2},
+        {"tool": "activate_device", "min_count": 1},
+        {"tool": "use_object_on_object", "min_count": 2},
+        {"tool": "wait_time", "min_count": 2},
+        {"tool": "focus_on_object", "min_count": 1}
+      ]
+    },
+    {
+      "skill_id": "electrical-circuit-experiments",
+      "description": "Build complete electrical circuits by connecting batteries, wires, and components; test conductivity of known and unknown materials by swapping them into the circuit; compare renewable and non-renewable power sources.",
+      "tools": [
+        "look_around",
+        "look_at_object",
+        "look_in_container",
+        "check_inventory",
+        "get_task_description",
+        "go_to_location",
+        "open_object",
+        "pick_up_object",
+        "put_down_object",
+        "connect_objects",
+        "disconnect_object",
+        "activate_device",
+        "deactivate_device",
+        "use_object_on_object",
+        "focus_on_object"
+      ],
+      "tool_calls_range": [8, 18],
+      "mode": "mutation",
+      "env_categories": null,
+      "required_checkpoints": [
+        {"tool": "pick_up_object", "min_count": 2},
+        {"tool": "connect_objects", "min_count": 2},
+        {"tool": "focus_on_object", "min_count": 1}
+      ]
+    },
+    {
+      "skill_id": "organism-search-identification",
+      "description": "Navigate the environment to find and identify organisms by their observable characteristics — distinguish living from non-living, plants from animals, and compare organisms by traits including lifespan extremes. Pure observation and navigation workflow.",
+      "tools": [
+        "look_around",
+        "look_at_object",
+        "look_in_container",
+        "check_inventory",
+        "get_task_description",
+        "go_to_location",
+        "open_object",
+        "pick_up_object",
+        "focus_on_object"
+      ],
+      "tool_calls_range": [5, 12],
+      "mode": "retrieval",
+      "env_categories": null,
+      "required_checkpoints": [
+        {"tool": "go_to_location", "min_count": 2},
+        {"tool": "look_at_object", "min_count": 2},
+        {"tool": "focus_on_object", "min_count": 1}
+      ]
+    },
+    {
+      "skill_id": "chemical-mixing-formulation",
+      "description": "Mix substances and paints to create new colors or chemical products — pour liquids and pigments into a common vessel, combine primary colors to make secondary/tertiary colors, mix chemicals to trigger reactions, and verify the resulting product.",
+      "tools": [
+        "look_around",
+        "look_at_object",
+        "look_in_container",
+        "check_inventory",
+        "get_task_description",
+        "go_to_location",
+        "open_object",
+        "pick_up_object",
+        "pour_object_into_container",
+        "mix_objects",
+        "focus_on_object"
+      ],
+      "tool_calls_range": [6, 14],
+      "mode": "mutation",
+      "env_categories": null,
+      "required_checkpoints": [
+        {"tool": "pour_object_into_container", "min_count": 2},
+        {"tool": "mix_objects", "min_count": 1},
+        {"tool": "focus_on_object", "min_count": 1}
+      ]
+    },
+    {
+      "skill_id": "organism-cultivation-breeding",
+      "description": "Grow organisms from seed through complete lifecycles — prepare soil, plant seeds, water, provide light, wait for growth stages, observe development from seedling to mature adult, harvest fruit, and for genetics tasks cross-breed plants across generations to deduce inherited traits.",
+      "tools": [
+        "look_around",
+        "look_at_object",
+        "look_in_container",
+        "check_inventory",
+        "get_task_description",
+        "go_to_location",
+        "open_object",
+        "close_object",
+        "pick_up_object",
+        "put_down_object",
+        "move_object_to_container",
+        "pour_object_into_container",
+        "activate_device",
+        "deactivate_device",
+        "use_object_on_object",
+        "wait_time",
+        "focus_on_object",
+        "eat_food"
+      ],
+      "tool_calls_range": [12, 24],
+      "mode": "mutation",
+      "env_categories": null,
+      "required_checkpoints": [
+        {"tool": "pick_up_object", "min_count": 2},
+        {"tool": "move_object_to_container", "min_count": 3},
+        {"tool": "pour_object_into_container", "min_count": 2},
+        {"tool": "activate_device", "min_count": 2},
+        {"tool": "wait_time", "min_count": 5},
+        {"tool": "look_around", "min_count": 3},
+        {"tool": "focus_on_object", "min_count": 1}
+      ]
+    },
+    {
+      "skill_id": "force-friction-measurement",
+      "description": "Set up inclined planes and measure friction coefficients for different surfaces — adjust plane angles, observe when objects begin to slide, determine critical angles, and compare frictional properties across named and unknown surfaces through systematic visual observation.",
+      "tools": [
+        "look_around",
+        "look_at_object",
+        "look_in_container",
+        "check_inventory",
+        "get_task_description",
+        "go_to_location",
+        "open_object",
+        "pick_up_object",
+        "put_down_object",
+        "move_object_to_container",
+        "activate_device",
+        "deactivate_device",
+        "use_object_on_object",
+        "wait_time",
+        "focus_on_object"
+      ],
+      "tool_calls_range": [12, 24],
+      "mode": "mutation",
+      "env_categories": null,
+      "required_checkpoints": [
+        {"tool": "look_at_object", "min_count": 10},
+        {"tool": "pick_up_object", "min_count": 1},
+        {"tool": "move_object_to_container", "min_count": 1},
+        {"tool": "focus_on_object", "min_count": 1}
+      ]
+    }
+  ]
+}

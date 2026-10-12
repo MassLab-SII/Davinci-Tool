@@ -1,0 +1,60 @@
+{
+  "skills": [
+    {
+      "skill_id": "eval-web-table-csv-extraction",
+      "description": "Extract complete table/card data from eval-web pages and format it as exact CSV evidence.",
+      "tools": ["browser_navigate", "browser_snapshot", "browser_get_text", "browser_evaluate", "browser_wait_for"],
+      "tool_calls_range": [4, 12],
+      "mode": "retrieval",
+      "env_categories": ["eval_web"],
+      "task_anchors": ["extraction_table"],
+      "required_checkpoints": [
+        {"tool": "browser_navigate", "min_count": 1},
+        {"tool": "browser_snapshot", "min_count": 1},
+        {"tool": "browser_evaluate", "min_count": 1}
+      ]
+    },
+    {
+      "skill_id": "eval-web-turnstile-auth-flow",
+      "description": "Complete eval-web authentication forms with Turnstile-like challenge observation, submit, and verify inline success state.",
+      "tools": ["browser_navigate", "browser_snapshot", "browser_click", "browser_type", "browser_wait_for", "browser_get_text", "browser_take_screenshot"],
+      "tool_calls_range": [5, 14],
+      "mode": "mutation",
+      "env_categories": ["eval_web"],
+      "task_anchors": ["cloudflare_turnstile_challenge"],
+      "required_checkpoints": [
+        {"tool": "browser_type", "min_count": 1},
+        {"tool": "browser_click", "min_count": 1},
+        {"tool": "browser_get_text", "min_count": 1}
+      ]
+    },
+    {
+      "skill_id": "eval-web-form-state-validation",
+      "description": "Interact with ordinary web forms, selectors, buttons, and inline result areas, then verify resulting DOM text or input state.",
+      "tools": ["browser_navigate", "browser_snapshot", "browser_click", "browser_type", "browser_press_key", "browser_wait_for", "browser_get_text", "browser_evaluate"],
+      "tool_calls_range": [5, 15],
+      "mode": "mutation",
+      "env_categories": ["eval_web"],
+      "task_anchors": ["cloudflare_turnstile_challenge", "general web form validation"],
+      "required_checkpoints": [
+        {"tool": "browser_type", "min_count": 1},
+        {"tool": "browser_click", "min_count": 1},
+        {"tool": "browser_evaluate", "min_count": 1}
+      ]
+    },
+    {
+      "skill_id": "eval-web-dom-visual-diagnostic-audit",
+      "description": "Audit page load, visual state, console/network diagnostics, and DOM structure for web pages where success depends on state observation.",
+      "tools": ["browser_navigate", "browser_snapshot", "browser_take_screenshot", "browser_console_messages", "browser_network_requests", "browser_get_text", "browser_evaluate", "browser_wait_for"],
+      "tool_calls_range": [4, 14],
+      "mode": "retrieval",
+      "env_categories": ["eval_web"],
+      "task_anchors": ["cloudflare_turnstile_challenge", "extraction_table", "general UI diagnostics"],
+      "required_checkpoints": [
+        {"tool": "browser_snapshot", "min_count": 1},
+        {"tool": "browser_take_screenshot", "min_count": 1},
+        {"tool": "browser_console_messages", "min_count": 1}
+      ]
+    }
+  ]
+}

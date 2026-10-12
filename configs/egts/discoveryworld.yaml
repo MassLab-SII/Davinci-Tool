@@ -1,0 +1,240 @@
+# EGTS Configuration — DiscoveryWorld Executable World
+#
+# Usage:
+#   PYTHONPATH=src/egts python src/egts/data_collection/main.py --config configs/egts/discoveryworld.yaml
+#
+# Design intent:
+#   - 8 professional-grade scientific discovery topics across 3 difficulties.
+#   - Collection-only EGTS config: collect grounded raw trajectories first.
+#   - Uses the unified prompts/ package; DiscoveryWorld world context enters through
+#     task.world_context, server reset metadata, tool schemas, and state evidence.
+
+maas:
+  default:
+    base_url: "${EXPLORATION_MODEL_BASE_URL}"
+    api_key: "${EXPLORATION_MODEL_API_KEY}"
+    temperature: 0.8
+    max_tokens: 100000
+  models:
+    trajectory_collection:
+      model: "${EXPLORATION_MODEL_NAME}"
+      base_url: "${EXPLORATION_MODEL_BASE_URL}"
+      api_key: "${EXPLORATION_MODEL_API_KEY}"
+      temperature: 1.0
+      thinking: "disabled"
+    nl_rewrite:
+      model: "${WRITER_MODEL_NAME}"
+      base_url: "${WRITER_MODEL_BASE_URL}"
+      api_key: "${WRITER_MODEL_API_KEY}"
+      temperature: 0.7
+      thinking: "disabled"
+    judge:
+      model: "${JUDGE_MODEL_NAME}"
+      base_url: "${JUDGE_MODEL_BASE_URL}"
+      api_key: "${JUDGE_MODEL_API_KEY}"
+      temperature: 0.1
+      thinking: "disabled"
+
+
+execution_mode: "local"
+
+local:
+  workspace_root: "./workspaces-discoveryworld"
+  cleanup_on_success: true
+  cleanup_on_failure: false
+
+docker: {}
+
+http_mcp_servers:
+  discoveryworld_world:
+    url: "http://127.0.0.1:30004/mcp"
+    headers: {}
+    timeout: 90
+    metadata:
+      prompt_domain: "discoveryworld"
+      output_namespace: "discoveryworld"
+
+stdio_mcp_servers: {}
+
+pipeline:
+  exp_name: "exp_discoveryworld"
+  num_iterations: 2000
+  num_workers: 1
+  output_dir: "./output/exploration_worlds/deepseekv4"
+  save_failed: true
+
+trajs2data:
+  language: "en"
+  max_attempts: 3
+  save_filtered: true
+  exploration_system_prompt: null
+  synthesis_in_collection: false
+  replay_synthesis:
+    enabled: true
+    max_problem_candidates: 3
+    max_replay_attempts: 2
+    min_quality_tier: "acceptable"
+    tool_sequence_selection: "heuristic"
+    verify_final_state: true
+    save_failed_replays: true
+    max_selected_tool_calls: 12
+    max_selected_mutations: 10
+    harness_mode: "full"
+    harness_max_retries_per_step: 2
+    harness_model: "trajectory_collection"
+    harness_fallback_threshold: 0.5
+    preserve_failure_recovery_chains: true
+    dependency_relevance_filter: true
+    llm_problem_synthesis: true
+    max_dependency_distance: 5
+    polish_enabled: true
+    polish_model: "judge_model"
+    enable_quality_judge: true
+  task:
+    task_type: "discoveryworld"
+    required_servers: ["discoveryworld_world"]
+    primary_server: "discoveryworld_world"
+    prompt_domain: "discoveryworld"
+    output_namespace: "discoveryworld"
+
+    max_steps: 90
+    n_tools_min: 8
+    n_tools_max: 20
+
+    world_context:
+      engine: "EGTS"
+      domain: "DiscoveryWorld professional-grade scientific discovery simulation"
+      exploration_objective: "collect grounded scientific experiment trajectories across 8 professional topics — radiometric dating, chemical formula discovery, plant nutrition optimization, protein expression profiling, reactor relationship modeling, alien language translation, pathogen identification, and orbital mechanics mission planning"
+      operator_role: "professional research scientist"
+      observable_state: "2D grid location, accessible objects with UUIDs, inventory, device status, discovery feed, dialog state, and experimental measurements exposed by observation and instrument tools"
+      evidence_policy: "inspect environment state before action and verify meaningful state changes (position changes, inventory changes, score changes, measurement results, dialog progression) when possible"
+
+    # Tools are dynamically loaded from the server per episode.
+    read_only_tools: []
+    read_only_tools_priority: []
+    tool_metadata: {}
+
+  tool_curriculum:
+    selection_strategy: "progressive"
+
+    base_tools: []
+    anchor_tools: null
+
+    stages:
+      # Stage 1: Random tool exposure — breadth exploration
+      - name: "stage1_random_tool"
+        enabled: true
+        weight: 1.0
+        description: "Random tool exposure breadth exploration"
+        difficulty_tiers:
+          - tier: "simple"
+            weight: 0.10
+            tool_count_min: 6
+            tool_count_max: 8
+            target_n_min: 5
+            target_n_max: 8
+            min_distinct_tools: 3
+            tool_pool: "base_only"
+            anchor_count: 0
+          - tier: "medium"
+            weight: 0.25
+            tool_count_min: 8
+            tool_count_max: 12
+            target_n_min: 5
+            target_n_max: 15
+            min_distinct_tools: 4
+            tool_pool: "base_plus_anchor"
+            anchor_count: 2
+          - tier: "hard"
+            weight: 0.35
+            tool_count_min: 10
+            tool_count_max: 18
+            target_n_min: 8
+            target_n_max: 20
+            min_distinct_tools: 5
+            tool_pool: "all"
+            anchor_count: 0
+
+      # Stage 2: Skill-guided deep exploration
+      - name: "stage2_skill_guided"
+        enabled: true
+        weight: 0.30
+        description: "Skill-guided deep exploration"
+        n_min: 8
+        n_max: 20
+        min_distinct_tools: 3
+
+    # Skill-guided exploration parameters
+    skill_guided:
+      enabled: true
+      skills_dir: "src/egts/skills/discoveryworld"
+      skills_json: "skill_tools.json"
+      skills_min: 1
+      skills_max: 3
+      skill_selection_strategy: "coverage_weighted"
+      max_steps_per_skill: 30
+
+    # Coverage tracking
+    coverage:
+      min_success_per_tool: 10
+      strategy: "balanced"
+      track_file: "coverage.json"
+      rebalance_interval: 50
+
+  filters:
+    min_steps: 2
+    min_changes: 0
+    max_changes: 100
+
+  deduplication:
+    enabled: false
+
+  recoverable:
+    enabled: true
+    max_failures: 8
+    max_failures_per_tool: 4
+    max_retries_before_rollback: 3
+    enable_filesystem_snapshots: false
+
+  replay_verification:
+    enabled: false
+
+  self_questioning:
+    enabled: false
+    num_candidates: 3
+    novelty_weight: 0.6
+    coverage_weight: 0.4
+    use_embeddings: false
+
+  efficiency_monitor:
+    enabled: true
+    min_success_rate: 0.1
+    window_size: 20
+    auto_adjust: true
+    reduce_target_n_on_low_rate: true
+    target_n_reduction_step: 2
+    min_target_n: 3
+
+  hindsight:
+    enabled: false
+    rewrite_thoughts: false
+
+  data_synthesis:
+    max_problem_refine_loops: 3
+    max_trajectory_refine_loops: 3
+    require_planning_step: true
+    require_final_answer: true
+
+  experience_manager:
+    enabled: true
+    store_path: "experience_store_discoveryworld.json"
+    max_skills: 500
+    similarity_threshold: 0.85
+    retrieve_top_k: 5
+    extract_on_success: true
+    inject_to_prompt: true
+
+logging:
+  level: "INFO"
+  format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+  file: "collect_discoveryworld.log"

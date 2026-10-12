@@ -1,0 +1,342 @@
+{
+  "skills": [
+    {
+      "skill_id": "project-scaffolding",
+      "description": "Build a complete, well-structured project from scratch with multi-level directories, config files, source code templates with cross-file references, and documentation.",
+      "tools": [
+        "list_allowed_directories",
+        "list_directory",
+        "create_directory",
+        "write_file",
+        "directory_tree"
+      ],
+      "tool_calls_range": [8, 15],
+      "mode": "mutation",
+      "env_categories": null,
+      "required_checkpoints": [
+        {"tool": "create_directory", "min_count": 2},
+        {"tool": "write_file", "min_count": 2},
+        {"tool": "directory_tree", "min_count": 1}
+      ]
+    },
+    {
+      "skill_id": "systematic-file-editing",
+      "description": "Systematically edit content across multiple files — search targets, read to understand patterns, execute precise edits (renaming, extracting shared content, applying uniform changes), and verify consistency.",
+      "tools": [
+        "list_allowed_directories",
+        "list_directory",
+        "directory_tree",
+        "search_files",
+        "read_multiple_files",
+        "read_text_file",
+        "edit_file",
+        "write_file"
+      ],
+      "tool_calls_range": [8, 15],
+      "mode": "mutation",
+      "env_categories": null,
+      "required_checkpoints": [
+        {"tool": "search_files", "min_count": 1},
+        {"tool": "read_multiple_files", "min_count": 1},
+        {"tool": "edit_file", "min_count": 2},
+        {"tool": "write_file", "min_count": 1}
+      ]
+    },
+    {
+      "skill_id": "workspace-reorganization",
+      "description": "Analyze a messy workspace and systematically reorganize files into a clean directory structure by type/purpose, with migration and a reorganization report.",
+      "tools": [
+        "directory_tree",
+        "search_files",
+        "list_directory_with_sizes",
+        "read_text_file",
+        "read_multiple_files",
+        "create_directory",
+        "move_file",
+        "write_file"
+      ],
+      "tool_calls_range": [10, 20],
+      "mode": "mutation",
+      "env_categories": null,
+      "required_checkpoints": [
+        {"tool": "directory_tree", "min_count": 1},
+        {"tool": "create_directory", "min_count": 2},
+        {"tool": "move_file", "min_count": 2},
+        {"tool": "write_file", "min_count": 1}
+      ]
+    },
+    {
+      "skill_id": "project-migration",
+      "description": "Migrate a project from one directory structure to another, moving files and updating all internal references to maintain consistency.",
+      "tools": [
+        "directory_tree",
+        "search_files",
+        "read_multiple_files",
+        "read_text_file",
+        "create_directory",
+        "move_file",
+        "edit_file"
+      ],
+      "tool_calls_range": [12, 20],
+      "mode": "mutation",
+      "env_categories": null,
+      "required_checkpoints": [
+        {"tool": "read_multiple_files", "min_count": 1},
+        {"tool": "create_directory", "min_count": 2},
+        {"tool": "move_file", "min_count": 2},
+        {"tool": "edit_file", "min_count": 2},
+        {"tool": "directory_tree", "min_count": 1}
+      ]
+    },
+    {
+      "skill_id": "documentation-generation",
+      "description": "Systematically read any collection of files and directory structure, then generate comprehensive documentation that accurately reflects the actual content — works with code projects, data collections, configuration systems, content repositories, or any structured file collection.",
+      "tools": [
+        "directory_tree",
+        "search_files",
+        "read_multiple_files",
+        "read_text_file",
+        "write_file"
+      ],
+      "tool_calls_range": [8, 15],
+      "mode": "mutation",
+      "env_categories": null,
+      "required_checkpoints": [
+        {"tool": "directory_tree", "min_count": 1},
+        {"tool": "read_multiple_files", "min_count": 1},
+        {"tool": "write_file", "min_count": 2}
+      ]
+    },
+    {
+      "skill_id": "config-management",
+      "description": "Manage multi-environment configurations — analyze existing configs, derive environment variants, synchronize shared fields, and produce a config guide.",
+      "tools": [
+        "search_files",
+        "read_multiple_files",
+        "read_text_file",
+        "create_directory",
+        "write_file",
+        "edit_file",
+        "directory_tree"
+      ],
+      "tool_calls_range": [10, 15],
+      "mode": "mutation",
+      "env_categories": ["threestudio", "votenet"],
+      "required_checkpoints": [
+        {"tool": "read_multiple_files", "min_count": 1},
+        {"tool": "create_directory", "min_count": 1},
+        {"tool": "write_file", "min_count": 2},
+        {"tool": "edit_file", "min_count": 2}
+      ]
+    },
+    {
+      "skill_id": "content-transformation",
+      "description": "Transform file contents — split large files into equal parts, merge multiple files into one, convert text (uppercase, formatting), and count words or characters across files.",
+      "tools": [
+        "list_allowed_directories",
+        "list_directory",
+        "list_directory_with_sizes",
+        "search_files",
+        "read_text_file",
+        "read_multiple_files",
+        "create_directory",
+        "write_file"
+      ],
+      "tool_calls_range": [8, 18],
+      "mode": "mutation",
+      "env_categories": null,
+      "required_checkpoints": [
+        {"tool": "read_text_file", "min_count": 1},
+        {"tool": "create_directory", "min_count": 1},
+        {"tool": "write_file", "min_count": 2}
+      ]
+    },
+    {
+      "skill_id": "file-dedup-and-search",
+      "description": "Find duplicate files by comparing content across a directory, search for pattern matches across files, and organize results.",
+      "tools": [
+        "list_allowed_directories",
+        "list_directory",
+        "search_files",
+        "read_text_file",
+        "read_multiple_files",
+        "list_directory_with_sizes",
+        "create_directory",
+        "move_file",
+        "write_file"
+      ],
+      "tool_calls_range": [8, 18],
+      "mode": "mutation",
+      "env_categories": null,
+      "required_checkpoints": [
+        {"tool": "read_multiple_files", "min_count": 2},
+        {"tool": "create_directory", "min_count": 1},
+        {"tool": "move_file", "min_count": 2},
+        {"tool": "write_file", "min_count": 1}
+      ]
+    },
+    {
+      "skill_id": "metadata-classification",
+      "description": "Classify and organize files based on their metadata properties — sort by file size, organize by timestamps, rename files based on attributes, and generate classification reports.",
+      "tools": [
+        "list_allowed_directories",
+        "list_directory",
+        "list_directory_with_sizes",
+        "get_file_info",
+        "create_directory",
+        "move_file",
+        "write_file",
+        "read_text_file"
+      ],
+      "tool_calls_range": [8, 16],
+      "mode": "mutation",
+      "env_categories": null,
+      "required_checkpoints": [
+        {"tool": "get_file_info", "min_count": 2},
+        {"tool": "create_directory", "min_count": 2},
+        {"tool": "move_file", "min_count": 2},
+        {"tool": "write_file", "min_count": 1}
+      ]
+    },
+    {
+      "skill_id": "file-content-analysis",
+      "description": "Analyze file contents to identify patterns, diagnose issues, extract insights, and generate reports — works on any file types including logs, configs, data files, and documents.",
+      "tools": [
+        "list_allowed_directories",
+        "list_directory",
+        "directory_tree",
+        "search_files",
+        "list_directory_with_sizes",
+        "get_file_info",
+        "read_multiple_files",
+        "read_text_file",
+        "edit_file",
+        "write_file"
+      ],
+      "tool_calls_range": [8, 16],
+      "mode": "mutation",
+      "env_categories": null,
+      "required_checkpoints": [
+        {"tool": "search_files", "min_count": 2},
+        {"tool": "read_multiple_files", "min_count": 2},
+        {"tool": "edit_file", "min_count": 2},
+        {"tool": "write_file", "min_count": 1}
+      ]
+    },
+    {
+      "skill_id": "folder-deep-analysis",
+      "description": "Perform deep recursive analysis of folder structures — count files and folders at each depth, calculate total sizes, classify by extension, find deepest paths, and optionally mirror directory structures.",
+      "tools": [
+        "list_allowed_directories",
+        "list_directory",
+        "directory_tree",
+        "list_directory_with_sizes",
+        "get_file_info",
+        "create_directory",
+        "write_file"
+      ],
+      "tool_calls_range": [8, 18],
+      "mode": "mutation",
+      "env_categories": null,
+      "required_checkpoints": [
+        {"tool": "directory_tree", "min_count": 1},
+        {"tool": "list_directory_with_sizes", "min_count": 2},
+        {"tool": "get_file_info", "min_count": 2},
+        {"tool": "write_file", "min_count": 2}
+      ]
+    },
+    {
+      "skill_id": "structured-data-extraction",
+      "description": "Parse and extract structured data from files in various formats — identify repeating record patterns, extract fields from HTML/CSV/text/JSON files, deduplicate entries, aggregate by categories, and generate organized outputs with index files and summary reports.",
+      "tools": [
+        "list_allowed_directories",
+        "list_directory",
+        "search_files",
+        "directory_tree",
+        "read_text_file",
+        "read_multiple_files",
+        "create_directory",
+        "move_file",
+        "write_file"
+      ],
+      "tool_calls_range": [10, 22],
+      "mode": "mutation",
+      "env_categories": ["papers", "student_database", "desktop", "desktop_template"],
+      "required_checkpoints": [
+        {"tool": "read_text_file", "min_count": 2},
+        {"tool": "read_multiple_files", "min_count": 2},
+        {"tool": "create_directory", "min_count": 2},
+        {"tool": "write_file", "min_count": 2}
+      ]
+    },
+    {
+      "skill_id": "version-comparison",
+      "description": "Analyze multiple versions of any document or file to track changes, extract embedded comments and annotations, identify per-contributor modifications across versions, and generate structured comparison reports.",
+      "tools": [
+        "list_allowed_directories",
+        "list_directory",
+        "search_files",
+        "read_text_file",
+        "read_multiple_files",
+        "write_file"
+      ],
+      "tool_calls_range": [8, 16],
+      "mode": "mutation",
+      "env_categories": ["legal_document"],
+      "required_checkpoints": [
+        {"tool": "read_multiple_files", "min_count": 2},
+        {"tool": "read_text_file", "min_count": 2},
+        {"tool": "write_file", "min_count": 1}
+      ]
+    },
+    {
+      "skill_id": "data-aggregation-reporting",
+      "description": "Collect and aggregate data from diverse file sources scattered across a workspace — scan files of various types, extract target information (numerical values, records, attributes, metadata), perform calculations (totals, averages, counts, rankings), and generate structured summary reports.",
+      "tools": [
+        "list_allowed_directories",
+        "list_directory",
+        "search_files",
+        "list_directory_with_sizes",
+        "get_file_info",
+        "read_text_file",
+        "read_multiple_files",
+        "create_directory",
+        "write_file"
+      ],
+      "tool_calls_range": [10, 20],
+      "mode": "mutation",
+      "env_categories": ["desktop", "desktop_template"],
+      "required_checkpoints": [
+        {"tool": "read_multiple_files", "min_count": 2},
+        {"tool": "read_text_file", "min_count": 2},
+        {"tool": "create_directory", "min_count": 1},
+        {"tool": "write_file", "min_count": 1}
+      ]
+    },
+    {
+      "skill_id": "semantic-content-classification",
+      "description": "Intelligently classify and organize files based on semantic understanding of their content — analyze document topics, identify thematic patterns, categorize by subject matter, and organize files into meaningful groups.",
+      "tools": [
+        "list_allowed_directories",
+        "list_directory",
+        "directory_tree",
+        "search_files",
+        "read_multiple_files",
+        "read_text_file",
+        "create_directory",
+        "move_file",
+        "write_file"
+      ],
+      "tool_calls_range": [10, 22],
+      "mode": "mutation",
+      "env_categories": ["papers", "legal_document", "student_database", "desktop", "desktop_template", "threestudio", "votenet"],
+      "required_checkpoints": [
+        {"tool": "read_text_file", "min_count": 2},
+        {"tool": "read_multiple_files", "min_count": 2},
+        {"tool": "create_directory", "min_count": 2},
+        {"tool": "move_file", "min_count": 2},
+        {"tool": "write_file", "min_count": 2}
+      ]
+    }
+  ]
+}

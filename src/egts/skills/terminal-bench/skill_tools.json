@@ -1,0 +1,198 @@
+{
+  "skills": [
+    {
+      "skill_id": "file-system-exploration",
+      "description": "Explore the file system workspace by listing directories, reading files, searching for patterns, and analyzing file structures. Read-only investigation.",
+      "tools": ["list_directory", "read_file", "search_content", "search_files", "get_directory_tree"],
+      "tool_calls_range": [3, 8],
+      "mode": "retrieval",
+      "env_categories": null,
+      "required_checkpoints": [
+        {"tool": "list_directory", "min_count": 1, "alternatives": ["get_directory_tree"]},
+        {"tool": "read_file", "min_count": 1, "alternatives": ["search_content"]}
+      ]
+    },
+    {
+      "skill_id": "file-system-manipulation",
+      "description": "Create, write, move, copy, and delete files and directories. Build nested directory structures and populate them with content.",
+      "tools": ["list_directory", "read_file", "write_file", "execute_command", "search_files"],
+      "tool_calls_range": [3, 8],
+      "mode": "mutation",
+      "env_categories": null,
+      "required_checkpoints": [
+        {"tool": "list_directory", "min_count": 1},
+        {"tool": "write_file", "min_count": 1, "alternatives": ["execute_command"]}
+      ]
+    },
+    {
+      "skill_id": "file-deduplication",
+      "description": "Find and remove duplicate files by comparing content hashes. Identify redundant copies, verify uniqueness, and clean up storage.",
+      "tools": ["search_files", "read_file", "execute_command", "list_directory", "search_content"],
+      "tool_calls_range": [4, 10],
+      "mode": "mutation",
+      "env_categories": null,
+      "required_checkpoints": [
+        {"tool": "search_files", "min_count": 1, "alternatives": ["list_directory"]},
+        {"tool": "execute_command", "min_count": 1, "alternatives": ["read_file"]}
+      ]
+    },
+    {
+      "skill_id": "batch-rename",
+      "description": "Rename and reorganize multiple files in the workspace following naming conventions. Use pattern matching, substitution, and batch move operations.",
+      "tools": ["list_directory", "search_files", "execute_command", "read_file", "get_directory_tree"],
+      "tool_calls_range": [3, 8],
+      "mode": "mutation",
+      "env_categories": null,
+      "required_checkpoints": [
+        {"tool": "list_directory", "min_count": 1, "alternatives": ["search_files"]},
+        {"tool": "execute_command", "min_count": 1}
+      ]
+    },
+    {
+      "skill_id": "text-search-extraction",
+      "description": "Search for and extract text patterns from files. Use grep, file reading, and shell pipelines to find, filter, and extract data from logs, CSVs, and structured text.",
+      "tools": ["read_file", "search_content", "search_files", "execute_command", "get_directory_tree"],
+      "tool_calls_range": [3, 7],
+      "mode": "retrieval",
+      "env_categories": null,
+      "required_checkpoints": [
+        {"tool": "search_content", "min_count": 1, "alternatives": ["read_file"]},
+        {"tool": "read_file", "min_count": 1}
+      ]
+    },
+    {
+      "skill_id": "text-transformation",
+      "description": "Transform text across files: find-and-replace, reformat CSV/JSON, clean whitespace, apply sed/awk expressions, and rewrite file contents.",
+      "tools": ["read_file", "write_file", "search_content", "execute_command", "list_directory"],
+      "tool_calls_range": [4, 10],
+      "mode": "mutation",
+      "env_categories": null,
+      "required_checkpoints": [
+        {"tool": "read_file", "min_count": 1},
+        {"tool": "write_file", "min_count": 1, "alternatives": ["execute_command"]}
+      ]
+    },
+    {
+      "skill_id": "data-aggregation",
+      "description": "Merge, deduplicate, sort, and aggregate data from multiple files. Combine CSV/JSON sources, compute statistics, and produce consolidated output.",
+      "tools": ["read_file", "search_content", "execute_command", "write_file", "list_directory", "search_files"],
+      "tool_calls_range": [5, 12],
+      "mode": "mutation",
+      "env_categories": null,
+      "required_checkpoints": [
+        {"tool": "read_file", "min_count": 2},
+        {"tool": "execute_command", "min_count": 1}
+      ]
+    },
+    {
+      "skill_id": "basic-automation",
+      "description": "Write and execute shell scripts for task automation: file processing loops, conditional logic, and basic data manipulation pipelines.",
+      "tools": ["write_file", "execute_command", "read_file", "list_directory", "get_environment_info"],
+      "tool_calls_range": [4, 10],
+      "mode": "mutation",
+      "env_categories": null,
+      "required_checkpoints": [
+        {"tool": "write_file", "min_count": 1},
+        {"tool": "execute_command", "min_count": 1}
+      ]
+    },
+    {
+      "skill_id": "script-debugging",
+      "description": "Debug and fix broken shell scripts. Read error outputs, identify failures, patch scripts, and verify corrections through iterative testing.",
+      "tools": ["read_file", "write_file", "execute_command", "search_content", "list_directory"],
+      "tool_calls_range": [4, 12],
+      "mode": "mutation",
+      "env_categories": null,
+      "required_checkpoints": [
+        {"tool": "read_file", "min_count": 2},
+        {"tool": "execute_command", "min_count": 2},
+        {"tool": "write_file", "min_count": 1}
+      ]
+    },
+    {
+      "skill_id": "pipeline-orchestration",
+      "description": "Build multi-step data processing pipelines with chained commands, intermediate files, error handling, and end-to-end workflow automation.",
+      "tools": ["write_file", "execute_command", "read_file", "list_directory", "search_content", "get_environment_info"],
+      "tool_calls_range": [6, 15],
+      "mode": "mutation",
+      "env_categories": null,
+      "required_checkpoints": [
+        {"tool": "write_file", "min_count": 1},
+        {"tool": "execute_command", "min_count": 3},
+        {"tool": "read_file", "min_count": 1}
+      ]
+    },
+    {
+      "skill_id": "git-basics",
+      "description": "Initialize git repositories in the workspace, stage and commit files, view history and diffs. Core version control operations.",
+      "tools": ["execute_command", "read_file", "write_file", "list_directory", "get_environment_info"],
+      "tool_calls_range": [4, 10],
+      "mode": "mutation",
+      "env_categories": null,
+      "required_checkpoints": [
+        {"tool": "execute_command", "min_count": 2},
+        {"tool": "list_directory", "min_count": 1}
+      ]
+    },
+    {
+      "skill_id": "branch-merge",
+      "description": "Create and manage git branches, perform merges, resolve conflicts, and clean up merged branches in the workspace repository.",
+      "tools": ["execute_command", "read_file", "write_file", "list_directory"],
+      "tool_calls_range": [5, 14],
+      "mode": "mutation",
+      "env_categories": null,
+      "required_checkpoints": [
+        {"tool": "execute_command", "min_count": 3},
+        {"tool": "read_file", "min_count": 1}
+      ]
+    },
+    {
+      "skill_id": "history-rewrite",
+      "description": "Rewrite git commit history with interactive rebase, bisect to find bugs, cherry-pick commits, and manage history with reset and amend.",
+      "tools": ["execute_command", "read_file", "write_file", "list_directory"],
+      "tool_calls_range": [5, 15],
+      "mode": "mutation",
+      "env_categories": null,
+      "required_checkpoints": [
+        {"tool": "execute_command", "min_count": 3},
+        {"tool": "read_file", "min_count": 1}
+      ]
+    },
+    {
+      "skill_id": "system-inspection",
+      "description": "Inspect the execution environment: OS info, resource usage, running processes, environment variables. Generate diagnostic reports.",
+      "tools": ["get_environment_info", "execute_command", "get_directory_tree", "search_files", "write_file", "read_file", "list_directory"],
+      "tool_calls_range": [3, 8],
+      "mode": "retrieval",
+      "env_categories": null,
+      "required_checkpoints": [
+        {"tool": "get_environment_info", "min_count": 1},
+        {"tool": "execute_command", "min_count": 1, "alternatives": ["get_directory_tree"]}
+      ]
+    },
+    {
+      "skill_id": "disk-cleanup",
+      "description": "Find large files and directories consuming disk space, identify cleanup candidates, generate usage reports, and reclaim storage.",
+      "tools": ["get_directory_tree", "search_files", "execute_command", "list_directory", "write_file", "get_environment_info"],
+      "tool_calls_range": [4, 10],
+      "mode": "mutation",
+      "env_categories": null,
+      "required_checkpoints": [
+        {"tool": "execute_command", "min_count": 2},
+        {"tool": "get_directory_tree", "min_count": 1, "alternatives": ["list_directory"]}
+      ]
+    },
+    {
+      "skill_id": "permission-audit",
+      "description": "Audit file permissions in the workspace, identify security issues (world-writable files, overly permissive configs), fix insecure configurations, and verify corrections.",
+      "tools": ["execute_command", "list_directory", "read_file", "get_environment_info", "search_files", "write_file"],
+      "tool_calls_range": [4, 10],
+      "mode": "mutation",
+      "env_categories": null,
+      "required_checkpoints": [
+        {"tool": "execute_command", "min_count": 2},
+        {"tool": "list_directory", "min_count": 1}
+      ]
+    }
+  ]
+}

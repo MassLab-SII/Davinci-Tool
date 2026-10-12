@@ -1,0 +1,195 @@
+# MCP-Trajs2Data Configuration (Legacy/Default)
+# 
+# This file is kept for backward compatibility.
+# For specific worlds, use the per-world configs in configs/egts/.
+
+maas:
+  default:
+    base_url: "${EXPLORATION_MODEL_BASE_URL}"
+    api_key: "${EXPLORATION_MODEL_API_KEY}"
+    temperature: 0.8
+    max_tokens: 100000
+  models:
+    trajectory_collection:
+      model: "${EXPLORATION_MODEL_NAME}"
+      base_url: "${EXPLORATION_MODEL_BASE_URL}"
+      api_key: "${EXPLORATION_MODEL_API_KEY}"
+      # model: "deepseek-v3.2"
+      temperature: 1.0
+    nl_rewrite:
+      model: "${WRITER_MODEL_NAME}"
+      base_url: "${WRITER_MODEL_BASE_URL}"
+      api_key: "${WRITER_MODEL_API_KEY}"
+      # model: "deepseek-v3.2"
+      temperature: 0.7
+
+execution_mode: "local"
+
+local:
+  workspace_root: "./workspaces-filesystem"
+  cleanup_on_success: true
+  cleanup_on_failure: false
+
+docker:
+  base_image: "python:3.12-slim"
+  verify_image: "mcp-gen-verify:latest"
+  cleanup_on_success: true
+  cleanup_on_failure: true
+  volume_driver: "local"
+
+stdio_mcp_servers:
+  filesystem:
+    command: "npx"
+    args:
+      - "-y"
+      - "@modelcontextprotocol/server-filesystem"
+      - "./workspaces-filesystem"
+    env: {}
+
+http_mcp_servers: {}
+
+pipeline:
+  exp_name: "exp_glm_filesystem"
+  num_iterations: 1000
+  num_workers: 2
+  output_dir: "./output/filesystem"
+  save_failed: true
+
+trajs2data:
+  language: "en"
+  max_attempts: 3
+  save_filtered: true
+  exploration_system_prompt: null
+  
+  # NEW: Task configuration using polymorphic structure
+  task:
+    task_type: "filesystem"
+    seed_base: null
+    n_tools_min: 1
+    n_tools_max: 10
+    max_steps: 20
+    size_profile: "large"
+
+  # Legacy settings moved under task, but keeping curriculum/filters etc global
+  tool_curriculum:
+    selection_strategy: "progressive"
+    base_tools:
+      - "list_allowed_directories"
+      - "list_directory"
+      - "directory_tree"
+      - "create_directory"
+      - "write_file"
+    anchor_tools: null
+    phases:
+      - name: "phase0_unit"
+        weight: 0.5
+        enabled: true
+        n_min: 1
+        n_max: 2
+        min_distinct_tools: 1
+        anchor_count: 0
+      - name: "phase0_combo"
+        weight: 0.5
+        enabled: true
+        n_min: 2
+        n_max: 4
+        min_distinct_tools: 2
+        anchor_count: 0
+      - name: "phase1_single_anchor"
+        weight: 1.0
+        enabled: true
+        n_min: 2
+        n_max: 5
+        min_distinct_tools: 2
+        anchor_count: 1
+      - name: "phase2_multi_anchor"
+        weight: 1.0
+        enabled: true
+        n_min: 3
+        n_max: 7
+        min_distinct_tools: 3
+        anchor_count: 2
+      - name: "phase3_free"
+        weight: 1.0
+        enabled: true
+        n_min: 3
+        n_max: 10
+        min_distinct_tools: 1
+        anchor_count: 0
+    
+    coverage:
+      min_success_per_tool: 10
+      strategy: "balanced"
+      track_file: "coverage.json"
+      rebalance_interval: 50
+
+  filters:
+    min_steps: 1
+    min_changes: 1
+    max_changes: 100
+  
+  deduplication:
+    enabled: true
+    max_trajectories_per_problem: 3
+    use_semantic: true
+    problem_similarity_threshold: 0.90
+    trajectory_similarity_threshold: 0.85
+    embedding_model: "nomic-embed-text"
+    embedding_base_url: "http://127.0.0.1:11434/v1"
+    embedding_api_key: "ollama"
+  
+  recoverable:
+    enabled: true
+    max_failures: 3
+    max_failures_per_tool: 2
+    max_retries_before_rollback: 1
+    enable_filesystem_snapshots: true
+    snapshot_strategy: "hardlink"
+  
+  replay_verification:
+    enabled: true
+    similarity_threshold: 0.75
+    max_replay_steps: 15
+    skip_retrieval: true
+    fail_on_mismatch: false
+  
+  self_questioning:
+    enabled: true
+    num_candidates: 3
+    novelty_weight: 0.6
+    coverage_weight: 0.4
+    use_embeddings: true
+  
+  efficiency_monitor:
+    enabled: true
+    min_success_rate: 0.1
+    window_size: 20
+    auto_adjust: true
+    reduce_target_n_on_low_rate: true
+    target_n_reduction_step: 1
+    min_target_n: 1
+  
+  hindsight:
+    enabled: true
+    rewrite_thoughts: true
+
+  data_synthesis:
+    max_problem_refine_loops: 3
+    max_trajectory_refine_loops: 3
+    require_planning_step: true
+    require_final_answer: true
+  
+  experience_manager:
+    enabled: true
+    store_path: "experience_store.json"
+    max_experiences: 1000
+    similarity_threshold: 0.85
+    retrieve_top_k: 3
+    experience_template: "\n[Relevant Experience]\n{experience}\n"
+    extract_on_success: true
+    inject_to_prompt: true
+
+logging:
+  level: "INFO"
+  format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+  file: "collect.log"

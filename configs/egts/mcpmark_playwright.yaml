@@ -1,0 +1,286 @@
+# EGTS exploration config — MCPMark Playwright executable world.
+#
+# Usage:
+#   bash scripts/egts/run_mcpmark_playwright.sh
+
+maas:
+  default:
+    base_url: "${EXPLORATION_MODEL_BASE_URL}"
+    api_key: "${EXPLORATION_MODEL_API_KEY}"
+    temperature: 0.8
+    max_tokens: 100000
+  models:
+    trajectory_collection:
+      model: "${EXPLORATION_MODEL_NAME}"
+      base_url: "${EXPLORATION_MODEL_BASE_URL}"
+      api_key: "${EXPLORATION_MODEL_API_KEY}"
+      temperature: 1.0
+      max_tokens: 100000
+      thinking: "disabled"
+    nl_rewrite:
+      model: "${WRITER_MODEL_NAME}"
+      base_url: "${WRITER_MODEL_BASE_URL}"
+      api_key: "${WRITER_MODEL_API_KEY}"
+      temperature: 0.7
+      max_tokens: 100000
+    judge:
+      model: "${JUDGE_MODEL_NAME}"
+      base_url: "${JUDGE_MODEL_BASE_URL}"
+      api_key: "${JUDGE_MODEL_API_KEY}"
+      temperature: 0.1
+      thinking: "disabled"
+
+
+execution_mode: "local"
+
+local:
+  workspace_root: "./workspaces/mcpmark_playwright"
+  cleanup_on_success: true
+  cleanup_on_failure: false
+
+docker: {}
+
+stdio_mcp_servers: {}
+http_mcp_servers:
+  benchmark_env:
+    url: "http://127.0.0.1:30009/mcp"
+    headers: {}
+    timeout: 300
+    metadata:
+      prompt_domain: "playwright"
+      output_namespace: "mcpmark.playwright"
+
+executable_world_envs:
+  - name: "mcpmark_playwright_world"
+    compose_file: "environments/egts/mcpmark-world/docker-compose.playwright.yml"
+    project_name: "egts_mcpmark_playwright_{worker_id}"
+    healthcheck:
+      type: "url"
+      value: "http://127.0.0.1:30009/admin/status"
+      timeout_s: 240
+      interval_s: 2.0
+    http_mcp_url: "http://127.0.0.1:30009/mcp"
+    http_mcp_headers: {}
+    http_timeout_s: 300
+    reuse_containers: true
+    prompt_domain: "playwright"
+    output_namespace: "mcpmark.playwright"
+    world_context:
+      domain: "MCPMark browser automation benchmark tasks, including standard Playwright and Playwright-WebArena task families"
+      operator_role: "browser automation and web data extraction agent"
+      observable_state: "live browser page, URL, DOM text, screenshots, console messages, and network request traces"
+      reset_semantics: "admin reset selects a standard Playwright or Playwright-WebArena task; WebArena tasks start the required local site container before creating an isolated browser page"
+      exploration_bias:
+        - "navigate to a relevant page before extracting or mutating state"
+        - "use snapshots/text extraction for grounding before interaction"
+        - "verify interactions through follow-up page text, URL, screenshot, or evaluated DOM state"
+      success_signals:
+        - "browser tools observe concrete page state"
+        - "actions are verified by a later snapshot, text extraction, or evaluation"
+    tool_metadata: {}
+
+pipeline:
+  exp_name: "exp_mcpmark_playwright"
+  num_iterations: 2000
+  num_workers: 1
+  output_dir: "./output/exploration_worlds/deepseekv4"
+  save_failed: true
+
+trajs2data:
+  language: "en"
+  max_attempts: 3
+  save_filtered: true
+  exploration_system_prompt: null
+  synthesis_in_collection: false
+  replay_synthesis:
+    enabled: true
+    max_problem_candidates: 3
+    max_replay_attempts: 2
+    min_quality_tier: "acceptable"
+    tool_sequence_selection: "heuristic"
+    verify_final_state: true
+    save_failed_replays: true
+    max_selected_tool_calls: 12
+    max_selected_mutations: 10
+    harness_mode: "full"
+    harness_max_retries_per_step: 2
+    harness_model: "trajectory_collection"
+    harness_fallback_threshold: 0.5
+    preserve_failure_recovery_chains: true
+    dependency_relevance_filter: true
+    llm_problem_synthesis: true
+    max_dependency_distance: 5
+    polish_enabled: true
+    polish_model: "judge_model"
+    enable_quality_judge: true
+  task:
+    task_type: "executable_world_pool"
+    required_servers: ["benchmark_env"]
+    primary_server: "benchmark_env"
+    prompt_domain: "egts"
+    output_namespace: "mcpmark.playwright"
+    enabled_task_types:
+      - "eval_web"
+      - "web_search"
+      - "reddit"
+      - "shopping"
+      - "shopping_admin"
+    task_type_selection: "manual"
+    task_type_weights:
+      eval_web: 0.25
+      web_search: 0.10
+      reddit: 0.25
+      shopping: 0.20
+      shopping_admin: 0.20
+    seed_base: null
+    max_steps: 20
+    n_tools_min: 2
+    n_tools_max: 10
+    world_context:
+      engine: "EGTS"
+      exploration_objective: "collect grounded browser automation trajectories from MCPMark standard Playwright and Playwright-WebArena executable worlds"
+      evidence_policy: "ground synthesized tasks in observed DOM text, URL changes, screenshots, console/network traces, and final browser state"
+    read_only_tools:
+      - "browser_snapshot"
+      - "browser_take_screenshot"
+      - "browser_evaluate"
+      - "browser_get_text"
+      - "browser_console_messages"
+      - "browser_network_requests"
+    read_only_tools_priority:
+      - "browser_snapshot"
+      - "browser_get_text"
+      - "browser_evaluate"
+      - "browser_take_screenshot"
+    tool_metadata: {}
+
+  tool_curriculum:
+    selection_strategy: "progressive"
+    base_tools:
+      - "browser_navigate"
+      - "browser_snapshot"
+      - "browser_take_screenshot"
+      - "browser_get_text"
+    anchor_tools:
+      - "browser_click"
+      - "browser_type"
+      - "browser_press_key"
+      - "browser_evaluate"
+      - "browser_wait_for"
+      - "browser_console_messages"
+      - "browser_network_requests"
+    stages:
+      - name: "stage1_random_tool"
+        enabled: true
+        weight: 1.0
+        description: "Progressive browser automation tool exposure for MCPMark Playwright tasks"
+        difficulty_tiers:
+          - tier: "simple"
+            weight: 0.10
+            tool_count_min: 3
+            tool_count_max: 5
+            target_n_min: 3
+            target_n_max: 6
+            min_distinct_tools: 2
+            tool_pool: "base_only"
+            anchor_count: 0
+          - tier: "medium"
+            weight: 0.25
+            tool_count_min: 3
+            tool_count_max: 6
+            target_n_min: 3
+            target_n_max: 8
+            min_distinct_tools: 2
+            tool_pool: "base_plus_anchor"
+            anchor_count: 1
+          - tier: "hard"
+            weight: 0.35
+            tool_count_min: 5
+            tool_count_max: 12
+            target_n_min: 4
+            target_n_max: 15
+            min_distinct_tools: 3
+            tool_pool: "all"
+            anchor_count: 0
+      - name: "stage2_skill_guided"
+        enabled: true
+        weight: 0.30
+        description: "Skill-guided Playwright exploration aligned with MCPMark browser task families"
+        n_min: 4
+        n_max: 15
+        min_distinct_tools: 2
+
+    skill_guided:
+      enabled: true
+      skills_dir: "src/egts/skills/mcpmark-playwright"
+      skills_json: "skill_tools.json"
+      skills_min: 1
+      skills_max: 3
+      skill_selection_strategy: "coverage_weighted"
+      max_steps_per_skill: 25
+
+    coverage:
+      min_success_per_tool: 10
+      strategy: "balanced"
+      track_file: "coverage.json"
+      rebalance_interval: 50
+
+  filters:
+    min_steps: 1
+    min_changes: 1
+    max_changes: 100
+    max_failure_rate: 0.5
+
+  deduplication:
+    enabled: false
+    max_trajectories_per_problem: 3
+
+  recoverable:
+    enabled: true
+    max_failures: 8
+    max_failures_per_tool: 4
+    max_retries_before_rollback: 3
+    enable_filesystem_snapshots: false
+
+  replay_verification:
+    enabled: false
+
+  self_questioning:
+    enabled: false
+    num_candidates: 3
+    novelty_weight: 0.6
+    coverage_weight: 0.4
+    use_embeddings: false
+
+  efficiency_monitor:
+    enabled: true
+    min_success_rate: 0.1
+    window_size: 20
+    auto_adjust: true
+    reduce_target_n_on_low_rate: true
+    target_n_reduction_step: 1
+    min_target_n: 1
+
+  hindsight:
+    enabled: false
+    rewrite_thoughts: false
+
+  data_synthesis:
+    max_problem_refine_loops: 3
+    max_trajectory_refine_loops: 3
+    require_planning_step: true
+    require_final_answer: true
+
+  experience_manager:
+    enabled: true
+    store_path: "experience_store_mcpmark_playwright.json"
+    max_skills: 500
+    similarity_threshold: 0.85
+    retrieve_top_k: 5
+    extract_on_success: true
+    inject_to_prompt: true
+
+logging:
+  level: "INFO"
+  format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+  file: "collect_mcpmark_playwright.log"

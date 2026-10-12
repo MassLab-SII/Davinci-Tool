@@ -1,0 +1,36 @@
+[build-system]
+requires = ["setuptools>=69"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "davinci-tool"
+version = "0.1.0"
+description = "Davinci-Tool: execution-grounded task synthesis (EGTS) and executable environment synthesis (EES) for agentic tool-use data."
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+authors = [{ name = "Davinci-Tool contributors" }]
+keywords = ["agents", "tool-use", "synthetic-environments", "llm"]
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "License :: OSI Approved :: MIT License",
+  "Programming Language :: Python :: 3",
+]
+dependencies = []
+
+[project.optional-dependencies]
+llm = ["openai>=1.40.0"]
+dev = ["pytest>=8.0", "ruff>=0.6"]
+
+[project.scripts]
+cross-domain-scaling = "cross_domain_scaling.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src/ees"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]

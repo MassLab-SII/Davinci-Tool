@@ -1,0 +1,60 @@
+{
+  "skills": [
+    {
+      "skill_id": "latex-citation-integrity-audit",
+      "description": "Audit local LaTeX citation, label, reference, and bibliography integrity.",
+      "tools": [
+        "filesystem-list_directory",
+        "filesystem-read_file",
+        "terminal-run_command",
+        "filesystem-write_file"
+      ],
+      "tool_calls_range": [6, 10],
+      "mode": "mixed",
+      "env_categories": ["local_workspace_ops"],
+      "required_checkpoints": [
+        {"tool": "filesystem-list_directory", "min_count": 1},
+        {"tool": "filesystem-read_file", "min_count": 1},
+        {"tool": "terminal-run_command", "min_count": 1},
+        {"tool": "filesystem-write_file", "min_count": 1}
+      ]
+    },
+    {
+      "skill_id": "privacy-redaction-workflow",
+      "description": "Scan local documents for sensitive information, redact risky content, and verify outputs.",
+      "tools": [
+        "filesystem-list_directory",
+        "filesystem-read_file",
+        "terminal-run_command",
+        "filesystem-write_file"
+      ],
+      "tool_calls_range": [6, 10],
+      "mode": "mutation",
+      "env_categories": ["local_workspace_ops"],
+      "required_checkpoints": [
+        {"tool": "filesystem-list_directory", "min_count": 1},
+        {"tool": "filesystem-read_file", "min_count": 1},
+        {"tool": "filesystem-write_file", "min_count": 1}
+      ]
+    },
+    {
+      "skill_id": "web-and-file-milestone-archive",
+      "description": "Collect web evidence and local file evidence into a durable milestone archive.",
+      "tools": [
+        "filesystem-list_directory",
+        "filesystem-read_file",
+        "fetch-fetch_markdown",
+        "terminal-run_command",
+        "filesystem-write_file"
+      ],
+      "tool_calls_range": [7, 11],
+      "mode": "mixed",
+      "env_categories": ["local_workspace_ops"],
+      "required_checkpoints": [
+        {"tool": "filesystem-list_directory", "min_count": 1},
+        {"tool": "fetch-fetch_markdown", "min_count": 1},
+        {"tool": "filesystem-write_file", "min_count": 1}
+      ]
+    }
+  ]
+}

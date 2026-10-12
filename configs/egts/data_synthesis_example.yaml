@@ -1,0 +1,135 @@
+# EGTS offline data synthesis config example.
+#
+# Usage:
+#   PYTHONPATH=src/egts python src/egts/data_synthesis/pipeline.py \
+#     --config configs/egts/data_synthesis_example.yaml \
+#     --input output/executable_worlds/egts_executable_worlds_example \
+#     --input-mode raw
+#
+# The input path is intentionally a CLI argument because one synthesis config
+# can be reused across many exploration runs.
+
+maas:
+  default:
+    base_url: "${WRITER_MODEL_BASE_URL}"
+    api_key: "${WRITER_MODEL_API_KEY}"
+    temperature: 0.2
+    max_tokens: 16384
+  models:
+    # data_synthesis/pipeline.py accepts these aliases and load_config maps them
+    # to the internal trajectory_collection / nl_rewrite model slots.
+    judge_model:
+      model: "${JUDGE_MODEL_NAME}"
+      base_url: "${JUDGE_MODEL_BASE_URL}"
+      api_key: "${JUDGE_MODEL_API_KEY}"
+      temperature: 0.1
+      max_tokens: 16384
+    synthesis_model:
+      model: "${WRITER_MODEL_NAME}"
+      base_url: "${WRITER_MODEL_BASE_URL}"
+      api_key: "${WRITER_MODEL_API_KEY}"
+      temperature: 0.7
+      max_tokens: 16384
+
+execution_mode: "local"
+
+local:
+  workspace_root: "./workspaces/synthesis"
+  cleanup_on_success: true
+  cleanup_on_failure: false
+
+docker: {}
+stdio_mcp_servers: {}
+http_mcp_servers: {}
+executable_world_envs: []
+
+pipeline:
+  exp_name: "egts_data_synthesis_example"
+  num_iterations: 1
+  num_workers: 2
+  output_dir: "./output/synthesis"
+  save_failed: true
+
+trajs2data:
+  language: "en"
+  synthesis_in_collection: false
+
+  # Synthesis consumes raw_context.json emitted by exploration. This task block
+  # supplies defaults when older/raw records are missing fields.
+  task:
+    task_type: "executable_world_pool"
+    required_servers: ["benchmark_env"]
+    primary_server: "benchmark_env"
+    prompt_domain: "egts"
+    output_namespace: "executable_world_pool"
+    world_context:
+      engine: "EGTS"
+      synthesis_objective: "turn grounded executable-world trajectories into high-quality tool-use training examples"
+      grounding_policy: "problems and rewritten trajectories must remain faithful to observed tool calls, tool outputs, and state evidence"
+
+  self_questioning:
+    # Synthesis-stage candidate generation. Keep this here rather than in
+    # collection so exploration remains a pure grounded-trajectory collector.
+    enabled: true
+    num_candidates: 3
+    novelty_weight: 0.6
+    coverage_weight: 0.4
+    use_embeddings: false
+
+  hindsight:
+    enabled: false
+    rewrite_thoughts: false
+
+  data_synthesis:
+    max_problem_refine_loops: 5
+    max_trajectory_refine_loops: 5
+    require_planning_step: false
+    require_final_answer: true
+
+    enable_heuristic_fallback: false
+    min_step_coverage_ratio: 0.75
+
+    save_llm_io: true
+    llm_io_file: ""
+    llm_io_include_prompts: true
+    llm_io_max_text_chars: 0
+
+    rewrite_context_max_chars: 16384
+    rewrite_tool_sequence_max_steps: 40
+    skip_invalid_structure: true
+    reject_failure_only_tools: true
+    max_tool_failure_rate: 0.5
+
+    use_dual_judge: true
+    soft_judge_threshold: 0.0
+
+    trajectory_mode: "llm_rewrite"
+    max_polish_loops: 3
+    polish_model: "synthesis_model"
+
+    quality_policy: "high_and_acceptable"
+    quality_gate_enabled: true
+    fallback_for_training: false
+    quality_score_enabled: true
+    min_quality_score_high: 0.85
+    min_quality_score_acceptable: 0.70
+    quality_shadow_report: true
+
+    dedup_enabled: true
+    dedup_mode: "hash"
+    dedup_problem_similarity_threshold: 0.90
+    dedup_trajectory_similarity_threshold: 0.85
+    dedup_max_variants_per_problem: 3
+    dedup_state_file: "dedup_state.json"
+
+    # Enable these when semantic or hybrid dedup is needed.
+    # dedup_mode: "hybrid"
+    # dedup_embedding_model: "text-embedding-v4"
+    # dedup_embedding_base_url: null
+    # dedup_embedding_api_key: null
+    # dedup_vector_store_path: null
+
+logging:
+  level: "INFO"
+  format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+  file: "synthesis.log"

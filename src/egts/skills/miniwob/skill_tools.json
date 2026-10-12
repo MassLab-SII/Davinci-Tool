@@ -1,0 +1,185 @@
+{
+  "skills": [
+    {
+      "skill_id": "basic-click-interaction",
+      "description": "Single and multi-click interactions on buttons, links, shapes, and various clickable UI elements. Covers click-button, click-link, click-shape, click-dialog, click-test, and similar tasks.",
+      "tools": [
+        "click_element",
+        "get_dom_elements",
+        "get_observation",
+        "get_instruction"
+      ],
+      "tool_calls_range": [4, 12],
+      "mode": "mutation",
+      "env_categories": null,
+      "required_checkpoints": [
+        {"tool": "get_observation", "min_count": 1},
+        {"tool": "get_dom_elements", "min_count": 1},
+        {"tool": "click_element", "min_count": 2}
+      ]
+    },
+    {
+      "skill_id": "form-filling-and-submission",
+      "description": "Type into form fields, fill login/signup forms, use search engine, and submit forms. Covers enter-text, login-user, sign-agreement, search-engine, focus-text, and choose-date tasks.",
+      "tools": [
+        "type_text",
+        "click_element",
+        "get_dom_elements",
+        "get_observation",
+        "get_instruction",
+        "get_fields"
+      ],
+      "tool_calls_range": [4, 12],
+      "mode": "mutation",
+      "env_categories": null,
+      "required_checkpoints": [
+        {"tool": "get_observation", "min_count": 1},
+        {"tool": "get_dom_elements", "min_count": 1},
+        {"tool": "type_text", "min_count": 2},
+        {"tool": "click_element", "min_count": 1}
+      ]
+    },
+    {
+      "skill_id": "checkbox-and-multi-select",
+      "description": "Toggle checkboxes and multi-select options per task instruction constraints. Covers click-checkboxes, click-checkboxes-transfer, click-checkboxes-soft, and number-checkboxes tasks.",
+      "tools": [
+        "click_element",
+        "get_dom_elements",
+        "get_observation",
+        "get_instruction",
+        "scroll_page"
+      ],
+      "tool_calls_range": [3, 10],
+      "mode": "mutation",
+      "env_categories": null,
+      "required_checkpoints": [
+        {"tool": "get_observation", "min_count": 1},
+        {"tool": "get_dom_elements", "min_count": 1},
+        {"tool": "click_element", "min_count": 3}
+      ]
+    },
+    {
+      "skill_id": "dropdown-menu-and-tab-navigation",
+      "description": "Navigate hierarchical UI: menus, tabs, trees, collapsible sections, and select elements. Covers click-menu, click-tab, click-collapsible, navigate-tree, and choose-list tasks.",
+      "tools": [
+        "click_element",
+        "get_dom_elements",
+        "get_observation",
+        "scroll_page",
+        "get_instruction"
+      ],
+      "tool_calls_range": [3, 8],
+      "mode": "mutation",
+      "env_categories": null,
+      "required_checkpoints": [
+        {"tool": "get_observation", "min_count": 1},
+        {"tool": "get_dom_elements", "min_count": 1},
+        {"tool": "click_element", "min_count": 2}
+      ]
+    },
+    {
+      "skill_id": "drag-and-drop-manipulation",
+      "description": "Drag items between containers, sort, reorder, and reposition elements. Covers drag-box, drag-circle, drag-cube, drag-items, drag-shapes, drag-single-shape, drag-sort-numbers, and moving-items tasks.",
+      "tools": [
+        "drag_element",
+        "click_element",
+        "get_dom_elements",
+        "get_observation",
+        "get_instruction"
+      ],
+      "tool_calls_range": [4, 12],
+      "mode": "mutation",
+      "env_categories": null,
+      "required_checkpoints": [
+        {"tool": "get_observation", "min_count": 1},
+        {"tool": "get_dom_elements", "min_count": 2},
+        {"tool": "drag_element", "min_count": 2}
+      ]
+    },
+    {
+      "skill_id": "text-editing-and-formatting",
+      "description": "Copy/paste, highlight, transform, and find-replace operations on text. Covers copy-paste, highlight-text, text-editor, text-transform, find-word, and resize-textarea tasks.",
+      "tools": [
+        "type_text",
+        "press_key",
+        "click_element",
+        "get_dom_elements",
+        "get_observation",
+        "get_instruction",
+        "get_fields"
+      ],
+      "tool_calls_range": [4, 12],
+      "mode": "mutation",
+      "env_categories": null,
+      "required_checkpoints": [
+        {"tool": "get_observation", "min_count": 1},
+        {"tool": "get_dom_elements", "min_count": 1},
+        {"tool": "type_text", "min_count": 1},
+        {"tool": "press_key", "min_count": 1}
+      ]
+    },
+    {
+      "skill_id": "widget-and-control-interaction",
+      "description": "Manipulate sliders, colorwheels, spinners, autocomplete inputs, and scroll controls. Covers use-slider, use-colorwheel, use-spinner, use-autocomplete, and scroll-text tasks.",
+      "tools": [
+        "click_element",
+        "type_text",
+        "scroll_page",
+        "drag_element",
+        "get_dom_elements",
+        "get_observation",
+        "get_instruction"
+      ],
+      "tool_calls_range": [5, 15],
+      "mode": "mutation",
+      "env_categories": null,
+      "required_checkpoints": [
+        {"tool": "get_observation", "min_count": 1},
+        {"tool": "get_dom_elements", "min_count": 2},
+        {"tool": "click_element", "min_count": 2}
+      ]
+    },
+    {
+      "skill_id": "email-inbox-management",
+      "description": "Scan inbox and perform operations: forward, reply, delete, star emails. Covers email-inbox, email-inbox-delete, email-inbox-forward, email-inbox-reply, email-inbox-star-reply, and email-inbox-important tasks.",
+      "tools": [
+        "click_element",
+        "type_text",
+        "get_dom_elements",
+        "get_observation",
+        "scroll_page",
+        "get_instruction"
+      ],
+      "tool_calls_range": [5, 15],
+      "mode": "mutation",
+      "env_categories": null,
+      "required_checkpoints": [
+        {"tool": "get_observation", "min_count": 1},
+        {"tool": "get_dom_elements", "min_count": 2},
+        {"tool": "click_element", "min_count": 3}
+      ]
+    },
+    {
+      "skill_id": "multi-step-transaction-completion",
+      "description": "Complete multi-step transactions: booking flights, buying tickets, ordering food, filling form sequences, and managing social media interactions. Covers book-flight, buy-ticket, order-food, form-sequence, and social-media tasks.",
+      "tools": [
+        "click_element",
+        "type_text",
+        "press_key",
+        "get_dom_elements",
+        "get_observation",
+        "get_fields",
+        "get_instruction"
+      ],
+      "tool_calls_range": [6, 18],
+      "mode": "mutation",
+      "env_categories": null,
+      "required_checkpoints": [
+        {"tool": "get_observation", "min_count": 2},
+        {"tool": "get_dom_elements", "min_count": 2},
+        {"tool": "click_element", "min_count": 2},
+        {"tool": "type_text", "min_count": 1}
+      ]
+    }
+  ]
+}

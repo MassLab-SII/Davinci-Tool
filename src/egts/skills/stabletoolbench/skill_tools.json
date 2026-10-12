@@ -1,0 +1,183 @@
+{
+  "skills": [
+    {
+      "skill_id": "api-discovery-and-schema-selection",
+      "description": "Discover the active API task, search candidate APIs, compare schemas, and select the most relevant API before calling it.",
+      "tools": ["get_current_task", "search_candidate_apis", "get_api_schema", "call_api", "get_call_trace"],
+      "tool_calls_range": [4, 6],
+      "mode": "retrieval",
+      "env_categories": null,
+      "required_checkpoints": [
+        {"tool": "get_current_task", "min_count": 1},
+        {"tool": "search_candidate_apis", "min_count": 1},
+        {"tool": "get_api_schema", "min_count": 1},
+        {"tool": "call_api", "min_count": 1}
+      ]
+    },
+    {
+      "skill_id": "parameter-grounding-and-validation",
+      "description": "Ground required and optional API parameters from the user request, schema defaults, and follow-up schema checks before making valid calls.",
+      "tools": ["get_current_task", "get_api_schema", "call_api", "get_call_trace"],
+      "tool_calls_range": [4, 6],
+      "mode": "retrieval",
+      "env_categories": null,
+      "required_checkpoints": [
+        {"tool": "get_api_schema", "min_count": 1},
+        {"tool": "call_api", "min_count": 1},
+        {"tool": "get_call_trace", "min_count": 1}
+      ]
+    },
+    {
+      "skill_id": "multi-api-comparison-and-ranking",
+      "description": "Inspect and call multiple candidate APIs, compare returned evidence, and identify the best response path for multi-part API queries.",
+      "tools": ["get_current_task", "search_candidate_apis", "get_api_schema", "call_api", "get_call_trace"],
+      "tool_calls_range": [5, 8],
+      "mode": "retrieval",
+      "env_categories": null,
+      "required_checkpoints": [
+        {"tool": "search_candidate_apis", "min_count": 1},
+        {"tool": "get_api_schema", "min_count": 2},
+        {"tool": "call_api", "min_count": 2}
+      ]
+    },
+    {
+      "skill_id": "finance-market-and-asset-lookup",
+      "description": "Use finance, market, asset, stock, currency, and income APIs to satisfy financial information requests with schema-grounded calls.",
+      "tools": ["get_current_task", "search_candidate_apis", "get_api_schema", "call_api", "get_call_trace"],
+      "tool_calls_range": [4, 7],
+      "mode": "retrieval",
+      "env_categories": null,
+      "required_checkpoints": [
+        {"tool": "search_candidate_apis", "min_count": 1},
+        {"tool": "call_api", "min_count": 1}
+      ]
+    },
+    {
+      "skill_id": "movie-streaming-and-entertainment-search",
+      "description": "Resolve movie, streaming, entertainment, people, and recommendation queries through focused API search and chained calls.",
+      "tools": ["get_current_task", "search_candidate_apis", "get_api_schema", "call_api", "get_call_trace"],
+      "tool_calls_range": [4, 7],
+      "mode": "retrieval",
+      "env_categories": null,
+      "required_checkpoints": [
+        {"tool": "search_candidate_apis", "min_count": 1},
+        {"tool": "get_api_schema", "min_count": 1},
+        {"tool": "call_api", "min_count": 1}
+      ]
+    },
+    {
+      "skill_id": "video-image-and-media-processing",
+      "description": "Handle video, image, media metadata, streaming link, thumbnail, and content lookup tasks using candidate media APIs.",
+      "tools": ["get_current_task", "search_candidate_apis", "get_api_schema", "call_api", "get_call_trace"],
+      "tool_calls_range": [4, 7],
+      "mode": "retrieval",
+      "env_categories": null,
+      "required_checkpoints": [
+        {"tool": "search_candidate_apis", "min_count": 1},
+        {"tool": "call_api", "min_count": 1}
+      ]
+    },
+    {
+      "skill_id": "sports-events-and-statistics-query",
+      "description": "Query sports teams, players, schedules, transfers, statistics, standings, and event facts through relevant sports APIs.",
+      "tools": ["get_current_task", "search_candidate_apis", "get_api_schema", "call_api", "get_call_trace"],
+      "tool_calls_range": [4, 7],
+      "mode": "retrieval",
+      "env_categories": null,
+      "required_checkpoints": [
+        {"tool": "search_candidate_apis", "min_count": 1},
+        {"tool": "call_api", "min_count": 1}
+      ]
+    },
+    {
+      "skill_id": "news-social-and-public-information-monitoring",
+      "description": "Collect news, social, public profile, media, and trend information with careful source API selection and trace verification.",
+      "tools": ["get_current_task", "search_candidate_apis", "get_api_schema", "call_api", "get_call_trace"],
+      "tool_calls_range": [4, 7],
+      "mode": "retrieval",
+      "env_categories": null,
+      "required_checkpoints": [
+        {"tool": "search_candidate_apis", "min_count": 1},
+        {"tool": "get_api_schema", "min_count": 1},
+        {"tool": "call_api", "min_count": 1}
+      ]
+    },
+    {
+      "skill_id": "travel-location-weather-planning",
+      "description": "Answer travel, location, logistics, weather, route, restaurant, and local service requests with multi-API planning.",
+      "tools": ["get_current_task", "search_candidate_apis", "get_api_schema", "call_api", "get_call_trace"],
+      "tool_calls_range": [5, 8],
+      "mode": "retrieval",
+      "env_categories": null,
+      "required_checkpoints": [
+        {"tool": "search_candidate_apis", "min_count": 1},
+        {"tool": "get_api_schema", "min_count": 2},
+        {"tool": "call_api", "min_count": 2}
+      ]
+    },
+    {
+      "skill_id": "commerce-logistics-and-order-tracking",
+      "description": "Track packages, compare commerce or logistics APIs, and retrieve delivery, order, or product status evidence.",
+      "tools": ["get_current_task", "search_candidate_apis", "get_api_schema", "call_api", "get_call_trace"],
+      "tool_calls_range": [4, 7],
+      "mode": "retrieval",
+      "env_categories": null,
+      "required_checkpoints": [
+        {"tool": "search_candidate_apis", "min_count": 1},
+        {"tool": "call_api", "min_count": 1}
+      ]
+    },
+    {
+      "skill_id": "data-conversion-and-developer-utilities",
+      "description": "Use developer, conversion, generator, validation, URL, and utility APIs for structured data transformation requests.",
+      "tools": ["get_current_task", "search_candidate_apis", "get_api_schema", "call_api", "get_call_trace"],
+      "tool_calls_range": [4, 7],
+      "mode": "retrieval",
+      "env_categories": null,
+      "required_checkpoints": [
+        {"tool": "search_candidate_apis", "min_count": 1},
+        {"tool": "get_api_schema", "min_count": 1},
+        {"tool": "call_api", "min_count": 1}
+      ]
+    },
+    {
+      "skill_id": "education-science-health-reference",
+      "description": "Resolve education, science, health, word, reference, and factual lookup tasks through high-precision API schema use.",
+      "tools": ["get_current_task", "search_candidate_apis", "get_api_schema", "call_api", "get_call_trace"],
+      "tool_calls_range": [4, 7],
+      "mode": "retrieval",
+      "env_categories": null,
+      "required_checkpoints": [
+        {"tool": "search_candidate_apis", "min_count": 1},
+        {"tool": "call_api", "min_count": 1}
+      ]
+    },
+    {
+      "skill_id": "iot-device-and-smart-service-query",
+      "description": "Query IoT, device, sensor, smart-service, and operational status APIs with schema validation and result checking.",
+      "tools": ["get_current_task", "search_candidate_apis", "get_api_schema", "call_api", "get_call_trace"],
+      "tool_calls_range": [4, 7],
+      "mode": "retrieval",
+      "env_categories": null,
+      "required_checkpoints": [
+        {"tool": "search_candidate_apis", "min_count": 1},
+        {"tool": "get_api_schema", "min_count": 1},
+        {"tool": "call_api", "min_count": 1}
+      ]
+    },
+    {
+      "skill_id": "error-recovery-and-alternative-api-routing",
+      "description": "Recover from missing parameters, weak API matches, or failed calls by inspecting schemas and routing to alternative candidate APIs.",
+      "tools": ["get_current_task", "list_candidate_apis", "search_candidate_apis", "get_api_schema", "call_api", "get_call_trace"],
+      "tool_calls_range": [5, 8],
+      "mode": "retrieval",
+      "env_categories": null,
+      "required_checkpoints": [
+        {"tool": "list_candidate_apis", "min_count": 1},
+        {"tool": "get_api_schema", "min_count": 2},
+        {"tool": "call_api", "min_count": 2},
+        {"tool": "get_call_trace", "min_count": 1}
+      ]
+    }
+  ]
+}

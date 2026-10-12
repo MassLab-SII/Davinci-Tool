@@ -1,0 +1,86 @@
+{
+  "skills": [
+    {
+      "skill_id": "shopping-product-search-filter-sort",
+      "description": "Search storefront products by name/SKU/description, category, price range, rating, sort order, and pagination.",
+      "tools": ["browser_snapshot", "browser_get_text", "browser_click", "browser_type", "browser_press_key", "browser_wait_for", "browser_evaluate"],
+      "tool_calls_range": [5, 16],
+      "mode": "retrieval",
+      "env_categories": ["shopping"],
+      "task_anchors": ["all shopping tasks"],
+      "required_checkpoints": [
+        {"tool": "browser_type", "min_count": 1},
+        {"tool": "browser_click", "min_count": 1},
+        {"tool": "browser_evaluate", "min_count": 1}
+      ]
+    },
+    {
+      "skill_id": "shopping-product-detail-attribute-review-extraction",
+      "description": "Open product detail pages and extract SKU, price, manufacturer, rating percentage, review count, latest reviewer, options, and textual attributes.",
+      "tools": ["browser_snapshot", "browser_get_text", "browser_click", "browser_wait_for", "browser_evaluate", "browser_take_screenshot"],
+      "tool_calls_range": [4, 14],
+      "mode": "retrieval",
+      "env_categories": ["shopping"],
+      "task_anchors": ["advanced_product_analysis", "printer_keyboard_search", "running_shoes_purchase", "health_routine_optimization", "holiday_baking_competition"],
+      "required_checkpoints": [
+        {"tool": "browser_click", "min_count": 1},
+        {"tool": "browser_get_text", "min_count": 1},
+        {"tool": "browser_evaluate", "min_count": 1}
+      ]
+    },
+    {
+      "skill_id": "shopping-comparison-list-workflow",
+      "description": "Add selected storefront products to the comparison list, open comparison, count items, and extract comparable SKU/price attributes.",
+      "tools": ["browser_snapshot", "browser_get_text", "browser_click", "browser_wait_for", "browser_evaluate"],
+      "tool_calls_range": [5, 16],
+      "mode": "mutation",
+      "env_categories": ["shopping"],
+      "task_anchors": ["advanced_product_analysis", "gaming_accessories_analysis", "health_routine_optimization", "multi_category_budget_analysis", "holiday_baking_competition"],
+      "required_checkpoints": [
+        {"tool": "browser_click", "min_count": 1},
+        {"tool": "browser_get_text", "min_count": 1}
+      ]
+    },
+    {
+      "skill_id": "shopping-cart-quantity-subtotal-workflow",
+      "description": "Add products with options/quantities to cart, update cart quantities, and verify item subtotals, total quantity, and cart subtotal.",
+      "tools": ["browser_snapshot", "browser_get_text", "browser_click", "browser_type", "browser_wait_for", "browser_evaluate"],
+      "tool_calls_range": [6, 18],
+      "mode": "mutation",
+      "env_categories": ["shopping"],
+      "task_anchors": ["gaming_accessories_analysis", "health_routine_optimization", "holiday_baking_competition", "running_shoes_purchase", "advanced_product_analysis"],
+      "required_checkpoints": [
+        {"tool": "browser_type", "min_count": 1},
+        {"tool": "browser_click", "min_count": 1},
+        {"tool": "browser_get_text", "min_count": 1}
+      ]
+    },
+    {
+      "skill_id": "shopping-checkout-shipping-form-workflow",
+      "description": "Proceed through storefront checkout, fill shipping contact/address fields, and count or verify available shipping methods.",
+      "tools": ["browser_snapshot", "browser_get_text", "browser_click", "browser_type", "browser_press_key", "browser_wait_for", "browser_evaluate"],
+      "tool_calls_range": [7, 20],
+      "mode": "mutation",
+      "env_categories": ["shopping"],
+      "task_anchors": ["gaming_accessories_analysis"],
+      "required_checkpoints": [
+        {"tool": "browser_type", "min_count": 2},
+        {"tool": "browser_click", "min_count": 1},
+        {"tool": "browser_get_text", "min_count": 1}
+      ]
+    },
+    {
+      "skill_id": "shopping-multi-category-budget-optimization",
+      "description": "Compare products across categories under price, rating, review-count, manufacturer, or bundle constraints and preserve the selected rationale.",
+      "tools": ["browser_snapshot", "browser_get_text", "browser_click", "browser_type", "browser_wait_for", "browser_evaluate", "browser_take_screenshot"],
+      "tool_calls_range": [6, 20],
+      "mode": "retrieval",
+      "env_categories": ["shopping"],
+      "task_anchors": ["multi_category_budget_analysis", "holiday_baking_competition", "printer_keyboard_search", "health_routine_optimization"],
+      "required_checkpoints": [
+        {"tool": "browser_get_text", "min_count": 1},
+        {"tool": "browser_evaluate", "min_count": 1}
+      ]
+    }
+  ]
+}

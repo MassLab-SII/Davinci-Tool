@@ -1,0 +1,444 @@
+{
+  "skills": [
+    {
+      "skill_id": "api-discovery-and-schema-grounding",
+      "description": "Discover relevant AppWorld app APIs, inspect schemas, and ground every call argument before execution.",
+      "tools": [
+        "get_current_task",
+        "list_appworld_apis",
+        "search_appworld_apis",
+        "get_appworld_api_schema",
+        "call_appworld_api",
+        "get_call_trace"
+      ],
+      "tool_calls_range": [
+        5,
+        9
+      ],
+      "mode": "mixed",
+      "env_categories": null,
+      "required_checkpoints": [
+        {
+          "tool": "get_current_task",
+          "min_count": 1
+        },
+        {
+          "tool": "get_appworld_api_schema",
+          "min_count": 1
+        },
+        {
+          "tool": "call_appworld_api",
+          "min_count": 1
+        }
+      ]
+    },
+    {
+      "skill_id": "authentication-and-token-lifecycle",
+      "description": "Find account credentials, inspect login schemas, authenticate to AppWorld apps, and reuse tokens in follow-up calls.",
+      "tools": [
+        "get_current_task",
+        "search_appworld_apis",
+        "get_appworld_api_schema",
+        "call_appworld_api",
+        "get_call_trace"
+      ],
+      "tool_calls_range": [
+        5,
+        9
+      ],
+      "mode": "mixed",
+      "env_categories": null,
+      "required_checkpoints": [
+        {
+          "tool": "get_current_task",
+          "min_count": 1
+        },
+        {
+          "tool": "get_appworld_api_schema",
+          "min_count": 1
+        },
+        {
+          "tool": "call_appworld_api",
+          "min_count": 1
+        }
+      ]
+    },
+    {
+      "skill_id": "email-contact-communication-workflow",
+      "description": "Use AppWorld communication APIs for user lookup, email/message creation, thread inspection, and verification.",
+      "tools": [
+        "get_current_task",
+        "list_appworld_apis",
+        "search_appworld_apis",
+        "get_appworld_api_schema",
+        "call_appworld_api",
+        "get_call_trace"
+      ],
+      "tool_calls_range": [
+        6,
+        10
+      ],
+      "mode": "mixed",
+      "env_categories": null,
+      "required_checkpoints": [
+        {
+          "tool": "get_current_task",
+          "min_count": 1
+        },
+        {
+          "tool": "get_appworld_api_schema",
+          "min_count": 1
+        },
+        {
+          "tool": "call_appworld_api",
+          "min_count": 1
+        }
+      ]
+    },
+    {
+      "skill_id": "calendar-reminder-scheduling-workflow",
+      "description": "Create, update, query, and verify time-aware reminders, alarms, calendar-like records, or scheduled tasks.",
+      "tools": [
+        "get_current_task",
+        "search_appworld_apis",
+        "get_appworld_api_schema",
+        "call_appworld_api",
+        "get_call_trace"
+      ],
+      "tool_calls_range": [
+        5,
+        10
+      ],
+      "mode": "mutation",
+      "env_categories": null,
+      "required_checkpoints": [
+        {
+          "tool": "get_current_task",
+          "min_count": 1
+        },
+        {
+          "tool": "get_appworld_api_schema",
+          "min_count": 1
+        },
+        {
+          "tool": "call_appworld_api",
+          "min_count": 1
+        }
+      ]
+    },
+    {
+      "skill_id": "todo-note-file-knowledge-workflow",
+      "description": "Use todo, note, and file-style APIs to retrieve knowledge, create organized artifacts, and verify saved state.",
+      "tools": [
+        "get_current_task",
+        "list_appworld_apis",
+        "search_appworld_apis",
+        "get_appworld_api_schema",
+        "call_appworld_api",
+        "get_call_trace"
+      ],
+      "tool_calls_range": [
+        6,
+        10
+      ],
+      "mode": "mixed",
+      "env_categories": null,
+      "required_checkpoints": [
+        {
+          "tool": "get_current_task",
+          "min_count": 1
+        },
+        {
+          "tool": "get_appworld_api_schema",
+          "min_count": 1
+        },
+        {
+          "tool": "call_appworld_api",
+          "min_count": 1
+        }
+      ]
+    },
+    {
+      "skill_id": "shopping-cart-order-management",
+      "description": "Search products, inspect details, manage carts/wishlists/orders, and verify commerce state.",
+      "tools": [
+        "get_current_task",
+        "search_appworld_apis",
+        "get_appworld_api_schema",
+        "call_appworld_api",
+        "get_call_trace"
+      ],
+      "tool_calls_range": [
+        6,
+        11
+      ],
+      "mode": "mutation",
+      "env_categories": null,
+      "required_checkpoints": [
+        {
+          "tool": "get_current_task",
+          "min_count": 1
+        },
+        {
+          "tool": "get_appworld_api_schema",
+          "min_count": 1
+        },
+        {
+          "tool": "call_appworld_api",
+          "min_count": 1
+        }
+      ]
+    },
+    {
+      "skill_id": "payment-expense-settlement-workflow",
+      "description": "Inspect balances, users, transactions, expenses, and create or verify payment/settlement records.",
+      "tools": [
+        "get_current_task",
+        "search_appworld_apis",
+        "get_appworld_api_schema",
+        "call_appworld_api",
+        "get_call_trace"
+      ],
+      "tool_calls_range": [
+        6,
+        11
+      ],
+      "mode": "mutation",
+      "env_categories": null,
+      "required_checkpoints": [
+        {
+          "tool": "get_current_task",
+          "min_count": 1
+        },
+        {
+          "tool": "get_appworld_api_schema",
+          "min_count": 1
+        },
+        {
+          "tool": "call_appworld_api",
+          "min_count": 1
+        }
+      ]
+    },
+    {
+      "skill_id": "phone-contact-identity-lookup",
+      "description": "Resolve people, contacts, phone numbers, emails, and account identities before downstream operations.",
+      "tools": [
+        "get_current_task",
+        "list_appworld_apis",
+        "search_appworld_apis",
+        "get_appworld_api_schema",
+        "call_appworld_api",
+        "get_call_trace"
+      ],
+      "tool_calls_range": [
+        5,
+        10
+      ],
+      "mode": "mixed",
+      "env_categories": null,
+      "required_checkpoints": [
+        {
+          "tool": "get_current_task",
+          "min_count": 1
+        },
+        {
+          "tool": "get_appworld_api_schema",
+          "min_count": 1
+        },
+        {
+          "tool": "call_appworld_api",
+          "min_count": 1
+        }
+      ]
+    },
+    {
+      "skill_id": "media-playlist-and-content-management",
+      "description": "Search media content, inspect playlists/libraries, update media state, and verify results.",
+      "tools": [
+        "get_current_task",
+        "search_appworld_apis",
+        "get_appworld_api_schema",
+        "call_appworld_api",
+        "get_call_trace"
+      ],
+      "tool_calls_range": [
+        5,
+        9
+      ],
+      "mode": "mixed",
+      "env_categories": null,
+      "required_checkpoints": [
+        {
+          "tool": "get_current_task",
+          "min_count": 1
+        },
+        {
+          "tool": "get_appworld_api_schema",
+          "min_count": 1
+        },
+        {
+          "tool": "call_appworld_api",
+          "min_count": 1
+        }
+      ]
+    },
+    {
+      "skill_id": "cross-app-data-transfer-and-verification",
+      "description": "Read from one AppWorld app, transform or cross-reference data, write to another app, and verify the chain.",
+      "tools": [
+        "get_current_task",
+        "list_appworld_apis",
+        "search_appworld_apis",
+        "get_appworld_api_schema",
+        "call_appworld_api",
+        "get_call_trace"
+      ],
+      "tool_calls_range": [
+        7,
+        12
+      ],
+      "mode": "mutation",
+      "env_categories": null,
+      "required_checkpoints": [
+        {
+          "tool": "get_current_task",
+          "min_count": 1
+        },
+        {
+          "tool": "get_appworld_api_schema",
+          "min_count": 1
+        },
+        {
+          "tool": "call_appworld_api",
+          "min_count": 1
+        }
+      ]
+    },
+    {
+      "skill_id": "profile-preferences-and-settings-update",
+      "description": "Find profile, settings, preference, address, or account APIs, update user records, and verify persistence.",
+      "tools": [
+        "get_current_task",
+        "search_appworld_apis",
+        "get_appworld_api_schema",
+        "call_appworld_api",
+        "get_call_trace"
+      ],
+      "tool_calls_range": [
+        5,
+        9
+      ],
+      "mode": "mutation",
+      "env_categories": null,
+      "required_checkpoints": [
+        {
+          "tool": "get_current_task",
+          "min_count": 1
+        },
+        {
+          "tool": "get_appworld_api_schema",
+          "min_count": 1
+        },
+        {
+          "tool": "call_appworld_api",
+          "min_count": 1
+        }
+      ]
+    },
+    {
+      "skill_id": "records-search-filter-and-aggregation",
+      "description": "Search, filter, sort, aggregate, and summarize AppWorld records before deciding follow-up actions.",
+      "tools": [
+        "get_current_task",
+        "list_appworld_apis",
+        "search_appworld_apis",
+        "get_appworld_api_schema",
+        "call_appworld_api",
+        "get_call_trace"
+      ],
+      "tool_calls_range": [
+        5,
+        10
+      ],
+      "mode": "retrieval",
+      "env_categories": null,
+      "required_checkpoints": [
+        {
+          "tool": "get_current_task",
+          "min_count": 1
+        },
+        {
+          "tool": "get_appworld_api_schema",
+          "min_count": 1
+        },
+        {
+          "tool": "call_appworld_api",
+          "min_count": 1
+        }
+      ]
+    },
+    {
+      "skill_id": "error-recovery-and-argument-repair",
+      "description": "Recover from failed AppWorld calls by rereading schemas, repairing arguments, and trying safe alternatives.",
+      "tools": [
+        "get_current_task",
+        "search_appworld_apis",
+        "get_appworld_api_schema",
+        "call_appworld_api",
+        "get_call_trace"
+      ],
+      "tool_calls_range": [
+        5,
+        10
+      ],
+      "mode": "mixed",
+      "env_categories": null,
+      "required_checkpoints": [
+        {
+          "tool": "get_current_task",
+          "min_count": 1
+        },
+        {
+          "tool": "get_appworld_api_schema",
+          "min_count": 1
+        },
+        {
+          "tool": "call_appworld_api",
+          "min_count": 1
+        }
+      ]
+    },
+    {
+      "skill_id": "task-completion-audit-and-trace-verification",
+      "description": "Audit trajectories with follow-up reads, call-trace inspection, and task-grounded evidence before stopping.",
+      "tools": [
+        "get_current_task",
+        "search_appworld_apis",
+        "get_appworld_api_schema",
+        "call_appworld_api",
+        "get_call_trace"
+      ],
+      "tool_calls_range": [
+        5,
+        9
+      ],
+      "mode": "retrieval",
+      "env_categories": null,
+      "required_checkpoints": [
+        {
+          "tool": "get_current_task",
+          "min_count": 1
+        },
+        {
+          "tool": "get_appworld_api_schema",
+          "min_count": 1
+        },
+        {
+          "tool": "call_appworld_api",
+          "min_count": 1
+        }
+      ]
+    }
+  ]
+}

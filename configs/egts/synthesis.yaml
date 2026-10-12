@@ -1,0 +1,163 @@
+# EGTS offline data synthesis config.
+#
+# Usage:
+#   PYTHONPATH=src/egts python src/egts/data_synthesis/pipeline.py \
+#     --config configs/egts/synthesis.yaml \
+#     --input <collection-output-exp-dir> \
+#     --input-mode raw
+#
+# Design intent:
+#   - Consume raw_context.json emitted by collection-only configs.
+#   - Run problem synthesis, self-questioning candidate generation, judge/refine,
+#     deduplication, and quality gates offline.
+#   - Model endpoints and names are controlled by .env WRITER_MODEL_* and
+#     JUDGE_MODEL_* settings.
+
+maas:
+  default:
+    base_url: "${WRITER_MODEL_BASE_URL}"
+    api_key: "${WRITER_MODEL_API_KEY}"
+    temperature: 0.2
+    max_tokens: 16384
+  models:
+    # New naming for synthesis pipeline.
+    judge_model:
+      # model: "deepseek-v4-pro"
+      model: "${JUDGE_MODEL_NAME}"
+      base_url: "${JUDGE_MODEL_BASE_URL}"
+      api_key: "${JUDGE_MODEL_API_KEY}"
+      temperature: 0.1
+      max_tokens: 16384
+    synthesis_model:
+      # model: "deepseek-v4-pro"
+      model: "${WRITER_MODEL_NAME}"
+      base_url: "${WRITER_MODEL_BASE_URL}"
+      api_key: "${WRITER_MODEL_API_KEY}"
+      temperature: 0.7
+      max_tokens: 16384
+
+execution_mode: "local"
+
+local:
+  workspace_root: "./workspaces/synthesis"
+  cleanup_on_success: true
+  cleanup_on_failure: false
+
+docker: {}
+stdio_mcp_servers: {}
+http_mcp_servers: {}
+executable_world_envs: []
+
+pipeline:
+  exp_name: "exp_data_synthesis"
+  num_iterations: 1
+  num_workers: 2
+  output_dir: "./output/synthesis"
+  save_failed: true
+
+trajs2data:
+  language: "en"
+  synthesis_in_collection: false
+
+  # Synthesis consumes raw_context.json emitted by exploration. This task block
+  # supplies defaults when older/raw records are missing fields.
+  task:
+    task_type: "executable_world_pool"
+    required_servers: ["benchmark_env"]
+    primary_server: "benchmark_env"
+    prompt_domain: "egts"
+    output_namespace: "executable_world_pool"
+    world_context:
+      engine: "EGTS"
+      synthesis_objective: "turn grounded executable-world trajectories into high-quality tool-use training examples"
+      grounding_policy: "problems and rewritten trajectories must remain faithful to observed tool calls, tool outputs, and state evidence"
+
+  self_questioning:
+    # Synthesis-stage candidate generation. Keep this here rather than in
+    # collection so exploration remains a pure grounded-trajectory collector.
+    enabled: true
+    num_candidates: 3
+    novelty_weight: 0.6
+    coverage_weight: 0.4
+    use_embeddings: false
+
+  hindsight:
+    enabled: false
+    rewrite_thoughts: false
+  data_synthesis:
+    max_problem_refine_loops: 3
+    max_trajectory_refine_loops: 3
+    # Prefer planning thought, but do not force hard rejection when missing.
+    require_planning_step: true
+    require_final_answer: true
+    enable_heuristic_fallback: true
+    min_step_coverage_ratio: 0.75
+    save_llm_io: true
+    llm_io_file: ""
+    llm_io_include_prompts: true
+    llm_io_max_text_chars: 0
+    rewrite_context_max_chars: 6000  # Reduced: segmented rewrite uses per-segment context, not full trajectory
+    rewrite_tool_sequence_max_steps: 20  # Reduced: segmentation handles long sequences at ~6 calls/segment
+    rewrite_segment_size: 6  # Max tool calls per rewrite segment; longer trajectories use segmented mode
+    compress_tool_sequence: false  # Enable to compress redundant exploration calls before rewrite
+    compress_min_keep_ratio: 0.5  # Min ratio of original calls preserved during compression
+    skip_invalid_structure: true
+    reject_failure_only_tools: true
+    max_tool_failure_rate: 0.5
+    # Phase 1: Dual-judge separation (hard factual + soft style)
+    use_dual_judge: true  # Enable dual-judge mode for better quality stratification
+    soft_judge_threshold: 0.5
+    # Phase 2: Trajectory rewrite strategy
+    # Switched to llm_rewrite mode — now viable because:
+    #   P0-2 segmentation prevents attention dilution (max 6 calls per LLM pass)
+    #   P0-1 improved TOOL_INTENT_RULES provide task-execution fallback thoughts
+    #   P1-2 enhanced judge detects and penalizes exploration-framed reasoning
+    #   original_thought anchoring removed from context excerpt
+    trajectory_mode: "llm_rewrite"  # "llm_rewrite" | "fallback_polish" | "fallback_only"
+    max_polish_loops: 3  # Max polish iterations for fallback_polish mode
+    polish_model: "synthesis_model"  # Model for polish (use synthesis_model for quality)
+    judge_temperature_relaxed: 0.3  # Higher temp for fallback_polish judge (avoids overly rigid rejection)
+
+    # Phase 3: Quality policy (default keeps backward compatibility)
+    quality_policy: "high_and_acceptable"  # "legacy_all" | "high_and_acceptable" | "high_only"
+    quality_gate_enabled: true
+    fallback_for_training: false
+    fallback_min_tool_steps: 3
+    quality_score_enabled: true
+    min_quality_score_high: 0.80
+    min_quality_score_acceptable: 0.70
+    quality_shadow_report: true
+    # Recommended rollout (quality-first, balanced yield):
+    # quality_gate_enabled: true
+    # quality_policy: "high_and_acceptable"
+    # fallback_for_training: false
+
+    # Dataset-level deduplication
+    dedup_enabled: true
+    dedup_mode: "hash"              # "hash" | "semantic" | "hybrid"
+    dedup_problem_similarity_threshold: 0.90
+    dedup_trajectory_similarity_threshold: 0.85
+    dedup_max_variants_per_problem: 3
+    dedup_state_file: "dedup_state.json"
+
+    # Pre-screening: fast metadata-only filter before parallel synthesis.
+    # Rejects episodes with no state changes, too few tool calls, etc.
+    pre_screening_enabled: true
+    pre_screening_min_tool_calls: 2
+    pre_screening_min_distinct_tools: 1
+
+    # Per-episode timeout in seconds. If a single episode exceeds this
+    # during parallel synthesis it is rejected (episode_timeout) but all
+    # other workers continue processing.
+    episode_timeout_seconds: 600
+
+    # Uncomment below for semantic/hybrid mode (requires embedding API + pip install openai)
+    # dedup_embedding_model: "text-embedding-v4"
+    # dedup_embedding_base_url: null   # null = use default maas base_url
+    # dedup_embedding_api_key: null    # null = use default maas api_key
+    # dedup_vector_store_path: null    # null = in-memory
+
+logging:
+  level: "INFO"
+  format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+  file: "synthesis.log"

@@ -1,0 +1,234 @@
+{
+  "skills": [
+    {
+      "skill_id": "account-profile-update",
+      "description": "Retrieve account profile data and update a user's personal information or address with credential-grounded verification.",
+      "tools": [
+        "Lv3ToolSearcher",
+        "AccountInfo",
+        "PersonalInfoUpdate"
+      ],
+      "tool_calls_range": [
+        3,
+        9
+      ],
+      "mode": "mutation",
+      "env_categories": [
+        "lv3"
+      ],
+      "required_checkpoints": [
+        {
+          "tool": "AccountInfo",
+          "min_count": 1
+        },
+        {
+          "tool": "PersonalInfoUpdate",
+          "min_count": 1
+        }
+      ]
+    },
+    {
+      "skill_id": "compensation-tax-planning",
+      "description": "Query occupation salary, calculate tax-adjusted income, and perform follow-up arithmetic comparisons.",
+      "tools": [
+        "Lv3ToolSearcher",
+        "GetOccupationSalary",
+        "TaxCalculator",
+        "Lv3Calculator"
+      ],
+      "tool_calls_range": [
+        4,
+        12
+      ],
+      "mode": "retrieval",
+      "env_categories": [
+        "lv3"
+      ],
+      "required_checkpoints": [
+        {
+          "tool": "GetOccupationSalary",
+          "min_count": 1
+        },
+        {
+          "tool": "TaxCalculator",
+          "min_count": 1
+        }
+      ]
+    },
+    {
+      "skill_id": "flight-hotel-trip-comparison",
+      "description": "Compare transport and lodging options for a trip using flight search, hotel availability, location evidence, and arithmetic summaries.",
+      "tools": [
+        "Lv3ToolSearcher",
+        "FlightSearch",
+        "HotelAvailability",
+        "Geocoding",
+        "Lv3Calculator"
+      ],
+      "tool_calls_range": [
+        4,
+        12
+      ],
+      "mode": "retrieval",
+      "env_categories": [
+        "lv3"
+      ],
+      "required_checkpoints": [
+        {
+          "tool": "FlightSearch",
+          "min_count": 1
+        },
+        {
+          "tool": "HotelAvailability",
+          "min_count": 1
+        }
+      ]
+    },
+    {
+      "skill_id": "meeting-email-coordination",
+      "description": "Create a meeting, inspect user or organization meeting context, and send an email reminder with grounded meeting details.",
+      "tools": [
+        "Lv3ToolSearcher",
+        "Lv3AddMeeting",
+        "Lv3QueryMeeting",
+        "OrganizationMembers",
+        "EmailReminder"
+      ],
+      "tool_calls_range": [
+        4,
+        12
+      ],
+      "mode": "mutation",
+      "env_categories": [
+        "lv3"
+      ],
+      "required_checkpoints": [
+        {
+          "tool": "Lv3AddMeeting",
+          "min_count": 1
+        },
+        {
+          "tool": "EmailReminder",
+          "min_count": 1
+        }
+      ]
+    },
+    {
+      "skill_id": "movie-preference-recommendation",
+      "description": "Retrieve a user's movie preferences and watched history, then produce candidate recommendations based on preference categories.",
+      "tools": [
+        "Lv3ToolSearcher",
+        "UserMoviePreferences",
+        "UserWatchedMovies",
+        "MovieRecommendations"
+      ],
+      "tool_calls_range": [
+        4,
+        10
+      ],
+      "mode": "retrieval",
+      "env_categories": [
+        "lv3"
+      ],
+      "required_checkpoints": [
+        {
+          "tool": "UserMoviePreferences",
+          "min_count": 1
+        },
+        {
+          "tool": "MovieRecommendations",
+          "min_count": 1
+        }
+      ]
+    },
+    {
+      "skill_id": "organization-travel-status-briefing",
+      "description": "Look up organization members, inspect each member's travel status, retrieve relevant meetings, and optionally send an email reminder.",
+      "tools": [
+        "Lv3ToolSearcher",
+        "OrganizationMembers",
+        "TravelStatus",
+        "Lv3QueryMeeting",
+        "EmailReminder"
+      ],
+      "tool_calls_range": [
+        5,
+        14
+      ],
+      "mode": "mutation",
+      "env_categories": [
+        "lv3"
+      ],
+      "required_checkpoints": [
+        {
+          "tool": "OrganizationMembers",
+          "min_count": 1
+        },
+        {
+          "tool": "TravelStatus",
+          "min_count": 1
+        }
+      ]
+    },
+    {
+      "skill_id": "social-engagement-analysis",
+      "description": "Retrieve a user's post IDs, inspect like counts across posts, and calculate simple engagement totals or averages.",
+      "tools": [
+        "Lv3ToolSearcher",
+        "UserPosts",
+        "LikeCount",
+        "Lv3Calculator"
+      ],
+      "tool_calls_range": [
+        4,
+        14
+      ],
+      "mode": "retrieval",
+      "env_categories": [
+        "lv3"
+      ],
+      "required_checkpoints": [
+        {
+          "tool": "UserPosts",
+          "min_count": 1
+        },
+        {
+          "tool": "LikeCount",
+          "min_count": 1
+        }
+      ]
+    },
+    {
+      "skill_id": "travel-weather-restaurant-planning",
+      "description": "Plan location-grounded travel workflows with geocoding, weather, clothing, restaurants, flights, hotel availability, and simple calculations.",
+      "tools": [
+        "Lv3ToolSearcher",
+        "Geocoding",
+        "GetWeatherForCoordinates",
+        "ClothingRecommendation",
+        "NearbyRestaurants",
+        "FlightSearch",
+        "HotelAvailability",
+        "Lv3Calculator"
+      ],
+      "tool_calls_range": [
+        6,
+        16
+      ],
+      "mode": "retrieval",
+      "env_categories": [
+        "lv3"
+      ],
+      "required_checkpoints": [
+        {
+          "tool": "Geocoding",
+          "min_count": 1
+        },
+        {
+          "tool": "GetWeatherForCoordinates",
+          "min_count": 1
+        }
+      ]
+    }
+  ]
+}

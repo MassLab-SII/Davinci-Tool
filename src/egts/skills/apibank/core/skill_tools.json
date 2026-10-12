@@ -1,0 +1,512 @@
+{
+  "skills": [
+    {
+      "skill_id": "account-authentication-lifecycle",
+      "description": "Register users, retrieve and validate tokens, recover or modify passwords, and delete accounts with verification.",
+      "tools": [
+        "ToolSearcher",
+        "RegisterUser",
+        "GetUserToken",
+        "CheckToken",
+        "ForgotPassword",
+        "ModifyPassword",
+        "DeleteAccount"
+      ],
+      "tool_calls_range": [
+        5,
+        12
+      ],
+      "mode": "mutation",
+      "env_categories": [
+        "core"
+      ],
+      "required_checkpoints": [
+        {
+          "tool": "GetUserToken",
+          "min_count": 1
+        },
+        {
+          "tool": "CheckToken",
+          "min_count": 1
+        }
+      ]
+    },
+    {
+      "skill_id": "agenda-calendar-management",
+      "description": "Create, query, update, and delete authenticated agenda items with content, time, and location evidence.",
+      "tools": [
+        "GetUserToken",
+        "GetToday",
+        "AddAgenda",
+        "QueryAgenda",
+        "ModifyAgenda",
+        "DeleteAgenda"
+      ],
+      "tool_calls_range": [
+        5,
+        14
+      ],
+      "mode": "mutation",
+      "env_categories": [
+        "core"
+      ],
+      "required_checkpoints": [
+        {
+          "tool": "GetUserToken",
+          "min_count": 1
+        },
+        {
+          "tool": "AddAgenda",
+          "min_count": 1
+        },
+        {
+          "tool": "QueryAgenda",
+          "min_count": 1
+        }
+      ]
+    },
+    {
+      "skill_id": "data-validation-and-error-recovery",
+      "description": "Validate tokens and current records, recover from wrong parameters, apply corrected mutations, and verify final state.",
+      "tools": [
+        "ToolSearcher",
+        "GetUserToken",
+        "CheckToken",
+        "QueryAgenda",
+        "ModifyAgenda",
+        "QueryReminder",
+        "ModifyReminder",
+        "QueryMeeting",
+        "QueryRegistration",
+        "ModifyRegistration"
+      ],
+      "tool_calls_range": [
+        5,
+        16
+      ],
+      "mode": "mutation",
+      "env_categories": [
+        "core"
+      ],
+      "required_checkpoints": [
+        {
+          "tool": "CheckToken",
+          "min_count": 1
+        }
+      ]
+    },
+    {
+      "skill_id": "finance-balance-stock-planning",
+      "description": "Query balance and stocks, calculate derived values, open bank accounts, and add financial follow-up reminders.",
+      "tools": [
+        "ToolSearcher",
+        "GetUserToken",
+        "QueryBalance",
+        "QueryStock",
+        "Calculator",
+        "OpenBankAccount",
+        "AddReminder",
+        "QueryReminder"
+      ],
+      "tool_calls_range": [
+        5,
+        14
+      ],
+      "mode": "mutation",
+      "env_categories": [
+        "core"
+      ],
+      "required_checkpoints": [
+        {
+          "tool": "QueryBalance",
+          "min_count": 1
+        },
+        {
+          "tool": "Calculator",
+          "min_count": 1
+        }
+      ]
+    },
+    {
+      "skill_id": "health-record-monitoring",
+      "description": "Record health observations, query health ranges, and schedule reminders or alarms based on health evidence.",
+      "tools": [
+        "SymptomSearch",
+        "EmergencyKnowledge",
+        "RecordHealthData",
+        "QueryHealthData",
+        "GetUserToken",
+        "AddReminder",
+        "AddAlarm",
+        "QueryReminder"
+      ],
+      "tool_calls_range": [
+        5,
+        15
+      ],
+      "mode": "mutation",
+      "env_categories": [
+        "core"
+      ],
+      "required_checkpoints": [
+        {
+          "tool": "RecordHealthData",
+          "min_count": 1
+        },
+        {
+          "tool": "QueryHealthData",
+          "min_count": 1
+        }
+      ]
+    },
+    {
+      "skill_id": "hospital-appointment-workflow",
+      "description": "Use symptom evidence, emergency knowledge, appointment registration, appointment query, modification/cancellation, and optional agenda follow-up.",
+      "tools": [
+        "SymptomSearch",
+        "EmergencyKnowledge",
+        "AppointmentRegistration",
+        "QueryRegistration",
+        "ModifyRegistration",
+        "CancelRegistration",
+        "GetUserToken",
+        "AddAgenda"
+      ],
+      "tool_calls_range": [
+        5,
+        15
+      ],
+      "mode": "mutation",
+      "env_categories": [
+        "core"
+      ],
+      "required_checkpoints": [
+        {
+          "tool": "AppointmentRegistration",
+          "min_count": 1
+        },
+        {
+          "tool": "QueryRegistration",
+          "min_count": 1
+        }
+      ]
+    },
+    {
+      "skill_id": "hotel-trip-planning",
+      "description": "Book hotels and connect booking evidence to agenda, meeting, alarm, and calculation workflows.",
+      "tools": [
+        "BookHotel",
+        "GetUserToken",
+        "AddAgenda",
+        "QueryAgenda",
+        "AddMeeting",
+        "QueryMeeting",
+        "AddAlarm",
+        "Calculator"
+      ],
+      "tool_calls_range": [
+        5,
+        14
+      ],
+      "mode": "mutation",
+      "env_categories": [
+        "core"
+      ],
+      "required_checkpoints": [
+        {
+          "tool": "BookHotel",
+          "min_count": 1
+        },
+        {
+          "tool": "AddAgenda",
+          "min_count": 1
+        }
+      ]
+    },
+    {
+      "skill_id": "knowledge-document-search-and-qa",
+      "description": "Use search, wiki, document QA, history lookup, and calculation for evidence-grounded information retrieval.",
+      "tools": [
+        "ToolSearcher",
+        "SearchEngine",
+        "Wiki",
+        "DocumentQA",
+        "QueryHistoryToday",
+        "Calculator"
+      ],
+      "tool_calls_range": [
+        4,
+        12
+      ],
+      "mode": "retrieval",
+      "env_categories": [
+        "core"
+      ],
+      "required_checkpoints": [
+        {
+          "tool": "SearchEngine",
+          "min_count": 1
+        }
+      ]
+    },
+    {
+      "skill_id": "media-and-perception-lookup",
+      "description": "Use image caption, speech recognition, music playback, and follow-up search for media-oriented retrieval.",
+      "tools": [
+        "ToolSearcher",
+        "ImageCaption",
+        "SpeechRecognition",
+        "PlayMusic",
+        "SearchEngine"
+      ],
+      "tool_calls_range": [
+        4,
+        12
+      ],
+      "mode": "retrieval",
+      "env_categories": [
+        "core"
+      ],
+      "required_checkpoints": [
+        {
+          "tool": "ToolSearcher",
+          "min_count": 1
+        }
+      ]
+    },
+    {
+      "skill_id": "meeting-scheduling-coordination",
+      "description": "Schedule, query, modify, delete, and optionally notify participants about meetings.",
+      "tools": [
+        "GetUserToken",
+        "AddMeeting",
+        "QueryMeeting",
+        "ModifyMeeting",
+        "DeleteMeeting",
+        "SendEmail"
+      ],
+      "tool_calls_range": [
+        5,
+        14
+      ],
+      "mode": "mutation",
+      "env_categories": [
+        "core"
+      ],
+      "required_checkpoints": [
+        {
+          "tool": "AddMeeting",
+          "min_count": 1
+        },
+        {
+          "tool": "QueryMeeting",
+          "min_count": 1
+        }
+      ]
+    },
+    {
+      "skill_id": "multi-domain-composite-planning",
+      "description": "Compose tool discovery, authentication, domain evidence, mutation, calculation, and verification across multiple API-Bank domains.",
+      "tools": [
+        "ToolSearcher",
+        "GetUserToken",
+        "SearchEngine",
+        "QueryBalance",
+        "QueryHealthData",
+        "SymptomSearch",
+        "QueryStock",
+        "BookHotel",
+        "RecordHealthData",
+        "AppointmentRegistration",
+        "AddAgenda",
+        "AddReminder",
+        "QueryAgenda",
+        "QueryReminder",
+        "Calculator"
+      ],
+      "tool_calls_range": [
+        7,
+        20
+      ],
+      "mode": "mutation",
+      "env_categories": [
+        "core"
+      ],
+      "required_checkpoints": [
+        {
+          "tool": "ToolSearcher",
+          "min_count": 1
+        },
+        {
+          "tool": "AddReminder",
+          "min_count": 1
+        }
+      ]
+    },
+    {
+      "skill_id": "personal-assistant-daily-planning",
+      "description": "Build a daily assistant plan across meetings, agenda entries, reminders, and alarms with final verification.",
+      "tools": [
+        "GetUserToken",
+        "GetToday",
+        "QueryAgenda",
+        "QueryMeeting",
+        "QueryReminder",
+        "AddMeeting",
+        "AddAgenda",
+        "AddReminder",
+        "AddAlarm"
+      ],
+      "tool_calls_range": [
+        6,
+        18
+      ],
+      "mode": "mutation",
+      "env_categories": [
+        "core"
+      ],
+      "required_checkpoints": [
+        {
+          "tool": "GetUserToken",
+          "min_count": 1
+        },
+        {
+          "tool": "AddReminder",
+          "min_count": 1
+        },
+        {
+          "tool": "QueryReminder",
+          "min_count": 1
+        }
+      ]
+    },
+    {
+      "skill_id": "reminders-and-alarms",
+      "description": "Create, query, modify, delete, and verify reminders and alarms for personal follow-up workflows.",
+      "tools": [
+        "GetUserToken",
+        "AddReminder",
+        "QueryReminder",
+        "ModifyReminder",
+        "DeleteReminder",
+        "AddAlarm",
+        "QueryAlarm",
+        "ModifyAlarm",
+        "DeleteAlarm"
+      ],
+      "tool_calls_range": [
+        5,
+        16
+      ],
+      "mode": "mutation",
+      "env_categories": [
+        "core"
+      ],
+      "required_checkpoints": [
+        {
+          "tool": "GetUserToken",
+          "min_count": 1
+        },
+        {
+          "tool": "AddReminder",
+          "min_count": 1
+        },
+        {
+          "tool": "QueryReminder",
+          "min_count": 1
+        }
+      ]
+    },
+    {
+      "skill_id": "shopping-budget-agenda",
+      "description": "Check balance, calculate budget, add shopping agenda/reminder records, and verify final planning state.",
+      "tools": [
+        "GetUserToken",
+        "QueryBalance",
+        "Calculator",
+        "AddAgenda",
+        "QueryAgenda",
+        "AddReminder",
+        "QueryReminder"
+      ],
+      "tool_calls_range": [
+        5,
+        14
+      ],
+      "mode": "mutation",
+      "env_categories": [
+        "core"
+      ],
+      "required_checkpoints": [
+        {
+          "tool": "QueryBalance",
+          "min_count": 1
+        },
+        {
+          "tool": "AddReminder",
+          "min_count": 1
+        }
+      ]
+    },
+    {
+      "skill_id": "smart-home-scene-automation",
+      "description": "Create, query, modify, delete smart-home scenes and schedule/cancel timed switches.",
+      "tools": [
+        "ToolSearcher",
+        "AddScene",
+        "QueryScene",
+        "ModifyScene",
+        "DeleteScene",
+        "TimedSwitch",
+        "CancelTimedSwitch"
+      ],
+      "tool_calls_range": [
+        5,
+        14
+      ],
+      "mode": "mutation",
+      "env_categories": [
+        "core"
+      ],
+      "required_checkpoints": [
+        {
+          "tool": "AddScene",
+          "min_count": 1
+        },
+        {
+          "tool": "QueryScene",
+          "min_count": 1
+        }
+      ]
+    },
+    {
+      "skill_id": "tool-discovery-and-api-selection",
+      "description": "Search for relevant API tools, inspect requirements, acquire prerequisites, call the selected API, and verify the result.",
+      "tools": [
+        "ToolSearcher",
+        "GetUserToken",
+        "GetToday",
+        "AddReminder",
+        "QueryReminder",
+        "AddAgenda",
+        "QueryAgenda",
+        "SearchEngine",
+        "Calculator"
+      ],
+      "tool_calls_range": [
+        5,
+        14
+      ],
+      "mode": "mutation",
+      "env_categories": [
+        "core"
+      ],
+      "required_checkpoints": [
+        {
+          "tool": "ToolSearcher",
+          "min_count": 1
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,271 @@
+# EGTS exploration config - Toolathlon executable world.
+#
+# Usage:
+#   # Optional: scripts/egts/run_toolathlon.sh auto-clones Toolathlon into benchmarks/Toolathlon when missing.
+#   export TOOLATHLON_ROOT=/absolute/path/to/Toolathlon
+#   bash scripts/egts/run_toolathlon.sh
+#
+# Optional low-friction account tokens are read from .env (repository root) by scripts/egts/run_toolathlon.sh:
+#   TOOLATHLON_GITHUB_TOKEN=...       # or GITHUB_TOKENS/GITHUB_TOKEN/MCP_GITHUB_TOKEN
+#   TOOLATHLON_HUGGINGFACE_TOKEN=...  # or HUGGINGFACE_TOKEN/HF_TOKEN/HUGGING_FACE_HUB_TOKEN
+#   TOOLATHLON_GITHUB_ALLOWED_REPOS=null
+#   TOOLATHLON_GITHUB_READ_ONLY=1
+
+maas:
+  default:
+    base_url: "${EXPLORATION_MODEL_BASE_URL}"
+    api_key: "${EXPLORATION_MODEL_API_KEY}"
+    temperature: 0.8
+    max_tokens: 100000
+  models:
+    trajectory_collection:
+      model: "${EXPLORATION_MODEL_NAME}"
+      base_url: "${EXPLORATION_MODEL_BASE_URL}"
+      api_key: "${EXPLORATION_MODEL_API_KEY}"
+      temperature: 1.0
+      max_tokens: 100000
+      thinking: "disabled"
+    nl_rewrite:
+      model: "${WRITER_MODEL_NAME}"
+      base_url: "${WRITER_MODEL_BASE_URL}"
+      api_key: "${WRITER_MODEL_API_KEY}"
+      temperature: 0.7
+      max_tokens: 100000
+      thinking: "disabled"
+    judge:
+      model: "${JUDGE_MODEL_NAME}"
+      base_url: "${JUDGE_MODEL_BASE_URL}"
+      api_key: "${JUDGE_MODEL_API_KEY}"
+      temperature: 0.1
+      thinking: "disabled"
+
+
+execution_mode: "local"
+
+local:
+  workspace_root: "./workspaces/toolathlon"
+  cleanup_on_success: true
+  cleanup_on_failure: false
+
+docker: {}
+
+stdio_mcp_servers: {}
+http_mcp_servers:
+  benchmark_env:
+    url: "http://127.0.0.1:30018/mcp"
+    headers: {}
+    timeout: 240
+    metadata:
+      prompt_domain: "toolathlon"
+      output_namespace: "toolathlon"
+
+executable_world_envs:
+  - name: "toolathlon_world"
+    compose_file: "environments/egts/toolathlon-world/docker-compose.yml"
+    project_name: "egts_toolathlon_{worker_id}"
+    healthcheck:
+      type: "url"
+      value: "http://127.0.0.1:30018/admin/status"
+      timeout_s: 180
+      interval_s: 2.0
+    http_mcp_url: "http://127.0.0.1:30018/mcp"
+    http_mcp_headers: {}
+    http_timeout_s: 240
+    reuse_containers: true
+    prompt_domain: "toolathlon"
+    output_namespace: "toolathlon"
+    world_context:
+      domain: "Toolathlon native dynamic MCP software environments"
+      operator_role: "long-horizon software tool-use agent"
+      observable_state: "episode-local Toolathlon task workspace, files, app-facing MCP tools, and quality metadata"
+      reset_semantics: "admin reset samples one profile-compatible Toolathlon task, prepares a fresh task container, and exposes its native server-prefixed MCP tools"
+      exploration_bias:
+        - "inspect the active workspace and task context before making changes"
+        - "for filesystem tools, first call filesystem-list_allowed_directories and use the returned container path, usually /workspace/dumps/workspace"
+        - "never pass host-side EGTS paths, /workspace, or /workspace/dumps directly to filesystem tools"
+        - "for browser tools, navigate to a task-relevant URL before snapshot/click/type/wait/screenshot actions"
+        - "use server-prefixed native tools directly instead of generic shell shortcuts when a specialized tool exists"
+        - "perform grounded verification with read/list/get tools after mutations"
+        - "chain tools across documents, browser, repositories, spreadsheets, and local files when the profile supports it"
+      success_signals:
+        - "multiple profile-relevant native tools are called successfully"
+        - "state-changing tasks produce observable workspace or application changes"
+        - "retrieval tasks cite evidence from files, PDFs, web pages, repos, or structured tool outputs"
+    tool_metadata: {}
+
+pipeline:
+  exp_name: "exp_toolathlon"
+  num_iterations: 2000
+  num_workers: 1
+  output_dir: "./output/exploration_worlds/deepseekv4"
+  save_failed: true
+
+trajs2data:
+  language: "en"
+  max_attempts: 3
+  save_filtered: true
+  exploration_system_prompt: null
+  synthesis_in_collection: false
+  replay_synthesis:
+    enabled: true
+    max_problem_candidates: 3
+    max_replay_attempts: 2
+    min_quality_tier: "acceptable"
+    tool_sequence_selection: "heuristic"
+    verify_final_state: true
+    save_failed_replays: true
+    max_selected_tool_calls: 12
+    max_selected_mutations: 10
+    harness_mode: "full"
+    harness_max_retries_per_step: 2
+    harness_model: "trajectory_collection"
+    harness_fallback_threshold: 0.5
+    preserve_failure_recovery_chains: true
+    dependency_relevance_filter: true
+    llm_problem_synthesis: true
+    max_dependency_distance: 5
+    polish_enabled: true
+    polish_model: "judge_model"
+    enable_quality_judge: true
+  task:
+    task_type: "executable_world_pool"
+    required_servers: ["benchmark_env"]
+    primary_server: "benchmark_env"
+    prompt_domain: "egts"
+    output_namespace: "toolathlon"
+    enabled_task_types:
+      - "local_workspace_ops"
+      - "browser_form_workspace"
+      - "research_workspace"
+      - "document_spreadsheet_office"
+    task_type_selection: "uniform"
+    seed_base: null
+    max_steps: 28
+    n_tools_min: 3
+    n_tools_max: 12
+    world_context:
+      engine: "EGTS"
+      world_domain: "toolathlon.low_friction_local_plus_github_hf"
+      exploration_objective: "collect grounded long-horizon Toolathlon trajectories from production-stable task spaces that avoid high-friction external accounts, paid APIs, OAuth-heavy services, invalid token risk, and heavy local service bootstrapping; token-dependent GitHub/HuggingFace and local-service domains should be enabled only in targeted runs after credentials/services are validated"
+      evidence_policy: "ground synthesized tasks in Toolathlon task instruction, live native tool schemas, tool results, workspace state diff, and admin verification metadata"
+      filesystem_grounding: "inside Toolathlon task containers, filesystem MCP tools are rooted at /workspace/dumps/workspace; first call filesystem-list_allowed_directories and use the returned path"
+      browser_grounding: "use playwright_with_chunk-browser_navigate before page-state tools such as snapshot, click, type, wait, or screenshot"
+    tool_metadata: {}
+
+  tool_curriculum:
+    selection_strategy: "progressive"
+    base_tools: []
+    anchor_tools: []
+    stages:
+      - name: "stage1_random_tool"
+        enabled: true
+        weight: 0.25
+        description: "Progressively expose prerequisite-aware native Toolathlon tools"
+        difficulty_tiers:
+          - tier: "simple"
+            weight: 0.50
+            tool_count_min: 2
+            tool_count_max: 4
+            target_n_min: 1
+            target_n_max: 3
+            min_distinct_tools: 2
+            tool_pool: "base_only"
+            anchor_count: 0
+          - tier: "medium"
+            weight: 0.35
+            tool_count_min: 3
+            tool_count_max: 6
+            target_n_min: 2
+            target_n_max: 4
+            min_distinct_tools: 3
+            tool_pool: "base_plus_anchor"
+            anchor_count: 1
+          - tier: "hard"
+            weight: 0.15
+            tool_count_min: 4
+            tool_count_max: 8
+            target_n_min: 3
+            target_n_max: 5
+            min_distinct_tools: 4
+            tool_pool: "base_plus_anchor"
+            anchor_count: 2
+      - name: "stage2_skill_guided"
+        enabled: true
+        weight: 0.75
+        description: "Professional Toolathlon workflow exploration"
+        n_min: 4
+        n_max: 10
+        min_distinct_tools: 3
+
+    skill_guided:
+      enabled: true
+      skills_dir: "src/egts/skills/toolathlon/{domain}"
+      skills_json: "skill_tools.json"
+      skills_min: 1
+      skills_max: 2
+      skill_selection_strategy: "coverage_weighted"
+      max_steps_per_skill: 28
+
+    coverage:
+      min_success_per_tool: 6
+      strategy: "balanced"
+      track_file: "coverage.json"
+      rebalance_interval: 50
+
+  filters:
+    min_steps: 1
+    min_changes: 0
+    max_changes: 200
+    max_failure_rate: 0.6
+
+  deduplication:
+    enabled: false
+
+  recoverable:
+    enabled: true
+    max_failures: 10
+    max_failures_per_tool: 4
+    max_retries_before_rollback: 3
+    enable_filesystem_snapshots: false
+
+  replay_verification:
+    enabled: false
+
+  self_questioning:
+    enabled: false
+    num_candidates: 3
+    novelty_weight: 0.6
+    coverage_weight: 0.4
+    use_embeddings: false
+
+  efficiency_monitor:
+    enabled: true
+    min_success_rate: 0.1
+    window_size: 20
+    auto_adjust: true
+    reduce_target_n_on_low_rate: true
+    target_n_reduction_step: 1
+    min_target_n: 1
+
+  hindsight:
+    enabled: false
+    rewrite_thoughts: false
+
+  data_synthesis:
+    max_problem_refine_loops: 3
+    max_trajectory_refine_loops: 3
+    require_planning_step: true
+    require_final_answer: true
+
+  experience_manager:
+    enabled: true
+    store_path: "experience_store_toolathlon.json"
+    max_skills: 500
+    similarity_threshold: 0.85
+    retrieve_top_k: 5
+    extract_on_success: true
+    inject_to_prompt: true
+
+logging:
+  level: "INFO"
+  format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"

@@ -1,0 +1,72 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Dot-prefixed files and folders (keep .gitignore and .env.example)
+.*
+!.gitignore
+!.env.example
+!.dockerignore
+!.gitkeep
+
+# Output data
+output/
+output.zip
+*.zip
+*.log
+
+# Workspace directories
+workspaces-*/
+
+# IDE
+*.swp
+*.swo
+.DS_Store
+
+# Temporary files
+tmp/
+temp/
+*.tmp
+
+# Benchmarks
+benchmarks/
+
+# Excluded directories
+nohup/
+data/
+
+# Excluded files
+ideas.md
+CONFIG_GUIDE.md
+PRD.md
+AGENTS.md
+__MACOSX/
+test_vlm.py
+
+# EES generated artifacts
+/artifacts/
+/outputs/
+/checkpoints/
+.ruff_cache/
+.pytest_cache/

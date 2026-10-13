@@ -195,7 +195,7 @@ used by EGTS keep the licenses of their original projects.
 ```bibtex
 @article{yuan2026davincitool,
   title   = {Davinci-Tool: Scaling Agentic Tool-Use Supervision with Verifiable Executable Environments},
-  author  = {Yuan, Xiaoyang and Zhao, Ji and Hu, Xingyu and Wang, Wenhan and Hu, Yutao and Bin, Yi and Shao, Wenqi and Zhang, Qiaosheng and Liu, Pengfei and Qiao, Yu},
+  author  = {Yuan, Xiaoyang and Zhao, Ji and Hu, Xingyu and Wang, Wenhan and Hu, Yutao and Zhang, Qiaosheng and Liu, Pengfei and Qiao, Yu and Bin, Yi and Shao, Wenqi},
   journal = {arXiv preprint arXiv:XXXX.XXXXX},
   year    = {2026}
 }

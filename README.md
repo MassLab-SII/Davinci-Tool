@@ -1,7 +1,7 @@
 # Davinci-Tool: Scaling Agentic Tool-Use Supervision with Verifiable Executable Environments
 
 <p align="center">
-  📄 <a href="https://arxiv.org/abs/XXXX.XXXXX">Paper</a> ·
+  📄 <a href="https://arxiv.org/abs/2610.16867">Paper</a> ·
   🤗 <a href="https://huggingface.co/SII-Enigma/Davinci-Tool-30B">Davinci-Tool-30B</a> ·
   🤗 <a href="https://huggingface.co/SII-Enigma/Davinci-Tool-30B-SFT">Davinci-Tool-30B-SFT</a> ·
   🤗 <a href="https://huggingface.co/datasets/SII-Enigma/Davinci-ToolData">Davinci-ToolData</a>
@@ -84,12 +84,17 @@ Davinci-ToolData exceeds the public Toucan-1.5M release by 7.4 / 18.7 / 30.3 poi
 
 ## Davinci-ToolData
 
+The full training corpus used in the paper:
+
 | Source | Trajectories | Mean tokens | Mean tool calls | Distinct invoked tools |
 |---|---:|---:|---:|---:|
 | EGTS | 13,824 | 10,063.9 | 6.04 | 350 |
 | EES-Single | 8,026 | 10,372.7 | 5.87 | 1,610 |
 | EES-Cross | 8,545 | 20,444.7 | 7.01 | 1,683 |
 | **Total** | **30,395** | 13,063.8 | 6.26 | 2,260 |
+
+We release a curated, high-quality subset of **15,166 verified trajectories** (4,285 invoked tools)
+on [Hugging Face](https://huggingface.co/datasets/SII-Enigma/Davinci-ToolData).
 
 Each example is one JSON line in the standard chat format:
 
@@ -193,10 +198,13 @@ used by EGTS keep the licenses of their original projects.
 ## Citation
 
 ```bibtex
-@article{yuan2026davincitool,
-  title   = {Davinci-Tool: Scaling Agentic Tool-Use Supervision with Verifiable Executable Environments},
-  author  = {Yuan, Xiaoyang and Zhao, Ji and Hu, Xingyu and Wang, Wenhan and Hu, Yutao and Zhang, Qiaosheng and Liu, Pengfei and Qiao, Yu and Bin, Yi and Shao, Wenqi},
-  journal = {arXiv preprint arXiv:XXXX.XXXXX},
-  year    = {2026}
+@misc{yuan2026davincitoolscalingagentictooluse,
+      title={Davinci-Tool: Scaling Agentic Tool-Use Supervision with Verifiable Executable Environments}, 
+      author={Xiaoyang Yuan and Ji Zhao and Xingyu Hu and Wenhan Wang and Yutao Hu and Qiaosheng Zhang and Pengfei Liu and Yu Qiao and Yi Bin and Wenqi Shao},
+      year={2026},
+      eprint={2610.16867},
+      archivePrefix={arXiv},
+      primaryClass={cs.LG},
+      url={https://arxiv.org/abs/2610.16867}, 
 }
 ```
